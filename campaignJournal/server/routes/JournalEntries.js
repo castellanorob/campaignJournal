@@ -16,7 +16,7 @@ router.get("/:campaignId", validateToken, async (req, res) => {
     });
 
     if(jounralEntries.length === 0){
-        return res.json("Create your first entry");
+        return res.json([]);
     }
     res.json(jounralEntries);
 });
