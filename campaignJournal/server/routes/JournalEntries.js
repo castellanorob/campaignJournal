@@ -9,7 +9,10 @@ router.get("/:campaignId", validateToken, async (req, res) => {
     const jounralEntries = await JournalEntries.findAll({
         where: {
             campaignId: campaignId 
-        }
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ]
     });
 
     if(jounralEntries.length === 0){
