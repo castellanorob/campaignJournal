@@ -1,23 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-    const campaign_users = sequelize.define("campaign_users", {
-        campaign_id: {
+    const CampaignPlayers = sequelize.define("CampaignPlayers", {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "campaign",
+                model: "Users",
                 key: "id",
-            },
+            }
         },
-        user_id: {
+        campaignId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "users",
+                model: "Campaigns",
                 key: "id",
-            },
+            }
         },
     });
 
-
-    return campaign_users;
-};
+    return CampaignPlayers;
+}
