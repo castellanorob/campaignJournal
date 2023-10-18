@@ -7,6 +7,7 @@ import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import CreateJournalEntry from './pages/CreateJournalEntry';
+import CreateCampaign from './pages/CreateCampaign';
 import { AuthContext } from "./helpers/AuthContext";
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
           <Route path = "/" element={ <CampaignSelector/> }/>
           <Route path = "/CampaignJournal" element={ <CampaignJournal/>}/>
           <Route path = "/CreateJournalEntry" element = { <CreateJournalEntry/> }/>
+          <Route path = "/CreateCampaign" element = { <CreateCampaign/> }/>
           <Route path = "/Login" element = { <Login/> }/>
           <Route path = "/Registration" element = { <Registration/> }/>
         </Routes>

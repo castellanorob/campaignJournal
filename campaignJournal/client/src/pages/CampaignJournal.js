@@ -31,27 +31,27 @@ function CampaignJournal() {
     }, [navigate]);
 
     return (
-        <div>
-          {journalEntries.length > 0? journalEntries.map((journalEntry) => {
-            const author = journalAuthors.find(author => author.id === journalEntry.userId);
-            return (
-              <div
-                key={journalEntry.id}
-                userId = {journalEntry.userId}
-                className="post"
-              >
-              <div className="body">{journalEntry.journalBody}</div>
-                {author ? (<div className="footer">{author.username}</div>):(
-                <div className="footer">Unkown Author</div>
-                )}
-                </div>);
-                }):(
-                <div>
-                    <Link to="/createJournalEntry">Create your first journal entry</Link>
-                  </div>
-                )}
-              </div>
-            );
-    }
+      <div>
+        {journalEntries.length > 0? journalEntries.map((journalEntry) => {
+          const author = journalAuthors.find(author => author.id === journalEntry.userId);
+          return (
+            <div
+              key={journalEntry.id}
+              userId = {journalEntry.userId}
+              className="post"
+            >
+            <div className="body">{journalEntry.journalBody}</div>
+              {author ? (<div className="footer">{author.username}</div>):(
+              <div className="footer">Unkown Author</div>
+              )}
+              </div>);
+              }):(
+            <div>
+                <Link to="/createJournalEntry">Create your first journal entry</Link>
+            </div>
+        )}
+      </div>     
+    );
+  }
 
 export default CampaignJournal
