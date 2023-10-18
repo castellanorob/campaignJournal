@@ -22,22 +22,22 @@ function Registration(){
 
     return(
         <div>
-            <Formik initialValues={initialValues } onSubmit={onSubmit} validationSchema={validationSchema}>
-                <Form className="formContainer">
+            <Formik initialValues={ initialValues } onSubmit={onSubmit} validationSchema={validationSchema}>
+                <Form className="registrationContainer">
                     <label>Username</label>
                     <ErrorMessage name="username" component="span" />
                     <Field 
-                    id="inputCreatePost"
+                    id="input"
                     name="username"
-                    placeholder="username" />
+                    placeholder="Username..." />
 
                     <label>Password</label>
                     <ErrorMessage name="password" component="span" />
                     <Field 
                     type ="password"
-                    id="inputCreatePost"
+                    id="input"
                     name="password"
-                    placeholder="password" />
+                    placeholder="Password..." />
                     <button type="submit">Register</button>
                 </Form>
             </Formik>

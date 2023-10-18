@@ -9,7 +9,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const { setAuthState } = useContext(AuthContext);
 
-
   let navigate = useNavigate();
 
   const login = () => {
@@ -35,6 +34,7 @@ function Login() {
       <label>Username:</label>
       <input
         type="text"
+        placeholder="Username..."
         onChange={(event) => {
           setUsername(event.target.value);
         }}
@@ -42,6 +42,7 @@ function Login() {
       <label>Password:</label>
       <input
         type="password"
+        placeholder="Password..."
         onChange={(event) => {
           setPassword(event.target.value);
         }}
