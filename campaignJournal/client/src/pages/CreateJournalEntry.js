@@ -25,7 +25,7 @@ function CreateJournalEntry() {
         journalBody: Yup.string().max(500).required()
     });
 
-    const onSubmit = (data) => {
+    const writeEntry = (data) => {
         data.userId = localStorage.getItem("userId");
         data.campaignId = sessionStorage.getItem("campaignId");
         axios.post("http://localhost:3001/JournalEntries",
@@ -42,14 +42,14 @@ function CreateJournalEntry() {
     }
 
     return(
-        <div className="createPostPage">
-            <Formik initialValues={initialValues } onSubmit={onSubmit} validationSchema={validationSchema}>
-                <Form className="formContainer">
+        <div className="writeEntryPage">
+            <Formik initialValues={ initialValues } onSubmit={writeEntry} validationSchema={validationSchema}>
+                <Form className="registrationContainer">
                     <label>Journal Entry</label>
                     <ErrorMessage name="journalBody" component="span" />
                     <Field 
                     as="textarea"
-                    id="inputCreatePost"
+                    id="inputJournalEntry"
                     name="journalBody"
                     placeholder="Write your journal entry here" />
                     <button type="submit">Submit Journal Entry</button>

@@ -33,14 +33,14 @@ function App() {
         });
       }
     });
-  }, [])
+  }, [authState])
 
   useEffect(() =>{
     if(authState.status){
       localStorage.setItem("username", authState.username);
       localStorage.setItem("userId", authState.id);
     }
-  }, [])
+  }, [authState])
 
   const logout = () =>{
     localStorage.removeItem("accessToken");
@@ -59,6 +59,7 @@ function App() {
             <Link to="/">My Campaigns</Link>
             <Link to="/CampaignJournal">Journal</Link>
             <Link to="/CreateJournalEntry"> New Journal Entry</Link>
+            <label className="appNameLoggedIn">Campaign Journal</label>
             <div className="loggedInContainer">
               <h1>{authState.username}</h1>
               <button onClick={logout}>Logout</button>
@@ -68,6 +69,7 @@ function App() {
             <>
             <Link to="/Login">Login</Link>
             <Link to="/Registration">Register</Link>
+            <label className="appNameLoggedOut">Campaign Journal</label>
             </>
           )}
         </div>
