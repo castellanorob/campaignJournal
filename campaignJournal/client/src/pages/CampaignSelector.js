@@ -60,7 +60,7 @@ function CampaignSelector(){
                 );
             })}
                 <div>
-                    <Link to="/createCampaign">Create your first campaign</Link>
+                    <Link to="/createCampaign">Create another campaign</Link>
                 </div>
             </div>
             ):(
