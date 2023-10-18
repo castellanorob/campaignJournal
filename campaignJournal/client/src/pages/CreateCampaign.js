@@ -14,7 +14,7 @@ function CreateCampaign() {
         if(!accessToken) {
             navigate("/");
         }
-    })
+    }, [])
 
     const initialValues  ={
         title: "",
@@ -25,8 +25,8 @@ function CreateCampaign() {
     });
 
     const onSubmit = (data) => {
-        data.userId = localStorage.getItem("userId");
-        axios.post("http://localhost:3001/Campaign",
+        const userId = localStorage.getItem("userId");
+        axios.post(`http://localhost:3001/Campaign/${userId}`,
         data,
         {
             headers: {
@@ -36,6 +36,11 @@ function CreateCampaign() {
             if(response.data.error){
                 alert(response.data.error);
             } else {
+                const campaignPlayer = {
+                    campaignId: response.data.id,
+                    userId: userId,
+                }
+                axios.post('http://localhost:3001/CampaignPlayers', campaignPlayer);
                 navigate("/");
             }
         });

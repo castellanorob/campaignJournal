@@ -1,7 +1,7 @@
 import './App.css';
 import axios from "axios";
 import {useEffect, useState} from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
 import CampaignSelector from './pages/CampaignSelector';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
@@ -34,7 +34,7 @@ function App() {
         });
       }
     });
-  }, [authState])
+  }, [])
 
   useEffect(() =>{
     if(authState.status){

@@ -17,35 +17,54 @@ function CampaignSelector(){
         } else {
             let userId = localStorage.getItem("userId");
             console.log(userId);
-            axios.get(`http://localhost:3001/Campaign/${userId}`, {
+            axios.get(`http://localhost:3001/CampaignPlayers/${userId}`, {
                 headers: {
                     accessToken: accessToken
                   }
-            }).then((response) => {
+            }).then(async (response) => {
                 if(response.data.error){
                     alert(response.data.error);
                 } else {
-                    sessionStorage.setItem("campaignId", response.data.campaignId);
+                    let playerCampaigns = [];
+                    for (const campaign of response.data){
+                        let playerCampaign = await axios.get(`http://localhost:3001/Campaign/${campaign.campaignId}`)
+                        playerCampaigns.push(playerCampaign.data[0]);
+                    }
+                    setCampaigns(playerCampaigns)
                 }
             });
         }
+    },[])
 
- 
-
-    })
-
-    //TODO need to store the campaignId to sessionStorage after the campaign is selected
+    //TODO 
     return(
-        <>
-        <div>CampaignSelector</div>
+        <div>
+            {campaigns.length > 0 ? (campaigns.map((campaign) => {
+                console.log(campaign.title);
+                return(
+                    <div
+                        key = {campaign.id}
+                        title = {campaign.title}
+                        className="post"
+                    >
+                        <div 
+                            className="body"
+                            onClick={() => {
+                                sessionStorage.setItem("campaignId", campaign.id);
+                                navigate("/CampaignJournal")
+                            }}
+                        >
+                            {campaign.title}
+                        </div>
+                    </div>
+                )
+            })):(
+                <div>
+                    <Link to="/createCampaign">Create your first campaign</Link>
+                </div>
+            )}
 
-        <div className='createPostPage'>
-            <Link to='/CreateCampaign'>Create Campaign</Link>
         </div>
-
-
-        </>
-
     )
 }
 

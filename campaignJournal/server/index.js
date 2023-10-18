@@ -14,6 +14,8 @@ const userRouter = require("./routes/Users");
 app.use("/Users", userRouter);
 const campaignRouter = require("./routes/Campaign");
 app.use("/Campaign", campaignRouter);
+const campaignPlayersRouter = require("./routes/CampaignPlayers");
+app.use("/CampaignPlayers", campaignPlayersRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
