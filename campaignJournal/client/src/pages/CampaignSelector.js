@@ -39,26 +39,31 @@ function CampaignSelector(){
     //TODO 
     return(
         <div>
-            {campaigns.length > 0 ? (campaigns.map((campaign) => {
-                console.log(campaign.title);
+            {campaigns.length > 0 ? (
+                <div>
+                {campaigns.map((campaign) => {
+
                 return(
                     <div
                         key = {campaign.id}
                         title = {campaign.title}
                         className="post"
+                        onClick={() => {
+                            sessionStorage.setItem("campaignId", campaign.id);
+                            navigate("/CampaignJournal")
+                        }}
                     >
-                        <div 
-                            className="body"
-                            onClick={() => {
-                                sessionStorage.setItem("campaignId", campaign.id);
-                                navigate("/CampaignJournal")
-                            }}
-                        >
+                        <div className="body">
                             {campaign.title}
                         </div>
                     </div>
-                )
-            })):(
+                );
+            })}
+                <div>
+                    <Link to="/createCampaign">Create your first campaign</Link>
+                </div>
+            </div>
+            ):(
                 <div>
                     <Link to="/createCampaign">Create your first campaign</Link>
                 </div>
