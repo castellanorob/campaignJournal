@@ -16,7 +16,7 @@ function Login() {
     axios.post("http://localhost:3001/Users/login", data).then((response) => {
       if(response.data.error){
         alert(response.data.error);
-      }else{
+      }else if (response.data.user && response.data.user.id){
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("userId", response.data.user.id);
         localStorage.setItem("username", response.data.user.username);

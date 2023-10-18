@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function CreateJournalEntry() {
 
@@ -37,6 +37,8 @@ function CreateJournalEntry() {
         }).then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
+            }else{
+                navigate("/CampaignJournal")
             }
         });
     }
