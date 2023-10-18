@@ -19,12 +19,13 @@ function Login() {
       }else{
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("userId", response.data.user.id);
-        localStorage.setItem("username", response.data.username);
+        localStorage.setItem("username", response.data.user.username);
         setAuthState({
-            username: response.data.username,
-            id: response.data.id,
+            username: response.data.user.username,
+            id: response.data.user.id,
             status: true,
         });
+        
         navigate("/");
       }
     });
