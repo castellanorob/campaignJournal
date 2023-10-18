@@ -1,7 +1,7 @@
 import './App.css';
 import axios from "axios";
 import {useEffect, useState} from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import CampaignSelector from './pages/CampaignSelector';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
@@ -71,13 +71,13 @@ function App() {
             </>
           )}
         </div>
-        <Switch>
-          <Route path = "/" exact component={CampaignSelector} />
-          <Route path = "/CampaignJournal" exact component={CampaignJournal} />
-          <Route path = "/CreateJournalEntry" exact component = {CreateJournalEntry}/>
-          <Route path = "/Login" exact component = {Login}/>
-          <Route path = "/Registration" exact component = {Registration}/>
-        </Switch>
+        <Routes>
+          <Route path = "/" element={ <CampaignSelector/> }/>
+          <Route path = "/CampaignJournal" element={ <CampaignJournal/>}/>
+          <Route path = "/CreateJournalEntry" element = { <CreateJournalEntry/> }/>
+          <Route path = "/Login" element = { <Login/> }/>
+          <Route path = "/Registration" element = { <Registration/> }/>
+        </Routes>
       </Router>
       </AuthContext.Provider>
     </div>
