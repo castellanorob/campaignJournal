@@ -19,6 +19,7 @@ function App() {
   });
 
   useEffect(() => {
+
     axios.get("http://localhost:3001/Users/auth", {
       headers: {
         accessToken: localStorage.getItem("accessToken"),
@@ -32,16 +33,14 @@ function App() {
           id: response.data.id,
           status: true,
         });
-      }
-    });
-  }, [])
 
-  useEffect(() =>{
-    if(authState.status){
-      localStorage.setItem("username", authState.username);
-      localStorage.setItem("userId", authState.id);
-    }
-  }, [authState])
+        if(authState.status && !localStorage.getItem("userId")){
+          localStorage.setItem("username", response.data.username);
+          localStorage.setItem("userId", response.data.id);
+        }
+      }
+    });    
+  }, [])
 
   const logout = () =>{
     localStorage.removeItem("accessToken");
