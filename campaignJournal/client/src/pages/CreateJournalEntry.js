@@ -2,18 +2,18 @@ import React, { useEffect } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CreateJournalEntry() {
 
-    let history = useHistory();
+    let navigate = useNavigate();
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
         const campaignId = sessionStorage.getItem("campaignId");
 
         if(!accessToken || !campaignId) {
-            history.push("/");
+            navigate("/");
         }
     })
 

@@ -1,20 +1,20 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function CampaignJournal() {
     const[journalEntries, setJournalEntries] = useState([]);
     const[journalAuthors, setJournalAuthors] = useState([]);
 
-    let history = useHistory();
+    let navigate = useNavigate();
 
     useEffect(() =>{
       const accessToken = localStorage.getItem("accessToken");
       const campaignId = sessionStorage.getItem("campaignId");
 
       if(!accessToken || !campaignId){
-        history.push("/")
+        navigate("/");
       }
 
       axios.get(`http://localhost:3001/JournalEntries/${campaignId}`, {
@@ -28,7 +28,7 @@ function CampaignJournal() {
       axios.get("http://localhost:3001/Users").then((response) =>{
         setJournalAuthors(response.data);
       })
-    }, [history]);
+    }, [navigate]);
 
     return (
         <div>

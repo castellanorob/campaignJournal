@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CampaignSelector(){
 
-    let history = useHistory();
+    let navigate = useNavigate();
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
         const campaignId = sessionStorage.getItem("campaignId");
 
         if(!accessToken) {
-            history.push("/Login");
+            navigate("/Login");
         }
     })
 
