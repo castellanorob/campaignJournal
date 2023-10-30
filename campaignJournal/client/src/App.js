@@ -1,13 +1,15 @@
 import './App.css';
 import axios from "axios";
-import {useEffect, useState} from "react";
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
+import {useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import CampaignSelector from './pages/CampaignSelector';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import CreateJournalEntry from './pages/CreateJournalEntry';
 import CreateCampaign from './pages/CreateCampaign';
+import CreateCharacter from './pages/CreateCharacter';
+import Characters from './pages/Characters';
 import { AuthContext } from "./helpers/AuthContext";
 
 function App() {
@@ -59,6 +61,7 @@ function App() {
             <Link to="/">My Campaigns</Link>
             <Link to="/CampaignJournal">Journal</Link>
             <Link to="/CreateJournalEntry"> New Journal Entry</Link>
+            <Link to="/Characters"> Dramatus Personae </Link>
             <label className="appNameLoggedIn">Campaign Journal</label>
             <div className="loggedInContainer">
               <h1>{authState.username}</h1>
@@ -80,6 +83,8 @@ function App() {
           <Route path = "/CreateCampaign" element = { <CreateCampaign/> }/>
           <Route path = "/Login" element = { <Login/> }/>
           <Route path = "/Registration" element = { <Registration/> }/>
+          <Route path = "/Characters" element = { <Characters/> }/>
+          <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
         </Routes>
       </Router>
       </AuthContext.Provider>

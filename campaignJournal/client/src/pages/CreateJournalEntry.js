@@ -45,7 +45,7 @@ function CreateJournalEntry() {
 
     return(
         <div className="writeEntryPage">
-            <Formik initialValues={ initialValues } onSubmit={writeEntry} validationSchema={validationSchema}>
+            <Formik initialValues={ initialValues } onSubmit={ writeEntry } validationSchema={validationSchema}>
                 <Form className="writeEntryContainer">
                     <label className="journalLabel">Journal Entry</label>
                     <ErrorMessage name="journalBody" component="span" />
