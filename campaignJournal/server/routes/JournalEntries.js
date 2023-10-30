@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {JournalEntries} = require("../models");
+const { JournalEntries } = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
 router.get("/:campaignId", validateToken, async (req, res) => {
