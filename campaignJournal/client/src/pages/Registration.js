@@ -14,7 +14,7 @@ function Registration(){
     const validationSchema = Yup.object().shape({
         username: Yup.string().min(3).max(15).required("Username is required"),
         password: Yup.string().min(3).max(20).required("Password is required"),
-        selectOption: Yup.string().required('Required')
+        selectOption: Yup.string().required('Player Selection is Required')
     });
 
     const dropdownOptions = [
