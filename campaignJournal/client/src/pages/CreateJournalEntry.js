@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CreateJournalEntry() {
 
@@ -22,7 +22,7 @@ function CreateJournalEntry() {
     }
 
     const validationSchema = Yup.object().shape({
-        journalBody: Yup.string().max(500).required()
+        journalBody: Yup.string().max(500).required("At least type something in!")
     });
 
     const writeEntry = (data) => {
@@ -46,8 +46,8 @@ function CreateJournalEntry() {
     return(
         <div className="writeEntryPage">
             <Formik initialValues={ initialValues } onSubmit={writeEntry} validationSchema={validationSchema}>
-                <Form className="registrationContainer">
-                    <label>Journal Entry</label>
+                <Form className="writeEntryContainer">
+                    <label className="journalLabel">Journal Entry</label>
                     <ErrorMessage name="journalBody" component="span" />
                     <Field 
                     as="textarea"
