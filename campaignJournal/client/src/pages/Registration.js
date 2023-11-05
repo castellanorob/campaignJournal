@@ -8,12 +8,14 @@ function Registration(){
     const initialValues  ={
         username: "",
         password: "",
+        email: "",
         selectOption: ''
     }
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().min(3).max(15).required("Username is required"),
         password: Yup.string().min(3).max(20).required("Password is required"),
+        email: Yup.string().email("Invalid email address").required("Email is required"),
         selectOption: Yup.string().required('Player Selection is Required')
     });
 
@@ -24,8 +26,10 @@ function Registration(){
     ]
 
     const onSubmit = (data) =>{
-        axios.post("http://localhost:3001/Users/register", data).then(() =>{
-            console.log(data)
+        axios.post("http://localhost:3001/Users/register", data).then((response) =>{
+            console.log(response.data)
+        }).catch(error => {
+            console.error(error.response.data);
         });
     };
 
@@ -47,6 +51,14 @@ function Registration(){
                     id="input"
                     name="password"
                     placeholder="Password..." />
+                    
+                    <label>Email</label>
+                    <Field 
+                        type="email"
+                        id="input"
+                        name="email"
+                        placeholder="Email..."
+                    />
 
                     <FormikControl
                         control='select'
