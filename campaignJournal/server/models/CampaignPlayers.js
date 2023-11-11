@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
                 key: "id",
             }
         },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }        
     });
 
     return CampaignPlayers;

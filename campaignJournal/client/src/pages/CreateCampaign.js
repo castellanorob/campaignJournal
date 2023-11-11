@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FormikControl from "../components/FormikControl";
 
 function CreateCampaign() {
 
@@ -18,11 +19,19 @@ function CreateCampaign() {
 
     const initialValues  ={
         title: "",
+        selectOption: ""
     }
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string().max(50).required()
+        title: Yup.string().max(50).required(),
+        selectOption: Yup.string().required('Player Selection is Required')
     });
+
+    const dropdownOptions = [
+        { key: 'Select player type', value: ''},
+        { key: 'Game Master', value: 'gameMaster'},
+        { key: 'Player', value: 'player'}
+    ]
 
     const onSubmit = (data) => {
         const userId = localStorage.getItem("userId");
@@ -57,6 +66,14 @@ function CreateCampaign() {
                     id="inputCreatePost"
                     name="title"
                     placeholder="Enter Campaign Name" />
+
+                    <FormikControl
+                        control='select'
+                        label=''
+                        name='selectOption'
+                        options={dropdownOptions}
+                    />
+
                     <button type="submit">Create New Campaign</button>
                 </Form>
             </Formik>

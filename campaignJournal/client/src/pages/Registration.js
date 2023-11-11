@@ -9,21 +9,13 @@ function Registration(){
         username: "",
         password: "",
         email: "",
-        selectOption: ''
     }
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().min(3).max(15).required("Username is required"),
         password: Yup.string().min(3).max(20).required("Password is required"),
         email: Yup.string().email("Invalid email address").required("Email is required"),
-        selectOption: Yup.string().required('Player Selection is Required')
     });
-
-    const dropdownOptions = [
-        { key: 'Select player type', value: ''},
-        { key: 'Game Master', value: 'gameMaster'},
-        { key: 'Player', value: 'player'}
-    ]
 
     const onSubmit = (data) =>{
         axios.post("http://localhost:3001/Users/register", data).then((response) =>{
@@ -60,12 +52,7 @@ function Registration(){
                         placeholder="Email..."
                     />
 
-                    <FormikControl
-                        control='select'
-                        label=''
-                        name='selectOption'
-                        options={dropdownOptions}
-                    />
+                    
 
                     <button type="submit">Register</button>
                 </Form>
