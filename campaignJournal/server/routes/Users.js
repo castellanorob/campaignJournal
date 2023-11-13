@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {Users} = require("../models");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
@@ -12,15 +13,57 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    const {username, password} = req.body;
+    const {username, password, email} = req.body;
 
-    bcrypt.hash(password, 10).then((hash) => {
-        Users.create({
+    try {
+        const hash = await bcrypt.hash(password, 10);
+        const newUser = await Users.create({
             username: username,
             password: hash,
+            email: email
         });
-    });
-    res.json("success");
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: "campaignjournaler@gmail.com",
+                pass: "",
+            },
+        });
+
+        let mailDetails = {
+            from: "campaignjournaler@gmail.com",
+            to: email,
+            subject: "Campaign Journal Registration",
+            text: "You have registered for Campaign Journal"
+        };
+
+        transporter.sendMail(mailDetails, function(error, info){
+            if(error){
+                console.log(error);
+            } else {
+                console.log("Email sent: " + info.response);
+            }
+        });
+
+        res.json("success");
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: "Failed to register user", details: error.message });
+    }
+    
+    // try {
+    //     const hash = await bcrypt.hash(password, 10);
+    //     const newUser = await Users.create({
+    //         username: username,
+    //         password: hash,
+    //         email: email
+    //     });
+    //     res.json("success");
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(400).json({ error: "Failed to register user", details: error.message });
+    // }
 });
 
 router.post('/login', async(req, res) => {
