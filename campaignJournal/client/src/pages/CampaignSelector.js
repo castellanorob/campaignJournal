@@ -47,7 +47,7 @@ function CampaignSelector(){
                     <div
                         key = {campaign.id}
                         title = {campaign.title}
-                        className="post"
+                        className="campaign"
                         onClick={() => {
                             sessionStorage.setItem("campaignId", campaign.id);
                             navigate("/CampaignJournal")
