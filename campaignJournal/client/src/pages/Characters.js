@@ -32,11 +32,12 @@ function CampaignJournal() {
           return (
             <div
               key={character.id}
-              userId = {character.userId}
-              className="post"
+              playerId = {character.playerId}
+              className="character"
             >
-            <div className="body">{character.name}</div>
-              </div>);
+              <div className="body">{character.name}</div>
+              <div className="description">{character.description}</div>
+            </div>);
               }):(
             <div>
                 <Link to="/createCharacter">Create the first character</Link>

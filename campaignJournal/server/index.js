@@ -10,13 +10,15 @@ const db = require('./models');
 //Routers
 const journalRouter = require("./routes/JournalEntries");
 app.use("/JournalEntries", journalRouter);
+const entryRouter = require("./routes/JournalEntry");
+app.use("/JournalEntry", entryRouter);
 const userRouter = require("./routes/Users");
 app.use("/Users", userRouter);
 const campaignRouter = require("./routes/Campaign");
 app.use("/Campaign", campaignRouter);
 const campaignPlayersRouter = require("./routes/CampaignPlayers");
 app.use("/CampaignPlayers", campaignPlayersRouter);
-const charactersRouter = require("./routes/Characters")
+const charactersRouter = require("./routes/Characters");
 app.use("/Characters", charactersRouter);
 
 db.sequelize.sync().then(() => {
