@@ -11,6 +11,7 @@ import CreateJournalEntry from './pages/CreateJournalEntry';
 import CreateCampaign from './pages/CreateCampaign';
 import CreateCharacter from './pages/CreateCharacter';
 import Characters from './pages/Characters';
+import JournalEntry from './pages/JournalEntry';
 import { AuthContext } from "./helpers/AuthContext";
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
+    localStorage.removeItem("entryId");
     setAuthState({ username: "", id: 0, status: false });
   }
 
@@ -90,6 +92,8 @@ function App() {
           <Route path = "/Characters" element = { <Characters/> }/>
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
+          <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
+          <Route path = "http://localhost:3001/JournalEntries/search" element = { <JournalEntry/> }/>
         </Routes>
       </Router>
       </AuthContext.Provider>

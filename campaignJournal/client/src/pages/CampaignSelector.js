@@ -40,27 +40,36 @@ function CampaignSelector(){
     return(
         <div>
             {campaigns.length > 0 ? (
-                <div>
+                <div className="campaignsContainer">
                 {campaigns.map((campaign) => {
 
                 return(
                     <div
                         key = {campaign.id}
                         title = {campaign.title}
-                        className="post"
+                        className="campaign"
                         onClick={() => {
                             sessionStorage.setItem("campaignId", campaign.id);
                             navigate("/CampaignJournal")
                         }}
                     >
-                        <div className="body">
+                        <div 
+                            className="campaignBody"
+                            style={{textAlign: 'center'}}
+                        >
                             {campaign.title}
                         </div>
                     </div>
                 );
             })}
-                <div>
-                    <Link to="/createCampaign">Create another campaign</Link>
+                <div className="campaign" style={{textAlign: 'center'}}>
+                    <Link 
+                        className="campaignBody" 
+                        to="/createCampaign"
+                        style={{textDecoration: 'none'}}
+                    >
+                        +
+                    </Link>
                 </div>
             </div>
             ):(

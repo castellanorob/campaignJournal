@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Campaign} = require("../models");
+const { Campaign } = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
 router.post("/:userId", validateToken, async (req, res) => {

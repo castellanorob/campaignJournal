@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        privateEntry: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false, 
+        },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -20,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
                 key: "id",
             }
         },
-    });
+    }); 
 
     return JournalEntries;
 }
