@@ -55,14 +55,23 @@ function CampaignJournal() {
   return (
     <div>
       <Formik initialValues={initialValues} onSubmit={onSearchSubmit}>
-        <Form className="">
+        <Form className="searchBarContainer">
           <Field
+            className="searchBar"
             as="textarea"
             id="inputSearchTerms"
             name="searchTerms"
             placeholder="Search entries..."
           />
-          <button type="submit"> {filtered ? "Back" : "Search"} </button>
+          <button 
+            type="submit"
+            style ={{ 
+              position: "relative",
+              top: "-20px",
+          }}
+          > 
+            {filtered ? "Back" : "Search"} 
+          </button>
         </Form>
       </Formik>
 

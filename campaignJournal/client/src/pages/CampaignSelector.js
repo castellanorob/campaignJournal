@@ -40,7 +40,7 @@ function CampaignSelector(){
     return(
         <div>
             {campaigns.length > 0 ? (
-                <div>
+                <div className="campaignsContainer">
                 {campaigns.map((campaign) => {
 
                 return(
@@ -53,14 +53,23 @@ function CampaignSelector(){
                             navigate("/CampaignJournal")
                         }}
                     >
-                        <div className="body">
+                        <div 
+                            className="campaignBody"
+                            style={{textAlign: 'center'}}
+                        >
                             {campaign.title}
                         </div>
                     </div>
                 );
             })}
-                <div>
-                    <Link to="/createCampaign">Create another campaign</Link>
+                <div className="campaign" style={{textAlign: 'center'}}>
+                    <Link 
+                        className="campaignBody" 
+                        to="/createCampaign"
+                        style={{textDecoration: 'none'}}
+                    >
+                        +
+                    </Link>
                 </div>
             </div>
             ):(

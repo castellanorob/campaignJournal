@@ -60,16 +60,17 @@ function CreateCampaign() {
     }
 
     return(
-        <div className="createPostPage">
-            <Formik initialValues={initialValues } onSubmit={onSubmit} validationSchema={validationSchema}>
+        <div className="createCampaignPage">
+            <Formik initialValues={ initialValues } onSubmit={ onSubmit } validationSchema={ validationSchema }>
                 <Form className="formContainer">
                     <label>Campaign</label>
                     <ErrorMessage name="title" component="span" />
                     <Field 
-                    as="textarea"
-                    id="inputCreatePost"
-                    name="title"
-                    placeholder="Enter Campaign Name" />
+                        as="textarea"
+                        id="inputCreatePost"
+                        name="title"
+                        placeholder="Enter Campaign Name"
+                    />
 
                     <FormikControl
                         control='select'
