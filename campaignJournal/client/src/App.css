@@ -2,7 +2,6 @@
   width: 100vw;
   height: auto;
   display: flex;
-  align-items: center;
   flex-direction: column;
 }
 
@@ -18,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
-  border: 1px solid lightgray;
+  border: 2px solid maroon;
   font-family: Arial, Helvetica, sans-serif;
 
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -51,8 +50,8 @@ body {
   padding-left: 15px;
   background-color: maroon;
   color: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 /* CREATE Entry PAGE CSS */
@@ -115,6 +114,7 @@ span {
   align-items: center;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
+  
 }
 
 .navbar a {
@@ -145,7 +145,7 @@ span {
 }
 
 .navbar button {
-  width: 100%;
+  width: 60px;
   height: 30px;
   margin-top: -47px;
   background-color: maroon;
@@ -161,11 +161,16 @@ span {
 .navbar button:hover {
   background-color: maroon;
   color: lightblue;
+  cursor: pointer;
 }
 
 .navbar h1 {
   padding-top: 0px;
   color: white;
+}
+
+.loggedInContainer {
+  padding-top: 45px;
 }
 
 /* LOGIN */
@@ -196,7 +201,8 @@ button {
 .loginContainer button:hover {
   background-color: lightblue;
   color: maroon;
-  border: 2px solid maroon
+  border: 2px solid maroon;
+  cursor: pointer;
 }
 
 .loginContainer input {
@@ -230,7 +236,14 @@ button {
 .registrationContainer button:hover {
   background-color: lightblue;
   color: maroon;
-  border: 2px solid maroon
+  border: 2px solid maroon;
+  cursor: pointer;
+}
+
+.registrationContainer button:active {
+  background-color: white;
+  color: maroon;
+  border: 2px solid maroon;
 }
 
 .registrationContainer input {
@@ -268,5 +281,96 @@ button {
 .writeEntryContainer button:hover {
   background-color: lightblue;
   color: maroon;
+  border: 2px solid maroon;
+  cursor: pointer;
+}
+
+.writeEntryContainer button:active {
+  background-color: white;
+  color: maroon;
   border: 2px solid maroon
+}
+
+/* SEARCH BARS */
+.searchBarContainer {
+  padding-top: 20px;
+}
+.searchBar {
+  width: 300px;
+  height: 20px;
+  border-radius: 8px;
+  border: 2px solid maroon;
+  margin: 10px;
+}
+
+.searchBar:hover {
+  border: 2px solid black;
+}
+
+.searchBarContainer button {
+  width: 65px;
+  height: 25px;
+  background-color: maroon;
+  color: white;
+}
+
+.searchBarContainer button:hover {
+  background-color: lightblue;
+  color: maroon;
+  border: 2px solid maroon;
+  cursor: pointer;
+}
+
+.searchBarContainer button:active {
+  background-color: white;
+  color: maroon;
+  border: 2px solid maroon;
+}
+
+/*CAMPAIGN*/
+.campaignsContainer {
+  padding-top: 35px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 16px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.campaign {
+  padding: 10px;
+  border: 2px solid maroon;
+  border-radius: 7px;
+  width: 500px;
+  background-color: maroon;
+}
+
+.campaign:hover {
+  background-color: lightblue;
+  color: maroon;
+  border: 2px solid maroon;
+  cursor: pointer;
+}
+
+.campaign:active {
+  background-color: white;
+  color: maroon;
+  border: 2px solid maroon;
+}
+
+.campaignBody {
+  font-size: 55px;
+  color: white;
+  align-content: center;
+}
+
+.campaignBody:hover {
+  font-size: 55px;
+  color: maroon;
+  align-content: center;
+}
+
+/*CREATE CAMPAIGN*/
+.createCampaignPage {
+  align-items: center;
 }

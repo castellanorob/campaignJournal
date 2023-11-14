@@ -25,7 +25,7 @@ function CreateJournalEntry() {
     }
 
     const validationSchema = Yup.object().shape({
-        journalBody: Yup.string().max(500).required("At least type something in!"),
+        journalBody: Yup.string().max(5000).required("At least type something in!"),
         selectOption: Yup.string().required('Privacy Selection is Required')
     });
 
@@ -43,7 +43,7 @@ function CreateJournalEntry() {
             journalBody: data.journalBody
         }
 
-        if (data.selectOption == "private") {
+        if (data.selectOption === "private") {
             selection.privateEntry = true;
         } else {
             selection.privateEntry = false;
