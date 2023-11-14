@@ -23,6 +23,7 @@ router.get("/:campaignId", validateToken, async (req, res) => {
 
 router.post("/", validateToken, async (req, res) => {
     const journalEntry = req.body;
+    console.log(`journalEntry req.body: ${JSON.stringify(journalEntry)}`);
     await JournalEntries.create(journalEntry);
     res.json(journalEntry);
 })

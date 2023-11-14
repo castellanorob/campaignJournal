@@ -9,6 +9,11 @@ function CampaignJournal() {
     let navigate = useNavigate();
 
     useEffect(() =>{
+
+      const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
+
       const accessToken = localStorage.getItem("accessToken");
       const campaignId = sessionStorage.getItem("campaignId");
 
@@ -16,11 +21,8 @@ function CampaignJournal() {
         navigate("/");
       }
 
-      axios.get(`http://localhost:3001/Characters/${campaignId}`, {
-        headers:{
-          accessToken: accessToken
-        }
-      }).then((response) =>{
+      axios.get(`http://localhost:3001/Characters/${campaignId}`, {headers})
+      .then((response) =>{
         setCharacters(response.data);
       })
     }, [navigate]);

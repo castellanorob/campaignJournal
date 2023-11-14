@@ -18,6 +18,10 @@ const campaignPlayersRouter = require("./routes/CampaignPlayers");
 app.use("/CampaignPlayers", campaignPlayersRouter);
 const charactersRouter = require("./routes/Characters")
 app.use("/Characters", charactersRouter);
+const friendsRouter = require("./routes/Friends");
+app.use("/Friends", friendsRouter);
+const blockedRouter = require("./routes/Blocked");
+app.use("/Blocked", blockedRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

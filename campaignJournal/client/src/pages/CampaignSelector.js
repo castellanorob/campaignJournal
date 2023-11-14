@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Router, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function CampaignSelector(){
 
@@ -10,18 +10,18 @@ function CampaignSelector(){
 
     useEffect(() => {
 
+        const headers = {
+            accessToken: localStorage.getItem("accessToken")
+          }
+
         const accessToken = localStorage.getItem("accessToken");
 
         if(!accessToken) {
             navigate("/Login");
         } else {
             let userId = localStorage.getItem("userId");
-            console.log(userId);
-            axios.get(`http://localhost:3001/CampaignPlayers/${userId}`, {
-                headers: {
-                    accessToken: accessToken
-                  }
-            }).then(async (response) => {
+            axios.get(`http://localhost:3001/CampaignPlayers/${userId}`, {headers})
+            .then(async (response) => {
                 if(response.data.error){
                     alert(response.data.error);
                 } else {
@@ -34,7 +34,7 @@ function CampaignSelector(){
                 }
             });
         }
-    },[])
+    },[navigate])
 
     //TODO 
     return(

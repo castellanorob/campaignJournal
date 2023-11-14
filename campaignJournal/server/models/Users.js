@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
                 isEmail: true,
             },
         },
+        icon: {
+            type: DataTypes.STRING,
+            defaultValue: 'default.jpg'
+        }
     });
 
     return Users;

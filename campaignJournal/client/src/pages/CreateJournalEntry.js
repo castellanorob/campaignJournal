@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function CreateJournalEntry() {
 
     let navigate = useNavigate();
+    const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -15,7 +18,7 @@ function CreateJournalEntry() {
         if(!accessToken || !campaignId) {
             navigate("/");
         }
-    })
+    },[navigate])
 
     const initialValues  ={
         journalBody: "",
@@ -28,13 +31,8 @@ function CreateJournalEntry() {
     const writeEntry = (data) => {
         data.userId = localStorage.getItem("userId");
         data.campaignId = sessionStorage.getItem("campaignId");
-        axios.post("http://localhost:3001/JournalEntries",
-        data,
-        {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")            
-            }
-        }).then((response) =>{
+        axios.post("http://localhost:3001/JournalEntries", data, {headers})
+        .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             }else{

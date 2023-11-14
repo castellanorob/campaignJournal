@@ -15,16 +15,21 @@ router.get("/:campaignId", async (req, res) => {
     const campaignId = req.params.campaignId;
     
 
-    const campaigns = await Campaign.findAll({
-        where: {
-            id: campaignId 
-        },
-    });
-    if(campaigns.length === 0){
-        return res.json([]);
-    }
+    try {
+        const campaign = await Campaign.findOne({
+            where: { id: campaignId },
+        });
 
-    res.json(campaigns);
+        if (!campaign) {
+            return res.status(404).json({ message: "Campaign not found" });
+        }
+
+        res.json(campaign);
+    } catch (error) {
+        console.error("Failed to retrieve campaign:", error);
+
+        res.status(500).json({ message: "An error occurred while retrieving the campaign", error: error});
+    }
 });
 
 module.exports = router;

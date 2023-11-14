@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function CreateCampaign() {
 
     let navigate = useNavigate();
+    const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -26,13 +29,8 @@ function CreateCampaign() {
 
     const onSubmit = (data) => {
         const userId = localStorage.getItem("userId");
-        axios.post(`http://localhost:3001/Campaign/${userId}`,
-        data,
-        {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")            
-            }
-        }).then((response) =>{
+        axios.post(`http://localhost:3001/Campaign/${userId}`, data, {headers})
+        .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             } else {

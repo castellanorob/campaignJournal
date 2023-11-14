@@ -270,3 +270,305 @@ button {
   color: maroon;
   border: 2px solid maroon
 }
+
+/*PROFILE PAGE*/
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px; /* Adds some padding around the whole page */
+  box-sizing: border-box; /* Makes sure padding is included in width */
+}
+
+.topContainer {
+  display: flex;
+  width: 100%; /* Makes topContainer as wide as the webpage */
+  margin-bottom: 20px; /* Space between the top containers and the campaigns list */
+}
+
+.bottomContainer {
+  display: flex;
+  flex-direction: row; /* Change from column to row */
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  box-sizing: border-box;
+  width: 50%; /* Each container will take up half of the topContainer's width */
+  height: 33vh; /* Close to one third of the viewport height */
+  border: 1px solid #ccc; /* A border to indicate the box */
+  padding: 10px; /* Padding inside the boxes */
+  padding-bottom: 60px;
+  position: relative;
+}
+
+/* You can optionally add 'overflow: hidden' to prevent horizontal scrolling if there's too much content */
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  overflow: hidden; 
+}
+
+.addFriendContainer {
+  width: 100%; /* Take full width of the friendsListContainer */
+  background-color: #f8f8f8; /* Same color as the create campaign button */
+  text-align: center; /* Center the text */
+  padding: 15px 0; /* Padding to make the button taller */
+  box-sizing: border-box; /* To include padding in width calculation */
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  border-top: 1px solid #ddd; /* Separates button from list */
+  position: absolute; /* Position it at the bottom */
+  bottom: 0; /* At the bottom */
+}
+
+.addFriendContainer:hover {
+  background-color: #e7e7e7; /* Change shade when hovered, same as the campaign button */
+}
+
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.userIcon {
+  max-width: 90%; /* Increases width while maintaining aspect ratio */
+  max-height: 50%; /* Adjust the height to your preference */
+  margin-bottom: 10px;
+}
+
+.userInfo {
+  text-align: center;
+}
+
+.userName, .userEmail {
+  margin-top: 5px;
+}
+
+.friendsListContainer, .campaignsContainer {
+  overflow-y: auto; /* Allows scrolling for overflow content */
+}
+
+.campaignsContainer {
+  width: 70%;
+}
+
+.friendName, .campaignContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc; /* This adds a border around each friend row */
+  padding: 5px; /* Optional: Adds some spacing inside the border */
+}
+
+
+
+.friendImage {
+  width: 40px; /* Adjust the width to your preference */
+  height: 40px; /* Adjust the height to your preference */
+  margin-right: 10px;
+}
+
+.invitedCampaignsContainer {
+  flex: 1;
+  border: 1px solid #ccc;
+  width: 30%
+}
+
+/* .campaignContainer, .invitedCampaignRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px
+} */
+
+.campaignRow{
+  width: 50%;
+}
+
+.campaignInfo {
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* Change cursor to pointer */
+  flex-grow: 1;
+}
+
+.campaignInfo:hover {
+  background-color: #e0e0e0; /* Slightly change shade on hover */
+}
+
+.invitePlayerButton, .updateCampaignRequestButton {
+  background-color: maroon;
+  color: white;
+}
+
+.updateCampaignRequestButton, .invitePlayerButton:hover{
+  cursor: pointer;
+  background-color: lightblue;
+  color: maroon;
+}
+
+.sendPlayerInviteButton {
+  background-color: maroon;
+  color: white;
+}
+
+.sendPlayerInviteButton:hover{
+  cursor: pointer;
+  background-color: lightblue;
+  color: maroon;
+}
+
+
+.createCampaignContainer {
+  margin: 0;
+  width: 100%; /* Take full width of the campaignsContainer */
+  background-color: #f8f8f8; /* Slightly different shade for the button */
+  text-align: center; /* Center the text */
+  padding: 15px 0; /* Padding to make the button taller */
+  box-sizing: border-box; /* To include padding in width calculation */
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  border-top: 1px solid #ddd; /* Separates button from list */
+  border-bottom: 1px solid #ddd; /* Separates button from anything below */
+}
+
+.createCampaignContainer:hover {
+  background-color: #e7e7e7; /* Change shade when hovered */
+}
+
+.campaignTitle {
+  width: 70%;
+  margin-right: 10px;
+}
+
+.playerIcons {
+  display: flex;
+  align-items: center;
+}
+
+.playerIcon {
+  width: 30px; /* Adjust the width to your preference */
+  height: 30px; /* Adjust the height to your preference */
+  margin-right: 5px;
+}
+
+.ellipsis {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+}
+
+.bottomContainer {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-between; /* Pushes content to top & bottom */
+  height: 100%; /* Take full height */
+}
+
+.friendRequestsContainer {
+  width: 50%;
+  height: 33vh;
+  border: 1px solid #ccc;
+  padding: 10px;
+  padding-bottom: 60px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.friendRequestsHeader, .invitedCampaignsHeader {
+  background-color: maroon;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.friendRequestsTitle {
+  font-size: 24px; /* Same font size as friends list title if it exists */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between title and list items */
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.friendRequest, .invitedCampaignRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.friendRequest img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%; /* Makes the image round */
+}
+
+.friendRequest button {
+  padding: 5px 15px;
+  margin-left: auto;
+  margin-right: 10px;
+  border: none;
+  background-color: maroon;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.friendRequest button:hover {
+  background-color: lightblue;
+  color: maroon;
+}
+
+.invitedCampaignRow button {
+  padding: 5px 15px;
+  margin-left: auto;
+  margin-right: 10px;
+  border: none;
+  background-color: maroon;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.invitedCampaignRow button:hover {
+  background-color: lightblue;
+  color: maroon;
+}
+
+/* Add this to the bottom of your CSS file to override any previous styles if necessary */
+.addFriendContainer, .createCampaignContainer {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+.addFriendContainer:hover, .createCampaignContainer:hover {
+  background-color: #e7e7e7;
+}
+
+/* Fixes for any potential misalignments */
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  height: auto; /* Adjusts the height to fit content */
+  padding-bottom: 10px;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 2px solid maroon; /* A thicker, blue border */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px; /* Optional: rounded corners */
+}
+

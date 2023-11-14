@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function CreateCharacter() {
 
     let navigate = useNavigate();
+    const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -33,13 +36,8 @@ function CreateCharacter() {
     const newCharacter = (data) => {
         console.log("It's being called")
         data.campaignId = sessionStorage.getItem("campaignId");
-        axios.post("http://localhost:3001/Characters",
-        data,
-        {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")            
-            }
-        }).then((response) =>{
+        axios.post("http://localhost:3001/Characters", data, {headers})
+        .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             }else{

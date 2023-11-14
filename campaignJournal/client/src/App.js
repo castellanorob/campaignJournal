@@ -2,7 +2,8 @@ import './App.css';
 import axios from "axios";
 import {useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import CampaignSelector from './pages/CampaignSelector';
+import ProfilePage from './pages/ProfilePage';
+import AddFriend from './pages/AddFriend';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
@@ -22,26 +23,29 @@ function App() {
 
   useEffect(() => {
 
-    axios.get("http://localhost:3001/Users/auth", {
-      headers: {
-        accessToken: localStorage.getItem("accessToken"),
-      },
-    }).then((response) => {
-      if (response.data.error){
-        setAuthState({...authState, status: false});
-      }else{
-        setAuthState({
-          username: response.data.username,
-          id: response.data.id,
-          status: true,
-        });
-
-        if(authState.status && !localStorage.getItem("userId")){
-          localStorage.setItem("username", response.data.username);
-          localStorage.setItem("userId", response.data.id);
-        }
+    if(!localStorage.getItem("accessToken")){
+      setAuthState({...authState, status: false});
+    } else {
+      let headers = {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
       }
-    });    
+      console.log(`APP.JS\ncalling users/auth headers: ${JSON.stringify(headers)}`);
+      axios.get("http://localhost:3001/Users/auth", {
+        headers
+      }).then((response) => {
+        if (response.data.error){
+          setAuthState({...authState, status: false});
+        }else{
+          setAuthState({
+            username: response.data.username,
+            id: response.data.id,
+            status: true,
+          });
+        }
+      }).catch((error) => {
+        console.error("Error fetching auth data", error);
+      });  
+    }  
   }, [])
 
   const logout = () =>{
@@ -58,7 +62,7 @@ function App() {
         <div className='navbar'>
           {authState.status ? (
             <>
-            <Link to="/">My Campaigns</Link>
+            <Link to="/">Profile</Link>
             <Link to="/CampaignJournal">Journal</Link>
             <Link to="/CreateJournalEntry"> New Journal Entry</Link>
             <Link to="/Characters"> Dramatus Personae </Link>
@@ -77,7 +81,7 @@ function App() {
           )}
         </div>
         <Routes>
-          <Route path = "/" element={ <CampaignSelector/> }/>
+          <Route path = "/" element={ <ProfilePage/> }/>
           <Route path = "/CampaignJournal" element={ <CampaignJournal/>}/>
           <Route path = "/CreateJournalEntry" element = { <CreateJournalEntry/> }/>
           <Route path = "/CreateCampaign" element = { <CreateCampaign/> }/>
@@ -85,6 +89,7 @@ function App() {
           <Route path = "/Registration" element = { <Registration/> }/>
           <Route path = "/Characters" element = { <Characters/> }/>
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
+          <Route path = "/AddFriend" element={ <AddFriend/> }/>
         </Routes>
       </Router>
       </AuthContext.Provider>
