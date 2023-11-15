@@ -410,14 +410,23 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 100%;
-  padding: 20px;
+  margin: 0 auto;
+  margin-top: 30px;
   box-sizing: border-box;
+  height: auto; 
 }
+
+.profilePage {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 
 .topContainer {
   display: flex;
   width: 100%;
+  height: 50%;
   margin-bottom: 20px;
 }
 
@@ -426,10 +435,11 @@ button {
   flex-direction: row;
   gap: 10px;
   width: 100%;
+  height: 50%;
   margin-bottom: 20px;
 }
 
-.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignListContainer, .invitedCampaignsContainer {
   box-sizing: border-box;
   width: 50%;
   height: 33vh;
@@ -439,7 +449,11 @@ button {
   position: relative;
 }
 
-.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+.invitedCampaignsContainer{
+  width: 30%;
+}
+
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignListContainer, .invitedCampaignsContainer {
   overflow: hidden; 
 }
 
@@ -480,11 +494,11 @@ button {
   margin-top: 5px;
 }
 
-.friendsListContainer, .campaignsContainer {
+.friendsListContainer, .campaignListContainer, .invitedCampaignsContainer {
   overflow-y: auto;
 }
 
-.campaignsContainer {
+.campaignListContainer {
   width: 70%;
 }
 
@@ -504,11 +518,11 @@ button {
   margin-right: 10px;
 }
 
-.invitedCampaignsContainer {
+/* .invitedCampaignsContainer {
   flex: 1;
   border: 1px solid #ccc;
   width: 30%
-}
+} */
 
 /* .campaignContainer, .invitedCampaignRow {
   display: flex;
