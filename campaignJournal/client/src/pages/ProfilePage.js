@@ -231,7 +231,6 @@ function ProfilePage() {
 
 
   const declineFriendRequest = (senderId)=> {
-    //TODO send post request to friends to update friend request status to rejected
     const data = {
       senderId: senderId,
       receiverId: userId,
@@ -328,7 +327,7 @@ function ProfilePage() {
       </div>
 
       <div className="bottomContainer">
-      <div className="campaignsContainer">
+      <div className="campaignListContainer">
           {campaigns && campaigns.length > 0 ? (
             campaigns
             .filter (campaign => campaign.userRole !== "invited" && campaign.userRole !== "rejected")
