@@ -53,7 +53,10 @@ function CampaignJournal() {
   };
 
   return (
-    <div>
+    <div 
+      style={{ backgroundImage: `url("https://media.wizards.com/2015/images/dnd/resources/Sword-Coast-Map_MedRes.jpg")`}}
+      className="journalContainer"
+    >
       <Formik initialValues={initialValues} onSubmit={onSearchSubmit}>
         <Form className="searchBarContainer">
           <Field
