@@ -10,8 +10,17 @@ body {
   padding: 0;
 }
 
+.journalContainer {
+  padding-left: 30px;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+}
+
 .post {
-  width: 400px;
+  width: 700px;
   height: 300px;
   border-radius: 10px;
   display: flex;
@@ -19,6 +28,7 @@ body {
   margin-top: 50px;
   border: 2px solid maroon;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
 
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
@@ -52,6 +62,26 @@ body {
   color: white;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+/*INDIVIDUAL ENTRY*/
+.entryPage {
+  padding-left: 30px;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  display: table-column;
+}
+
+.entryContainer {
+  display: table-row;
+}
+
+.entryText {
+  width: 700px;
+
 }
 
 /* CREATE Entry PAGE CSS */
@@ -372,5 +402,303 @@ button {
 
 /*CREATE CAMPAIGN*/
 .createCampaignPage {
+  padding: 30px;
+}
+
+/*PROFILE PAGE*/
+.profilePage {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  max-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.topContainer {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.bottomContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  box-sizing: border-box;
+  width: 50%;
+  height: 33vh;
+  border: 1px solid #ccc;
+  padding: 10px;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  overflow: hidden; 
+}
+
+.addFriendContainer {
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 15px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-top: 1px solid #ddd;
+  position: absolute;
+  bottom: 0;
+}
+
+.addFriendContainer:hover {
+  background-color: #e7e7e7;
+}
+
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.userIcon {
+  max-width: 90%;
+  max-height: 50%;
+  margin-bottom: 10px;
+}
+
+.userInfo {
+  text-align: center;
+}
+
+.userName, .userEmail {
+  margin-top: 5px;
+}
+
+.friendsListContainer, .campaignsContainer {
+  overflow-y: auto;
+}
+
+.campaignsContainer {
+  width: 70%;
+}
+
+.friendName, .campaignContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+
+
+.friendImage {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.invitedCampaignsContainer {
+  flex: 1;
+  border: 1px solid #ccc;
+  width: 30%
+}
+
+/* .campaignContainer, .invitedCampaignRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px
+} */
+
+.campaignRow{
+  width: 50%;
+}
+
+.campaignInfo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.campaignInfo:hover {
+  background-color: #e0e0e0;
+}
+
+.invitePlayerButton, .updateCampaignRequestButton {
+  background-color: maroon;
+  color: white;
+}
+
+.updateCampaignRequestButton, .invitePlayerButton:hover{
+  cursor: pointer;
+  background-color: lightblue;
+  color: maroon;
+}
+
+.sendPlayerInviteButton {
+  background-color: maroon;
+  color: white;
+}
+
+.sendPlayerInviteButton:hover{
+  cursor: pointer;
+  background-color: lightblue;
+  color: maroon;
+}
+
+
+.createCampaignContainer {
+  margin: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 15px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.createCampaignContainer:hover {
+  background-color: #e7e7e7;
+}
+
+.campaignTitle {
+  width: 70%;
+  margin-right: 10px;
+}
+
+.playerIcons {
+  display: flex;
+  align-items: center;
+}
+
+.playerIcon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.ellipsis {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+}
+
+.bottomContainer {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.friendRequestsContainer {
+  width: 50%;
+  height: 33vh;
+  border: 1px solid #ccc;
+  padding: 10px;
+  padding-bottom: 60px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.friendRequestsHeader, .invitedCampaignsHeader {
+  background-color: maroon;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.friendRequestsTitle {
+  font-size: 24px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.friendRequest, .invitedCampaignRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.friendRequest img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.friendRequest button {
+  padding: 5px 15px;
+  margin-left: auto;
+  margin-right: 10px;
+  border: none;
+  background-color: maroon;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.friendRequest button:hover {
+  background-color: lightblue;
+  color: maroon;
+}
+
+.invitedCampaignRow button {
+  padding: 5px 15px;
+  margin-left: auto;
+  margin-right: 10px;
+  border: none;
+  background-color: maroon;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.invitedCampaignRow button:hover {
+  background-color: lightblue;
+  color: maroon;
+}
+
+.addFriendContainer, .createCampaignContainer {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+.addFriendContainer:hover, .createCampaignContainer:hover {
+  background-color: #e7e7e7;
+}
+
+.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
+  height: auto;
+  padding-bottom: 10px;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 2px solid maroon;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 }

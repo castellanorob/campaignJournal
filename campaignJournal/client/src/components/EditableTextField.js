@@ -43,8 +43,12 @@ const EditableTextField = ({initialText, entry}) => {
             value={text}
             onChange={handleTextChange}
             readOnly={!editable}
+            style={{width: "700px", height: "500px", backgroundColor: "beige"}}
           />
-          <button onClick={onButtonClick}>
+          <button 
+          onClick={onButtonClick}
+          style={{display: "block"}}
+          >
             {editable ? 'Save' : 'Edit'}
           </button>
         </div>
