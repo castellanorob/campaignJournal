@@ -10,8 +10,17 @@ body {
   padding: 0;
 }
 
+.journalContainer {
+  padding-left: 30px;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+}
+
 .post {
-  width: 400px;
+  width: 700px;
   height: 300px;
   border-radius: 10px;
   display: flex;
@@ -19,6 +28,7 @@ body {
   margin-top: 50px;
   border: 2px solid maroon;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
 
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
@@ -52,6 +62,26 @@ body {
   color: white;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+/*INDIVIDUAL ENTRY*/
+.entryPage {
+  padding-left: 30px;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  display: table-column;
+}
+
+.entryContainer {
+  display: table-row;
+}
+
+.entryText {
+  width: 700px;
+
 }
 
 /* CREATE Entry PAGE CSS */
@@ -372,7 +402,7 @@ button {
 
 /*CREATE CAMPAIGN*/
 .createCampaignPage {
-  align-items: center;
+  padding: 30px;
 }
 
 /*PROFILE PAGE*/

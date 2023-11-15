@@ -22,20 +22,24 @@ function JournalEntry() {
     }, [navigate]);
 
       return (
-        <div>
-              <div
-                key={journalEntry.id}
-                userId = {journalEntry.userId}
-                className="post"
-              >
-              <EditableTextField
-                initialText = {journalEntry.journalBody}
-                entry = {journalEntry}
-              />
-                {journalAuthor ? (<div className="footer">{journalAuthor.username}</div>):(
-                <div className="footer">Unkown Author</div>
-                )}
-                </div>
+        <div 
+          className="entryPage"
+          style={{ backgroundImage: `url("https://media.wizards.com/2016/dnd/downloads/SKTPreview_map.jpg")`}}
+        >
+          <div
+            key={journalEntry.id}
+            userId = {journalEntry.userId}
+            className="entryContainer"
+          >
+          <EditableTextField
+            className="entryText"
+            initialText = {journalEntry.journalBody}
+            entry = {journalEntry}
+          />
+          {journalAuthor ? (<div className="footer">{journalAuthor.username}</div>):(
+            <div className="footer">Unkown Author</div>
+          )}
+          </div>
         </div>     
       );
 }
