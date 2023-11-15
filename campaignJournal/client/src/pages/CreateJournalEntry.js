@@ -75,8 +75,6 @@ const writeEntry = (data) => {
                     name="journalBody"
                     placeholder="Write your journal entry here" />
 
-                    <button type="submit">Record Journal Entry</button>
-
                     <FormikControl
                         control='select'
                         label=''
