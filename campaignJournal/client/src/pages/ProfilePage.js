@@ -51,8 +51,8 @@ function ProfilePage() {
       const response = await axios.get(`http://localhost:3001/Friends/${userId}`, { headers });
 
       if (response.data.error) {
-        alert(response.data.error);
-        console.log(response.data.error);
+        alert(JSON.stringify(response.data.error));
+        console.error(response.data.error);
         return [];
       }
 
@@ -66,7 +66,7 @@ function ProfilePage() {
 
       return await Promise.all(friendPromises);
     } catch (error) {
-      console.error(error);
+      console.error(JSON.stringify(error));
       return [];
     }
   }
@@ -77,8 +77,8 @@ function ProfilePage() {
       const response = await axios.get(`http://localhost:3001/Friends/friendRequests/${userId}`, { headers });
 
       if (response.data.error) {
-        alert(response.data.error);
-        console.log(response.data.error);
+        alert(response.data.error.message);
+        console.error(response.data.error);
         return [];
       }
 
@@ -123,7 +123,7 @@ function ProfilePage() {
           const playerDetailsResponses = await Promise.all(playerDetailsPromises);
           
           players = playerDetailsResponses.map(pd => pd.data);
-          userRole = playerCampaign.role
+          userRole = playerCampaign.role;
         }
   
         return {
@@ -261,27 +261,49 @@ function ProfilePage() {
 
   const handleSubmitInvite = (userInfo, campaignId) => {
     
+    console.log("inside handleSubmitInvite");
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
     axios.get(`http://localhost:3001/Users/findUser/${userInfo}`, {headers})
     .then((response) =>{
       if (response.data.error){
-        alert(response.data.error)
+        if(emailPattern.test(userInfo)){
+          alert(`Unable to send email, please try again`);
+        }else{
+          console.log("error in findUser");
+          alert(`${response.data.error}: Please try again, or submit an email`);
+        }
       }else{
         let user = {
           userId: response.data.id,
           campaignId: campaignId,
           role: "invited"
-        }
+        };
         user.campaignId = campaignId;
-        axios.post(`http://localhost:3001/CampaignPlayers`, user, {headers})
-        .catch(error => alert(error))
+        axios.post(`http://localhost:3001/CampaignPlayers/`, user, {headers})
+        .then((response) => {
+          if(response.data.error){
+            alert(response.data.error)
+          }else{
+            if(emailPattern.test(userInfo)){
+              alert(`Invitation sent to ${userInfo}`);
+            }
+            console.log(`Inviting ${userInfo} to campaign ${campaignId}`);
+            closeInvitePopup();
+          }
+        })
+        .catch(error => {
+          console.log("inside campaignplayer error");
+          alert(error)});
       }
     })
-    .catch(error => alert(error));
-
-    console.log(`Inviting ${userInfo} to campaign ${campaignId}`);
-
-    closeInvitePopup();
+    .catch(error => {
+      {
+        console.log("inside findUser catch error")
+        alert("Username not found, Please try again, or submit an email address to send an invite via email")}
+      });
   };
+
   return (
     <div className="profilePage">
       <div className="topContainer">

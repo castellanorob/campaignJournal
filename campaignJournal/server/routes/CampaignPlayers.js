@@ -61,6 +61,7 @@ router.post("/updateRole", validateToken, async (req, res) =>{
 router.post("/", async (req, res) => {
     try {
         const campaignPlayer = req.body;
+        console.log(`Campaign player called campaignPlayere: ${JSON.stringify(campaignPlayer)}`);
         console.log("campaignPlayer: ", campaignPlayer);
         const newCampaignPlayer = await CampaignPlayers.create(campaignPlayer);
         res.json(newCampaignPlayer);
