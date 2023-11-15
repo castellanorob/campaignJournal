@@ -8,6 +8,15 @@ const { Op } = require('sequelize');
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: "campaignjournaler@gmail.com",
+        pass: "npxd otou vhww sgeb",
+    },
+});
+
+
 router.get("/", async (req, res) => {
     const users = await Users.findAll();
     res.json(users);
@@ -27,7 +36,7 @@ router.get("/:userId", async (req, res) => {
         delete user.password;
         res.json(user);
     }catch (error) {
-        res.status(500).json({ error: "Failed to find user"})
+        res.status(500).json(error)
     }
 
 });
@@ -48,13 +57,38 @@ router.get("/findUser/:userInfo", validateToken, async(req, res) =>{
         });
         if (user) {
             console.log(`User found: ${JSON.stringify(user)}`);
-            res.json(user);
+            return res.json(user);
         } else {
-            res.status(404).json({ error: "User not found" });
+            console.log(`user not found. userInfo: ${userInfo}`);
+            if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(userInfo)) {
+                let mailDetails = {
+                    from: "campaignjournaler@gmail.com",
+                    to: userInfo,
+                    subject: "You have been invited to a campaign",
+                    text: "You have been invited to a Campaign. Use the link below to register\nhttp://localhost:3000/Registration"
+                };
+
+                transporter.sendMail(mailDetails, async function(error, info){
+                    if(error){
+                        console.log(error);
+                    } else {
+                        const invitedUser = await Users.create({
+                            username: "invited",
+                            password: "notregistered",
+                            email: userInfo,
+                            icon: "default.png"
+                        })
+                        console.log("Email sent: " + info.response + "user created: " + invitedUser);
+                        return res.json(invitedUser);
+                    }
+                });
+            } else {
+                res.status(404).json(error);
+            }
         }
     }catch(err) {
         console.log(`findUser error: ${JSON.stringify(err)}`);
-        res.json({error: `Failed to find user ${err}`});
+        res.json(err);
     }
 });
 
@@ -62,41 +96,75 @@ router.post("/register", async (req, res) => {
     const {username, password, email} = req.body;
 
     try {
-        const hash = await bcrypt.hash(password, 10);
-        const newUser = await Users.create({
-            username: username,
-            password: hash,
-            email: email
-        });
+        const existingUserWithEmail = await Users.findOne({
+            where: { email },
+          });
 
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: "campaignjournaler@gmail.com",
-                pass: "",
-            },
-        });
-
-        let mailDetails = {
-            from: "campaignjournaler@gmail.com",
-            to: email,
-            subject: "Campaign Journal Registration",
-            text: "You have registered for Campaign Journal"
-        };
-
-        transporter.sendMail(mailDetails, function(error, info){
-            if(error){
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
+          if(existingUserWithEmail) {
+            if (existingUserWithEmail.username === "invited") {
+                console.log("/register - invited user");
+                const hash = await bcrypt.hash(password, 10);
+                await existingUserWithEmail.update({
+                  username,
+                  password: hash,
+                });
+                updatedUser = {
+                    id: existingUserWithEmail.id,
+                    username: existingUserWithEmail.username,
+                    email: existingUserWithEmail.email,
+                    icon: existingUserWithEmail.icon,
+                    message:"Registration complete"
+                }
+                console.log(`/register - Invited user about to return there should be no password in the response and it should have a message. updatedUser: ${JSON.stringify(updatedUser)}`);
+                return res.json(updatedUser);
+            } else{
+                console.log("/register - existingUserWithEmail.username != \"invited\" ");
+                return res.status(400).json(error);
             }
-        });
+          } else {
+            console.log("/register - Not existingUserWithEmail");
+            const existingUserWithUsername = await Users.findOne({
+                where: { username },
+              });
 
-        this.delete(newUser.password);
-        res.json(newUser);
+              if(existingUserWithUsername){
+                console.log("/register - exisiting username")
+                return res.status(400).json(error);
+              }else{
+                const hash = await bcrypt.hash(password, 10);
+                const newUser = await Users.create({
+                    username: username,
+                    password: hash,
+                    email: email,
+                    icon: "default.png"
+                });
+        
+                let mailDetails = {
+                    from: "campaignjournaler@gmail.com",
+                    to: email,
+                    subject: "Campaign Journal Registration",
+                    text: "You have registered for Campaign Journal"
+                };
+        
+                transporter.sendMail(mailDetails, function(error, info){
+                    if(error){
+                        console.log("/register - error:", error);
+                    } else {
+                        console.log("/register - Email sent: " + info.response);
+                    }
+                }).catch((error) => {
+                    return res.json(error);
+                }).catch((error) => {
+                    return res.json(error);
+                });
+        
+                delete(newUser.password);
+                return res.json(newUser, {message: "Confirmation email sent"});
+              }
+          }
     } catch (error) {
-        console.error(error);
-        res.status(400).json({ error: "Failed to register user", details: error.message });
+        console.error("/register - error:", error);
+        res.status(400).json(error);
     }
     
 });
@@ -109,12 +177,16 @@ router.post('/login', async(req, res) => {
     }});
 
     if(!user){
-        return res.json({error: "User not found"});
+        return res.json({error: "user not found"});
+    }
+
+    if(user.password === "notregistered"){
+        return res.json({error: "please register this user"});
     }
 
     bcrypt.compare(password, user.password).then((match) => {
         if(!match){
-            return res.json({error: "Incorrect username or password"});
+            return res.json(error);
         }
         const accessToken = sign(
             {username: user.username, id: user.id}, 
@@ -140,7 +212,7 @@ router.get("/auth", validateToken, (req, res) =>{
     console.log("users/auth called")
     if (!req.user) {
         console.error("No user found in request");
-        return res.status(500).json({ error: "Server error: User not found in request." });
+        return res.status(500).json(error);
     }
     this.delete(req.user.password);
     res.json(req.user);
