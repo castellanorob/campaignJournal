@@ -16,10 +16,12 @@ function Login() {
     axios.post("http://localhost:3001/Users/login", data).then((response) => {
       if(response.data.error){
         alert(response.data.error);
-      }else if (response.data.user && response.data.user.id){
+      }else{
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("userId", response.data.user.id);
         localStorage.setItem("username", response.data.user.username);
+        localStorage.setItem("icon", response.data.user.icon);
+        localStorage.setItem("email", response.data.user.email);
         setAuthState({
             username: response.data.user.username,
             id: response.data.user.id,

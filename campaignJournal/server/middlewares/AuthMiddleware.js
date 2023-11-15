@@ -1,21 +1,27 @@
-const{verify} = require("jsonwebtoken");
+const { verify } = require("jsonwebtoken");
 
 const validateToken = (req, res, next) => {
-    const accessToken = req.header("accessToken");
+    console.log("\n\n")
+    console.log("validateToken called"); // To check if middleware is reached
+    console.log(`Request URL: ${req.originalUrl}`);
+    console.log(`req.headers: ${JSON.stringify(req.headers)}`);
 
-    if(!accessToken) {
-        return res.json({error: "User not logged in"});
+    const token = req.headers.accesstoken; // Directly use accessToken from headers
+
+    if (!token) {
+        console.log("No token provided\n\n"); // Log if no token is found
+        return res.status(401).json({ error: "User not logged in" });
     }
 
-    try{
-        const validateToken = verify(accessToken, "importantsecret");
-
-        if(validateToken){
-            return next();
-        }
-    }catch(err){
-        return res.json({error: err});
+    try {
+        const validatedToken = verify(token, "importantsecret");
+        req.user = validatedToken;
+        console.log(`Token is valid ${JSON.stringify(req.user)}\n\n`); // Log the validated token
+        next();
+    } catch (err) {
+        console.error(`Token validation error ${err}\n\n`); // Log any validation error
+        return res.status(401).json({ error: "Token is not valid" });
     }
 };
 
-module.exports = {validateToken};
+module.exports = { validateToken };

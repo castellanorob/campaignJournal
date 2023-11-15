@@ -8,6 +8,9 @@ import FormikControl from "../components/FormikControl";
 function CreateCampaign() {
 
     let navigate = useNavigate();
+    const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -38,13 +41,8 @@ function CreateCampaign() {
         const userId = localStorage.getItem("userId");
         const role = data.selectOption === 'gameMaster' ? 'gameMaster' : 'player';
 
-        axios.post(`http://localhost:3001/Campaign/${userId}`,
-        data,
-        {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")            
-            }
-        }).then((response) =>{
+        axios.post(`http://localhost:3001/Campaign/${userId}`, data, {headers})
+          .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             } else {

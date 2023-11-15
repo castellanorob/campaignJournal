@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const CampaignPlayers = sequelize.define("CampaignPlayers", {
-        userId: {
+    const FriendRequests = sequelize.define("FriendRequests", {
+        senderId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -8,20 +8,20 @@ module.exports = (sequelize, DataTypes) => {
                 key: "id",
             }
         },
-        campaignId: {
+        receiverId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Campaigns",
+                model: "Users",
                 key: "id",
             }
         },
-
-        role: {
-            type: DataTypes.STRING,
-            allowNull: false, 
-        }
+        status: {
+            type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
+            allowNull: false,
+            defaultValue: 'pending'
+        },
     });
 
-    return CampaignPlayers;
+    return FriendRequests;
 }

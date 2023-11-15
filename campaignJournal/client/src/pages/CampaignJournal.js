@@ -11,29 +11,34 @@ function CampaignJournal() {
 
   let navigate = useNavigate();
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const campaignId = sessionStorage.getItem("campaignId");
+    useEffect(() =>{
+      const accessToken = localStorage.getItem("accessToken");
+      const campaignId = sessionStorage.getItem("campaignId");
+      const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     if (!accessToken || !campaignId) {
       navigate("/");
     }
 
-    axios
-      .get(`http://localhost:3001/JournalEntries/${campaignId}`, {
-        headers: {
-          accessToken: accessToken,
-        },
-      })
-      .then((response) => {
-        setJournalEntries(response.data);
-        setFilteredEntries(response.data); // Initialize filteredEntries with all entries
-      });
 
-    axios.get("http://localhost:3001/Users").then((response) => {
-      setJournalAuthors(response.data);
-    });
-  }, [navigate]);
+      axios.get(`http://localhost:3001/JournalEntries/${campaignId}`, {headers})
+      .then((response) =>{
+        setJournalEntries(response.data);
+
+        const authorPromises = response.data.map(journal => {
+          return axios.get(`http://localhost:3001/Users/${journal.userId}`, { headers });
+        });
+
+        Promise.all(authorPromises).then((authorResponses) => {
+          const authors = authorResponses.map(response => response.data);
+          setJournalAuthors(authors);
+        });
+      }).catch((error) => {
+        console.error('Error fetching journal entries or authors:', error);
+      });
+    }, [navigate]);
 
   const initialValues = {
     searchTerms: "",

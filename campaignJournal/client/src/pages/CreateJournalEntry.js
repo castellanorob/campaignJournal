@@ -8,6 +8,9 @@ import FormikControl from "../components/FormikControl";
 function CreateJournalEntry() {
 
     let navigate = useNavigate();
+    const headers = {
+        accessToken: localStorage.getItem("accessToken")
+      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -16,7 +19,7 @@ function CreateJournalEntry() {
         if(!accessToken || !campaignId) {
             navigate("/");
         }
-    })
+    },[navigate])
 
     const initialValues  ={
         journalBody: "",
@@ -35,7 +38,7 @@ function CreateJournalEntry() {
         { key: 'Private', value: 'private'}
     ]
 
-    const writeEntry = (data) => {
+const writeEntry = (data) => {
 
         const selection = {
             userId: localStorage.getItem("userId"),
@@ -50,12 +53,8 @@ function CreateJournalEntry() {
         }
 
         axios.post("http://localhost:3001/JournalEntries",
-        selection,
-        {
-            headers: {
-                accessToken: localStorage.getItem("accessToken")            
-            }
-        }).then((response) =>{
+        selection, {headers})
+          .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             }else{
