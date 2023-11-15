@@ -59,7 +59,7 @@ function CampaignJournal() {
 
   return (
     <div 
-      style={{ backgroundImage: `url("https://media.wizards.com/2015/images/dnd/resources/Sword-Coast-Map_MedRes.jpg")`}}
+      style={{ backgroundImage: `url("https://media.wizards.com/2016/dnd/downloads/SKTPreview_map.jpg")`}}
       className="journalContainer"
     >
       <Formik initialValues={initialValues} onSubmit={onSearchSubmit}>

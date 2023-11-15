@@ -181,7 +181,7 @@ span {
   background-color: maroon;
   display: flex;
   align-items: right;
-  margin-left: 500px;
+  margin-left: 250px;
   font-family: Arial, Helvetica, sans-serif;
   color: white;
   text-decoration: underline;
@@ -200,7 +200,7 @@ span {
 }
 
 .loggedInContainer {
-  padding-top: 45px;
+  
 }
 
 /* LOGIN */
@@ -233,6 +233,12 @@ button {
   color: maroon;
   border: 2px solid maroon;
   cursor: pointer;
+}
+
+.loginContainer button:active {
+  background-color: white;
+  color: maroon;
+  border: 2px solid maroon
 }
 
 .loginContainer input {
@@ -715,4 +721,33 @@ button {
   border: 2px solid maroon;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+}
+
+/*CHARACTERS*/
+.character {
+  width: 700px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 50px;
+  border: 2px solid maroon;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.characterName {
+  border-bottom: 1px solid maroon;
+  padding: 5px;
+  font-size: 25px;
+}
+
+.characterDescription {
+  border-bottom: 1px solid maroon;
+}
+
+.characterStatus {
+  border-bottom: 1px solid maroon;
 }
