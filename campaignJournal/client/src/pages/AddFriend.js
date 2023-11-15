@@ -57,7 +57,11 @@ function AddFriend() {
                     }
                 })
             }
-        });
+        }).catch(error => {if(error.response.status === 404){
+            alert("User not found");
+        } else{
+            alert(error);
+        }});
     }
 
     return(

@@ -8,6 +8,11 @@ const { Op } = require('sequelize');
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
+router.get("/", async (req, res) => {
+    const users = await Users.findAll();
+    res.json(users);
+});
+
 router.get("/:userId", async (req, res) => {
 
     const userId = parseInt(req.params.userId);
