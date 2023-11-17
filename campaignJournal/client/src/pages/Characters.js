@@ -28,17 +28,23 @@ function CampaignJournal() {
     }, [navigate]);
 
     return (
-      <div>
+      <div className="characterContainer">
+        <label 
+          className="charactersLabel"
+          style={{fontSize: "50px", paddingLeft: "30px"}}
+        >
+          Dramatus Personae
+        </label>
         {characters.length > 0? characters.map((character) => {
-          //const author = journalAuthors.find(author => author.id === journalEntry.userId);
           return (
             <div
               key={character.id}
               playerId = {character.playerId}
               className="character"
             >
-              <div className="body">{character.name}</div>
-              <div className="description">{character.description}</div>
+              <div className="characterName">Name: {character.name}</div>
+              <div className="characterDescription">Description: {character.description}</div>
+              <div className="characterStatus">Status: {character.status}</div>
             </div>);
               }):(
             <div>
