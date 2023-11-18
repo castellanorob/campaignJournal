@@ -7,6 +7,7 @@ app.use(cors());
 
 const db = require('./models');
 
+
 //Routers
 const journalRouter = require("./routes/JournalEntries");
 app.use("/JournalEntries", journalRouter);

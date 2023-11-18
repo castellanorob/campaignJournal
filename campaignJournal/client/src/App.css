@@ -563,12 +563,12 @@ button {
   color: maroon;
 }
 
-.sendPlayerInviteButton {
+.ForgotPassword, .sendPlayerInviteButton {
   background-color: maroon;
   color: white;
 }
 
-.sendPlayerInviteButton:hover{
+.ForgotPassword, .sendPlayerInviteButton:hover{
   cursor: pointer;
   background-color: lightblue;
   color: maroon;
@@ -711,7 +711,7 @@ button {
   padding-bottom: 10px;
 }
 
-.popup {
+.forgotPasswordPopup, .invitePlayerPopup {
   position: fixed;
   top: 50%;
   left: 50%;

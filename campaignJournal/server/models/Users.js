@@ -16,9 +16,29 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         icon: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
             defaultValue: 'default.jpg'
-        }
+        },
+        emailRegistrationToken:{
+            type: DataTypes.STRING(45),
+            allowNull: true, 
+        },
+        emailRegistrationExpires: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        resetPasswordToken: {
+            type: DataTypes.STRING(45),
+            allowNull: true,
+        },
+        resetPasswordExpires: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        playerInvitationToken: {
+            type: DataTypes.STRING(45),
+            allowNull: true,
+        },
     });
 
     return Users;

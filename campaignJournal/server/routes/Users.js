@@ -4,6 +4,7 @@ const {Users} = require("../models");
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const { Op } = require('sequelize');
+const crypto = require('crypto');
 
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
@@ -20,6 +21,16 @@ let transporter = nodemailer.createTransport({
 router.get("/", async (req, res) => {
     const users = await Users.findAll();
     res.json(users);
+});
+
+router.get("/auth", validateToken, (req, res) =>{
+    console.log("users/auth called")
+    if (!req.user) {
+        console.error("No user found in request");
+        return res.status(500).json(error);
+    }
+    delete(req.user.password);
+    res.json(req.user);
 });
 
 router.get("/:userId", async (req, res) => {
@@ -92,6 +103,7 @@ router.get("/findUser/:userInfo", validateToken, async(req, res) =>{
     }
 });
 
+//TODO update link sent in email be a one time use link created using a token. Create page in client under pages/tokenpages to handle registering the user, simply have it direct them directly to their profile page
 router.post("/register", async (req, res) => {
     const {username, password, email} = req.body;
 
@@ -171,10 +183,16 @@ router.post("/register", async (req, res) => {
 });
 
 router.post('/login', async(req, res) => {
-    const {username, password} = req.body;
+    const {userInfo, password} = req.body;
+
+    console.log(`login called.
+    userInfo: ${JSON.stringify({userInfo})}`)
 
     const user = await Users.findOne({where: {
-        username: username,
+        [Op.or]:[
+            {username: userInfo},
+            {email: userInfo}
+        ]
     }});
 
     if(!user){
@@ -209,14 +227,113 @@ router.post('/login', async(req, res) => {
     );
 });
 
-router.get("/auth", validateToken, (req, res) =>{
-    console.log("users/auth called")
-    if (!req.user) {
-        console.error("No user found in request");
-        return res.status(500).json(error);
+router.post('/forgotPassword', async(req, res) =>{
+    console.log("forgotPassword called")
+    const {email} = req.body;
+
+    console.log(`email: ${JSON.stringify(email)}`);
+
+    try{
+        const user = await Users.findOne(
+            {where: {
+             email: email
+        }});
+        
+
+        if(user){
+
+            const token = crypto.randomBytes(20).toString("hex");
+            const resetTokenExpiry = Date.now() + 3600000 * 24;
+
+            await Users.update({
+                resetPasswordToken: token,
+                resetPasswordExpires: resetTokenExpiry
+            },{
+                where: {
+                    id: user.id
+                },
+            });
+
+            const emailBody = `We received a request to change the password
+            Click the link below to reset your password
+            http://localhost:3000/ResetPassword/${token}
+            
+            You will have 24 hours to reset your password. After that, you'll have to send another request.
+            
+            If you didn't request a new password, feel free to ignore this email`;
+
+            let mailDetails = {
+                from: "campaignjournaler@gmail.com",
+                to: email,
+                subject: "Campaign Journal password reset request",
+                text: emailBody
+            };
+
+            transporter.sendMail(mailDetails, function(error, info){
+                if(error){
+                    console.log("/register - error:", error);
+                    res.status(500).json({error: `unable to send email: ${error}`});
+                } else {
+                    console.log("/register - Email sent: " + info.response);
+                    res.status(200).json({email: email});
+                }
+            });
+
+        }else{
+            res.status(400).json({error: "Email not in use"});
+        }
+    }catch(error){
+        console.log(error);
     }
-    delete(req.user.password);
-    res.json(req.user);
+});
+
+router.post("/resetPassword/:token", async (req, res) =>{
+    const {token} = req.params;
+    const updatedData = req.body;
+
+    try{
+        const user = await Users.findOne({
+            where: {
+                [Op.and]: [
+                    {resetPasswordToken: token},
+                    {username: updatedData.username},
+                    {email: updatedData.email}
+                ]
+,            },
+            attributes: { exclude: ['password'] }
+        });
+    
+        if(user){
+            if(user.resetPasswordExpires < Date.now()){
+                res.status(401).json({error: "This link has expired"});
+            }else{
+
+                const hash = await bcrypt.hash(updatedData.password, 10);
+                const [updatedUsersCount] = await Users.update({
+                    password: hash,
+                    resetPasswordToken: null,
+                    resetPasswordExpires: null
+                },{
+                    where:{
+                        id: user.id
+                    }
+                });
+
+                if(updatedUsersCount === 0){
+                    res.status(400).json({error: 'user not found'});
+                }else{
+                    res.json({success: 'password updated'});
+                }
+            }
+        }else{
+            res.status(400).json({error: 'invalid url'});
+        }
+    }catch(error){
+        console.log(`error in /reset-password/:token
+        token: ${token}
+        error: ${error}`);
+        res.status(400).json({error: error});
+    }
 });
 
 module.exports = router;

@@ -6,13 +6,12 @@ const InvitePlayerForm = ({ isOpen, onClose, onSubmit, campaignId, campaignTitle
 
   const handleSend = () => {
     onSubmit(userInfo, campaignId);
-    onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="popup">
+    <div className="invitePlayerPopup">
         <h2>Invite a player to {campaignTitle}</h2>
       <input
         type="text"
