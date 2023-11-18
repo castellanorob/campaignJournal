@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const JournalEntries = sequelize.define("JournalEntries", {
         journalBody: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         privateEntry: {

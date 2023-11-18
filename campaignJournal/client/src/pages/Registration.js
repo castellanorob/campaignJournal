@@ -23,7 +23,7 @@ function Registration(){
         axios.post("http://localhost:3001/Users/register", data).then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
-            }{
+            }else {
                 console.log(response.data)
                 alert(response.data.message);
                 navigate("/Login");
