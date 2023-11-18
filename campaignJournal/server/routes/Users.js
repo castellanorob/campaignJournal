@@ -108,7 +108,7 @@ router.post("/register", async (req, res) => {
                   username,
                   password: hash,
                 });
-                updatedUser = {
+                const updatedUser = {
                     id: existingUserWithEmail.id,
                     username: existingUserWithEmail.username,
                     email: existingUserWithEmail.email,
@@ -119,7 +119,7 @@ router.post("/register", async (req, res) => {
                 return res.json(updatedUser);
             } else{
                 console.log("/register - existingUserWithEmail.username != \"invited\" ");
-                return res.status(400).json(error);
+                return res.status(400).json({error: "That email is already in use"});
             }
           } else {
             console.log("/register - Not existingUserWithEmail");
@@ -145,21 +145,22 @@ router.post("/register", async (req, res) => {
                     subject: "Campaign Journal Registration",
                     text: "You have registered for Campaign Journal"
                 };
-        
+
                 transporter.sendMail(mailDetails, function(error, info){
                     if(error){
                         console.log("/register - error:", error);
                     } else {
                         console.log("/register - Email sent: " + info.response);
                     }
-                }).catch((error) => {
-                    return res.json(error);
-                }).catch((error) => {
-                    return res.json(error);
-                });
+                })
         
-                delete(newUser.password);
-                return res.json(newUser, {message: "Confirmation email sent"});
+                newUserData = {
+                    username: newUser.username,
+                    email: newUser.email,
+                    icon: newUser.icon,
+                    message: "Confirmation email sent"
+                }
+                return res.json(newUserData);
               }
           }
     } catch (error) {
@@ -214,7 +215,7 @@ router.get("/auth", validateToken, (req, res) =>{
         console.error("No user found in request");
         return res.status(500).json(error);
     }
-    this.delete(req.user.password);
+    delete(req.user.password);
     res.json(req.user);
 });
 
