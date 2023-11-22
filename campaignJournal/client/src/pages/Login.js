@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import { AuthContext } from "../helpers/AuthContext";
+import tome_img from "../resources/tome_img.png";
 
 
 function Login() {
@@ -33,7 +34,8 @@ function Login() {
     });
   };
   return (
-    <div className="loginContainer">
+    <div className="loginContainer" style={{ backgroundImage: `url(${tome_img})` }}>
+      <div className="loginForms">
       <label>Username:</label>
       <input
         type="text"
@@ -52,6 +54,7 @@ function Login() {
       />
 
       <button onClick={login}> Login </button>
+      </div>
     </div>
   );
 }
