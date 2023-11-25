@@ -12,6 +12,7 @@ import CreateCampaign from './pages/CreateCampaign';
 import CreateCharacter from './pages/CreateCharacter';
 import Characters from './pages/Characters';
 import JournalEntry from './pages/JournalEntry';
+import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
 import writeEntryIcon from "./resources/writeEntryIcon.png";
 
@@ -102,6 +103,7 @@ function App() {
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
           <Route path = "http://localhost:3001/JournalEntries/search" element = { <JournalEntry/> }/>
+          <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
         </Routes>
       </Router>
       </AuthContext.Provider>

@@ -38,6 +38,15 @@ function Registration(){
         <div>
             <Formik initialValues={ initialValues } onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className="registrationContainer">
+                    <label>Email</label>
+                    <ErrorMessage name="email" component="span" />
+                    <Field 
+                        type="email"
+                        id="input"
+                        name="email"
+                        placeholder="Email..."
+                    />
+
                     <label>Username</label>
                     <ErrorMessage name="username" component="span" />
                     <Field 
@@ -51,17 +60,7 @@ function Registration(){
                     type ="password"
                     id="input"
                     name="password"
-                    placeholder="Password..." />
-                    
-                    <label>Email</label>
-                    <Field 
-                        type="email"
-                        id="input"
-                        name="email"
-                        placeholder="Email..."
-                    />
-
-                    
+                    placeholder="Password..." />                   
 
                     <button type="submit">Register</button>
                 </Form>
