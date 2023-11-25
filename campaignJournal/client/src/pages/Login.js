@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import { AuthContext } from "../helpers/AuthContext";
 import ForgotPassword from "../Forms/ForgotPassword";
+import tome_img from "../resources/tome_img.png";
 
 
 function Login() {
@@ -70,8 +71,10 @@ function Login() {
   }
 
   return (
-    <div className="loginContainer">
+    <div className="loginContainer" style={{ backgroundImage: `url(${tome_img})` }}>
+      <div className="loginForms">
       <label>Username or email:</label>
+
       <input
         type="text"
         placeholder="Username..."
@@ -91,6 +94,7 @@ function Login() {
       <div className="loginButtonContainer">
       <button onClick={login}> Login </button>
       </div>
+
       <div className="forgotPasswordButtonContainer">
         <button onClick={(event) => handleForgotPassword(event)}> Forgot password </button>
       </div>

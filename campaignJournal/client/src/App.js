@@ -14,6 +14,7 @@ import Characters from './pages/Characters';
 import JournalEntry from './pages/JournalEntry';
 import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
+import writeEntryIcon from "./resources/writeEntryIcon.png";
 
 function App() {
 
@@ -67,7 +68,14 @@ function App() {
             <>
             <Link to="/">Profile</Link>
             <Link to="/CampaignJournal">Journal</Link>
-            <Link to="/CreateJournalEntry"> New Journal Entry</Link>
+            <Link to="/CreateJournalEntry" className='newEntryLink'> 
+              <img src={writeEntryIcon} 
+              className='writeEntryIcon'
+              alt="write entry" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='newEntryLinkSpan'>New Journal Entry</span>
+            </Link>
             <Link to="/Characters"> Dramatus Personae </Link>
             <label className="appNameLoggedIn">Campaign Journal</label>
             <div className="loggedInContainer">
