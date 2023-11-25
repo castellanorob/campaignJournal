@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(45),
             defaultValue: 'default.jpg'
         },
+        emailRegistrationDate:{
+            type: DataTypes.STRING(45),
+            allowNull: true, 
+        },
         emailRegistrationToken:{
             type: DataTypes.STRING(45),
             allowNull: true, 
@@ -39,6 +43,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(45),
             allowNull: true,
         },
+        playerInvitationExpiry: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        lastLoginDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        }
     });
 
     return Users;
