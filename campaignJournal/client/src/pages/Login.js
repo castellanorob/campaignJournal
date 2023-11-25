@@ -103,7 +103,7 @@ function Login() {
         onClose={closeForgotPasswordPopup}
         onSubmit={handleResetPasswordRequest}
       />
-      
+      </div>
     </div>
   );
 }
