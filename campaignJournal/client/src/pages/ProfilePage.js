@@ -44,7 +44,7 @@ function ProfilePage() {
 
     // Call the fetchData function
     fetchData();
-  }, [accessToken, navigate, campaigns, friends, requests]);
+  }, [navigate]);
 
   async function fetchFriends() {
     try {

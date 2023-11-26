@@ -1,0 +1,92 @@
+[33m5eb5ddf[m[33m ([m[1;36mHEAD -> [m[1;32mDawit[m[33m, [m[1;31morigin/Dawit[m[33m)[m fixed gub created by last merge
+[33m1af4bf8[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #29 from castellanorob/Dawit
+[33med4003d[m Merge branch 'main' into Dawit
+[33mc9b71a3[m updated logging in registeringa account and resetting password
+[33m9e298b1[m Merge pull request #28 from castellanorob/carlui
+[33ma723322[m added icon to New Journal Entry link and background to login page
+[33med313ce[m Added functionality to reset password using a one-time use link. Updated login page so that users can log in using either their username or password
+[33me7a50f3[m Merge pull request #27 from castellanorob/Dawit
+[33m38c6f57[m fixed bugs with journal entries not workig properly due to a change in the Users router, Updated html and css for profile page because the html class names were the same as some of the html classnames used in the campaign page
+[33m7b2a610[m Merge pull request #26 from castellanorob/RobBranch_Sprint03
+[33m8139ef4[m Updated gitignore
+[33m25eb822[m Merge branch 'main' into RobBranch_Sprint03
+[33m4964ba3[m Merge pull request #25 from castellanorob/carlsprint3final
+[33ma04bb95[m ui updates
+[33m2df6ead[m Merge branch 'main' into RobBranch_Sprint03
+[33m9a91631[m Update .gitignore
+[33m469e946[m Merge pull request #24 from castellanorob/Dawit
+[33m88fdd18[m added ability to invite to campaign via email, fixed bugs with registering and logging in
+[33m12647ba[m Merge pull request #23 from castellanorob/Dawit
+[33mbc2b134[m Fixed bugs caused by last merge
+[33m5812abb[m Merge pull request #22 from castellanorob/RobBranch_Sprint03
+[33m918c454[m Merge branch 'main' into RobBranch_Sprint03
+[33m65b81de[m Remove duplicate button
+[33md136548[m Merge pull request #21 from castellanorob/Dawit
+[33m45cd4e2[m updated css for profile page
+[33mab25bd1[m[33m ([m[1;31morigin/RobBranch_Sprint03[m[33m)[m Merge branch 'main' into RobBranch_Sprint03
+[33m4e18160[m Update config.json
+[33m8d3dab7[m Merge pull request #20 from castellanorob/main
+[33mecebdec[m Merge pull request #18 from castellanorob/Dawit
+[33m8633091[m Merge branch 'main' into Dawit
+[33mf67e3e1[m Merge pull request #19 from castellanorob/carlsprint3
+[33m5e9a6f7[m[33m ([m[1;31morigin/carlsprint3[m[33m)[m more ui updates
+[33m6855439[m Merge branch 'main' into Dawit
+[33mbc8246d[m Created profile page, added ability to invite people to campaigns, added ability to send and accept friend requests, updated databases
+[33m228f06c[m created profile page. Updated database to allow users to send, accept, and reject friend invites, updated database to allow players to invite other players to campaigns
+[33md542ddb[m Merge pull request #16 from castellanorob/carlsprint3
+[33me27a7f5[m ui changes
+[33mf2746f5[m Merge pull request #15 from castellanorob/carlnsprint3
+[33m331f82a[m Merge branch 'main' into carlnsprint3
+[33m1dbdcee[m stuff
+[33m0de1b30[m edit entry and search entries
+[33m338eb5f[m Merge pull request #14 from castellanorob/RobBranch_Sprint03
+[33m157a827[m Add private/public entry
+[33m7a48014[m Merge pull request #13 from castellanorob/RobBranch_Sprint03
+[33m02e1766[m Fix player type selection error
+[33mec2eaa6[m Merge pull request #12 from castellanorob/RobBranch_Sprint03
+[33m6edc350[m Move designate gm or player
+[33m4a72d34[m Update config.json
+[33me6ad4d0[m Merge pull request #11 from castellanorob/Dawit
+[33m4cf37bf[m updated user registration to include email.using nodemailer to send emails
+[33m04ea1d3[m Merge pull request #10 from castellanorob/carlsprint3
+[33m7a65a21[m minor update
+[33m8adb9d8[m create character and characters page
+[33m2a6dc27[m Merge pull request #9 from castellanorob/RobBranch_Sprint03
+[33m247b636[m Merge branch 'RobBranch_Sprint03' of https://github.com/castellanorob/campaignJournal into RobBranch_Sprint03
+[33mccf3d77[m Correct Error Message
+[33mf11457d[m Merge pull request #8 from castellanorob/RobBranch_Sprint03
+[33mbfdd560[m Merge branch 'main' into RobBranch_Sprint03
+[33m9344697[m Add dropdown
+[33m8125a51[m Update config.json
+[33m455c4ee[m minor ui changes
+[33md6c4fae[m ui changes
+[33m18f4b57[m UI changes
+[33m62299cc[m Update CampaignSelector.js
+[33m4579454[m Merge pull request #7 from castellanorob/Dawit
+[33ma5c7cc2[m added create campaign button to bottom of campaign page
+[33m680f0b0[m Merge pull request #6 from castellanorob/Dawit
+[33mbd3e33c[m Fixed issue with app crashing when submitting new journal entry. Fixed issue where userId and username were being overwritten when refreshing.
+[33mb23ef99[m Merge pull request #5 from castellanorob/Dawit
+[33m1dfdcb8[m Fixed issue with app crashing when trying to view campaigns. Updated campaign page to show list of campaigns. Updted campaigns page so that it takes you to the journal of the relavent campaign.
+[33m2379901[m Merge pull request #4 from castellanorob/carlbranch
+[33m5ce5a9d[m Merge branch 'main' into carlbranch
+[33mb151d12[m updates to the CSS mostly
+[33me559f4d[m Updated Create Campaign
+[33mda27e08[m Merge pull request #3 from castellanorob/carl4
+[33m825d825[m Merge branch 'main' into carl4
+[33ma34a99d[m some updates
+[33mf2bdc41[m Merge pull request #2 from castellanorob/Dawit
+[33m96f0d4f[m Updated CampaignJournal to handle a campaign with no journal entries
+[33m020cee8[m Update config.json
+[33m586e7c2[m[33m ([m[1;31morigin/carl2[m[33m, [m[1;32mmain[m[33m)[m Re-add client folder
+[33ma2d4efd[m Temporarily remove client folder for troubleshooting
+[33m656d4af[m Updatd campaignJournal to show newest journal entries first
+[33m44b6086[m Replaced old campaignJournal project with new properly working version
+[33m1a83569[m Update config.json
+[33m9db8a78[m First post
+[33m14c5aca[m Revert main branch
+[33m23ee2ad[m Merge pull request #1 from castellanorob/RobBranch01
+[33mb7bb035[m Update package.json
+[33m569d502[m Change client
+[33me3f2604[m Create client
+[33m4046156[m Initial commit
