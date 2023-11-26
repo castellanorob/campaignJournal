@@ -44,7 +44,7 @@ function ProfilePage() {
 
     // Call the fetchData function
     fetchData();
-  }, [accessToken, navigate,]);
+  }, [navigate]);
 
   async function fetchFriends() {
     try {
@@ -264,7 +264,7 @@ function ProfilePage() {
     console.log("inside handleSubmitInvite");
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    axios.get(`http://localhost:3001/Users/findUser/${userInfo}`, {headers})
+    axios.post(`http://localhost:3001/Users/inviteUser/${userInfo}`,{campaignId: campaignId}, {headers})
     .then((response) =>{
       if (response.data.error){
         if(emailPattern.test(userInfo)){
@@ -274,34 +274,9 @@ function ProfilePage() {
           alert(`${response.data.error}: Please try again, or submit an email`);
         }
       }else{
-        let user = {
-          userId: response.data.id,
-          campaignId: campaignId,
-          role: "invited"
-        };
-        user.campaignId = campaignId;
-        axios.post(`http://localhost:3001/CampaignPlayers/`, user, {headers})
-        .then((response) => {
-          if(response.data.error){
-            alert(response.data.error)
-          }else{
-            if(emailPattern.test(userInfo)){
-              alert(`Invitation sent to ${userInfo}`);
-            }
-            console.log(`Inviting ${userInfo} to campaign ${campaignId}`);
-            closeInvitePopup();
-          }
-        })
-        .catch(error => {
-          console.log("inside campaignplayer error");
-          alert(error)});
+        alert(`Invitation sent to ${userInfo}`);
       }
     })
-    .catch(error => {
-      {
-        console.log("inside findUser catch error")
-        alert("Username not found, Please try again, or submit an email address to send an invite via email")}
-      });
   };
 
   return (
