@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 function CampaignSelector(){
 
@@ -20,14 +21,14 @@ function CampaignSelector(){
             navigate("/Login");
         } else {
             let userId = localStorage.getItem("userId");
-            axios.get(`http://localhost:3001/CampaignPlayers/${userId}`, {headers})
+            axios.get(`${APIURL}/CampaignPlayers/${userId}`, {headers})
             .then(async (response) => {
                 if(response.data.error){
                     alert(response.data.error);
                 } else {
                     let playerCampaigns = [];
                     for (const campaign of response.data){
-                        let playerCampaign = await axios.get(`http://localhost:3001/Campaign/${campaign.campaignId}`)
+                        let playerCampaign = await axios.get(`${APIURL}/Campaign/${campaign.campaignId}`)
                         playerCampaigns.push(playerCampaign.data[0]);
                     }
                     setCampaigns(playerCampaigns)

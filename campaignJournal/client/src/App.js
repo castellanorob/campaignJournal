@@ -15,6 +15,7 @@ import JournalEntry from './pages/JournalEntry';
 import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
 import writeEntryIcon from "./resources/writeEntryIcon.png";
+import { APIURL } from "./helpers/APIURL";
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
       }
       console.log(`APP.JS\ncalling users/auth headers: ${JSON.stringify(headers)}`);
-      axios.get("http://localhost:3001/Users/auth", {
+      axios.get(`${APIURL}/Users/auth`, {
         headers
       }).then((response) => {
         if (response.data.error){
@@ -102,7 +103,7 @@ function App() {
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
-          <Route path = "http://localhost:3001/JournalEntries/search" element = { <JournalEntry/> }/>
+          <Route path = {`${APIURL}/JournalEntries/search`} element = { <JournalEntry/> }/>
           <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
         </Routes>
       </Router>

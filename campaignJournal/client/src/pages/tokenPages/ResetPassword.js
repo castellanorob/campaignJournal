@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 function ResetPassword(){
     const {token} = useParams();   
@@ -31,7 +32,7 @@ function ResetPassword(){
                 password: data.password,
             }
 
-            axios.post(`http://localhost:3001/Users/resetPassword/${token}`, newUserData).then(async (response) =>{
+            axios.post(`${APIURL}/Users/resetPassword/${token}`, newUserData).then(async (response) =>{
                 if(response.data.error){
                     alert(response.data.error);
                 }else {

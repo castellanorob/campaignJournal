@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
+import { APIURL } from "../helpers/APIURL";
 
 function CampaignJournal() {
   const [journalEntries, setJournalEntries] = useState([]);
@@ -23,12 +24,12 @@ function CampaignJournal() {
     }
 
 
-      axios.get(`http://localhost:3001/JournalEntries/${campaignId}`, {headers})
+      axios.get(`${APIURL}/JournalEntries/${campaignId}`, {headers})
       .then((response) =>{
         setJournalEntries(response.data);
 
         const authorPromises = response.data.map(journal => {
-          return axios.get(`http://localhost:3001/Users/${journal.userId}`, { headers });
+          return axios.get(`${APIURL}/Users/${journal.userId}`, { headers });
         });
 
         Promise.all(authorPromises).then((authorResponses) => {

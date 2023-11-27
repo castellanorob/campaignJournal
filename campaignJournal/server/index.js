@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
@@ -27,7 +28,7 @@ const blockedRouter = require("./routes/Blocked");
 app.use("/Blocked", blockedRouter);
 
 db.sequelize.sync().then(() => {
-    app.listen(3001, () => {
-        console.log("Server running on port 3001");
+    app.listen(PORT, () => {
+        console.log("Server running on port ${PORT}");
     });
 });
