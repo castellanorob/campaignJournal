@@ -3,7 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom";
-import { APIURL } from "../helpers/APIURL";
+import { APIURL } from ".../helpers/APIURL";
 
 function ResetPassword(){
     const {token} = useParams();   
