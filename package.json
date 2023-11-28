@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node campaignJournal/server/index.js",
+    "postinstall": "npm rebuild bcrypt --build-from-source",
     "dev": "nodemon campaignJournal/server/index.js",
     "heroku-postbuild": "cd campaignJournal/client && npm install && npm run build"
   },
