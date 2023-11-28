@@ -26,10 +26,10 @@ app.use("/Friends", friendsRouter);
 const blockedRouter = require("./routes/Blocked");
 app.use("/Blocked", blockedRouter);
 
-app.use(express.static(path.join(dirname, '../client/src')));
+app.use(express.static(path.join(__dirname, '../client/src')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(dirname, '../client/src', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
 });
 
 db.sequelize.sync().then(() => {
