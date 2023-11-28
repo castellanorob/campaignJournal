@@ -14,6 +14,9 @@ import Characters from './pages/Characters';
 import JournalEntry from './pages/JournalEntry';
 import { AuthContext } from "./helpers/AuthContext";
 import writeEntryIcon from "./resources/writeEntryIcon.png";
+import closedJournalIcon from "./resources/closedJournalIcon.png";
+import elfIcon from "./resources/elfIcon.png";
+import wizardIcon from "./resources/wizardIcon.png";
 
 function App() {
 
@@ -65,17 +68,38 @@ function App() {
         <div className='navbar'>
           {authState.status ? (
             <>
-            <Link to="/">Profile</Link>
-            <Link to="/CampaignJournal">Journal</Link>
-            <Link to="/CreateJournalEntry" className='newEntryLink'> 
+            <Link to="/" className='linkContainer'>
+            <img src={wizardIcon} 
+              className='linkIcon'
+              alt="wizardIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Profile</span>
+            </Link>
+            <Link to="/CampaignJournal" className='linkContainer'>
+            <img src={closedJournalIcon} 
+              className='linkIcon'
+              alt="closedJournalIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Journal</span>
+            </Link>
+            <Link to="/CreateJournalEntry" className='linkContainer'> 
               <img src={writeEntryIcon} 
-              className='writeEntryIcon'
+              className='linkIcon'
               alt="write entry" 
               style={{ marginRight: '5px' }}
               />
-            <span className='newEntryLinkSpan'>New Journal Entry</span>
+            <span className='linkSpan'>New Journal Entry</span>
             </Link>
-            <Link to="/Characters"> Dramatus Personae </Link>
+            <Link to="/Characters" className='linkContainer'>
+            <img src={elfIcon} 
+              className='linkIcon'
+              alt="elfIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Dramatus Personae</span>
+            </Link>
             <label className="appNameLoggedIn">Campaign Journal</label>
             <div className="loggedInContainer">
               <h1>{authState.username}</h1>
