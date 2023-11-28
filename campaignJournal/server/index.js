@@ -8,7 +8,6 @@ app.use(cors());
 
 const db = require('./models');
 
-
 //Routers
 const journalRouter = require("./routes/JournalEntries");
 app.use("/JournalEntries", journalRouter);
@@ -27,8 +26,14 @@ app.use("/Friends", friendsRouter);
 const blockedRouter = require("./routes/Blocked");
 app.use("/Blocked", blockedRouter);
 
+app.use(express.static(path.join(dirname, '../client/src')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(dirname, '../client/src', 'index.html'));
+});
+
 db.sequelize.sync().then(() => {
     app.listen(PORT, () => {
-        console.log("Server running on port ${PORT}");
+        console.log(`Server running on port ${PORT}`);
     });
 });
