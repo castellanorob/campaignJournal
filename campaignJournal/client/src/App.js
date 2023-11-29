@@ -16,6 +16,8 @@ import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
 import writeEntryIcon from "./resources/writeEntryIcon.png";
 
+axios.defaults.withCredentials = true;
+
 function App() {
 
   const [authState, setAuthState] = useState({
@@ -25,34 +27,23 @@ function App() {
   });
 
   useEffect(() => {
-
-    if(!localStorage.getItem("accessToken")){
-      setAuthState({...authState, status: false});
-    } else {
-      let headers = {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+    console.log(`APP.JS\ncalling users/auth headers:`);
+    axios.get("http://localhost:3001/Users/auth").then((response) => {
+      if (response.data.error){
+        setAuthState({...authState, status: false});
+      }else{
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
       }
-      console.log(`APP.JS\ncalling users/auth headers: ${JSON.stringify(headers)}`);
-      axios.get("http://localhost:3001/Users/auth", {
-        headers
-      }).then((response) => {
-        if (response.data.error){
-          setAuthState({...authState, status: false});
-        }else{
-          setAuthState({
-            username: response.data.username,
-            id: response.data.id,
-            status: true,
-          });
-        }
-      }).catch((error) => {
-        console.error("Error fetching auth data", error);
-      });  
-    }  
+    }).catch((error) => {
+      console.error("Error fetching auth data", error);
+    });   
   }, [])
 
   const logout = () =>{
-    localStorage.removeItem("accessToken");
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
     localStorage.removeItem("entryId");

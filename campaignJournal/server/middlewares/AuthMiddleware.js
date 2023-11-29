@@ -4,9 +4,9 @@ const validateToken = (req, res, next) => {
     console.log("\n\n")
     console.log("validateToken called"); // To check if middleware is reached
     console.log(`Request URL: ${req.originalUrl}`);
-    console.log(`req.headers: ${JSON.stringify(req.headers)}`);
+    console.log(`req.cookies: ${JSON.stringify(req.cookies)}`);
 
-    const token = req.headers.accesstoken; // Directly use accessToken from headers
+    const token = req.cookies.accesstoken; // Directly use accessToken from headers
 
     if (!token) {
         console.log("No token provided\n\n"); // Log if no token is found
