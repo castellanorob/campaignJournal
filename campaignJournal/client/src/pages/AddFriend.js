@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 
 function AddFriend() {
@@ -30,7 +31,7 @@ function AddFriend() {
             accessToken: localStorage.getItem("accessToken")
         }
         
-        axios.get(`http://localhost:3001/Users/findUser/${data.receiverInfo}`, {headers})
+        axios.get(`${APIURL}/Users/findUser/${data.receiverInfo}`, {headers})
         .then((response) => {
             if(response.data.error){
                 alert(response.data.error)
@@ -47,7 +48,7 @@ function AddFriend() {
                 }
 
                 console.log(`friendRequestData: ${JSON.stringify(friendRequestData)}`);
-                axios.post(`http://localhost:3001/Friends/friendRequest`, friendRequestData, {headers})
+                axios.post(`${APIURL}/Friends/friendRequest`, friendRequestData, {headers})
                 .then((response) => {
                     if(response.data.error){
                         alert(response.data.error);

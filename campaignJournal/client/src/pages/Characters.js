@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 function CampaignJournal() {
     const[characters, setCharacters] = useState([]);
@@ -21,7 +22,7 @@ function CampaignJournal() {
         navigate("/");
       }
 
-      axios.get(`http://localhost:3001/Characters/${campaignId}`, {headers})
+      axios.get(`${APIURL}/Characters/${campaignId}`, {headers})
       .then((response) =>{
         setCharacters(response.data);
       })

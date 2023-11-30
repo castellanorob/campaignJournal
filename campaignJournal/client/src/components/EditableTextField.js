@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { APIURL } from "../helpers/APIURL";
 
 const EditableTextField = ({initialText, entry}) => {
     const [editable, setEditable] = useState(false);
@@ -13,7 +14,7 @@ const EditableTextField = ({initialText, entry}) => {
                 entryId: entry.id
             }
             axios.put(
-                `http://localhost:3001/JournalEntry/byId/${entry.id}`,
+                `${APIURL}/JournalEntry/byId/${entry.id}`,
                 entryData,
                 {
                     headers: {

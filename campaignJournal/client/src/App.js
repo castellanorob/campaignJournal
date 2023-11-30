@@ -18,8 +18,10 @@ import writeEntryIcon from "./resources/writeEntryIcon.png";
 import closedJournalIcon from "./resources/closedJournalIcon.png";
 import elfIcon from "./resources/elfIcon.png";
 import wizardIcon from "./resources/wizardIcon.png";
+import { APIURL } from "./helpers/APIURL";
 
 axios.defaults.withCredentials = true;
+
 
 function App() {
 
@@ -117,7 +119,7 @@ function App() {
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
-          <Route path = "http://localhost:3001/JournalEntries/search" element = { <JournalEntry/> }/>
+          <Route path = {`${APIURL}/JournalEntries/search`} element = { <JournalEntry/> }/>
           <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
         </Routes>
       </Router>

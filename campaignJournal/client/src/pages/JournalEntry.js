@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditableTextField from "../components/EditableTextField";
+import { APIURL } from "../helpers/APIURL";
 
 function JournalEntry() {
     let { id } = useParams();
@@ -13,10 +14,10 @@ function JournalEntry() {
 
     useEffect(() => {
         //const accessToken = localStorage.getItem("accessToken");
-        axios.get(`http://localhost:3001/JournalEntry/byId/${id}`).then((response) => {
+        axios.get(`${APIURL}/JournalEntry/byId/${id}`).then((response) => {
             setJournalEntry(response.data);
         })
-        axios.get("http://localhost:3001/Users").then((response) =>{
+        axios.get(`${APIURL}/Users`).then((response) =>{
             setJournalAuthor(response.data);
         })
     }, [navigate]);

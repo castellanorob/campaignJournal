@@ -4,9 +4,10 @@
   "description": "Application for journaling tabletop rpgs",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "start": "node campaignJournal/server/index.js",
+    "postinstall": "npm rebuild bcrypt --build-from-source",
+    "dev": "nodemon campaignJournal/server/index.js",
+    "heroku-postbuild": "cd campaignJournal/client && npm install && npm run build"
   },
   "engines": {
     "node": "14.x",

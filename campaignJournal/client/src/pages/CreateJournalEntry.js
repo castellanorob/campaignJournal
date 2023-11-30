@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormikControl from "../components/FormikControl";
+import { APIURL } from "../helpers/APIURL";
 
 function CreateJournalEntry() {
 
@@ -52,7 +53,7 @@ const writeEntry = (data) => {
             selection.privateEntry = false;
         }
 
-        axios.post("http://localhost:3001/JournalEntries",
+        axios.post(`${APIURL}/JournalEntries`,
         selection, {headers})
           .then((response) =>{
             if(response.data.error){

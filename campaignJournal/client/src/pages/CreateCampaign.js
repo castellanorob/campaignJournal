@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormikControl from "../components/FormikControl";
+import { APIURL } from "../helpers/APIURL";
 
 function CreateCampaign() {
 
@@ -41,7 +42,7 @@ function CreateCampaign() {
         const userId = localStorage.getItem("userId");
         const role = data.selectOption === 'gameMaster' ? 'gameMaster' : 'player';
 
-        axios.post(`http://localhost:3001/Campaign/${userId}`, data, {headers})
+        axios.post(`${APIURL}/Campaign/${userId}`, data, {headers})
           .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
@@ -51,7 +52,7 @@ function CreateCampaign() {
                     userId: userId,
                     role: role
                 }
-                axios.post('http://localhost:3001/CampaignPlayers', campaignPlayer);
+                axios.post(`${APIURL}/CampaignPlayers`, campaignPlayer);
                 navigate("/");
             }
         });

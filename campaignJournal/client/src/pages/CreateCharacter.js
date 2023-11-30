@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 function CreateCharacter() {
 
@@ -36,7 +37,7 @@ function CreateCharacter() {
     const newCharacter = (data) => {
         console.log("It's being called")
         data.campaignId = sessionStorage.getItem("campaignId");
-        axios.post("http://localhost:3001/Characters", data, {headers})
+        axios.post(`${APIURL}/Characters`, data, {headers})
         .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
