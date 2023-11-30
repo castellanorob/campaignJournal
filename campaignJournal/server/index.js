@@ -5,9 +5,14 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3001;
 
+const corsOptions = {
+  origin: 'http://localhost:3000', // replace with front-end URL when pushing to prod
+  credentials: true,
+};
+
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 const db = require('./models');
 

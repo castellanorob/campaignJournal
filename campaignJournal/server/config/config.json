@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "",
+    "password": "Q!w2e3r4",
     "database": "campaignjournal",
     "host": "127.0.0.1",
     "dialect": "mysql"
