@@ -17,9 +17,6 @@ function ProfilePage() {
   const accessToken = localStorage.getItem("accessToken");
 
   const userId = localStorage.getItem("userId");
-  const headers = {
-    accessToken: localStorage.getItem("accessToken")
-  }
 
   useEffect(() => {
 
@@ -49,7 +46,7 @@ function ProfilePage() {
 
   async function fetchFriends() {
     try {
-      const response = await axios.get(`${APIURL}/Friends/${userId}`, { headers });
+      const response = await axios.get(`${APIURL}Friends/${userId}`);
 
       if (response.data.error) {
         alert(JSON.stringify(response.data.error));
@@ -61,7 +58,7 @@ function ProfilePage() {
 
       const friendPromises = relationships.map(async (relationship) => {
         const friendId = relationship.friendId;
-        const friendResponse = await axios.get(`${APIURL}/Users/${friendId}`, { headers });
+        const friendResponse = await axios.get(`${APIURL}Users/${friendId}`);
         return friendResponse.data;
       });
 
@@ -75,7 +72,7 @@ function ProfilePage() {
   async function fetchFriendRquests() {
     console.log(`getting friend requests for ${localStorage.getItem("username")}, userId: ${userId}`);
     try {
-      const response = await axios.get(`${APIURL}/Friends/friendRequests/${userId}`, { headers });
+      const response = await axios.get(`${APIURL}Friends/friendRequests/${userId}`);
 
       if (response.data.error) {
         alert(response.data.error.message);
@@ -86,7 +83,7 @@ function ProfilePage() {
       const friendRequestPromises = response.data.map(async (friendRequest) => {
         const senderId = friendRequest.senderId;
         console.log(`getting info for ${senderId}`)
-        const senderInfo = await axios.get(`${APIURL}/Users/${senderId}`, { headers });
+        const senderInfo = await axios.get(`${APIURL}Users/${senderId}`);
         return senderInfo.data;
       });
 
@@ -100,7 +97,7 @@ function ProfilePage() {
   async function fetchCampaigns() {
     console.log("getting campaigns")
     try {
-      const response = await axios.get(`${APIURL}/CampaignPlayers/${userId}`, { headers });
+      const response = await axios.get(`${APIURL}CampaignPlayers/${userId}`);
   
       if (response.data.error) {
         alert(response.data.error);
@@ -109,17 +106,17 @@ function ProfilePage() {
       }
   
       const campaignPromises = response.data.map(async (playerCampaign) => {
-        const campaignResponse = await axios.get(`${APIURL}/Campaign/${playerCampaign.campaignId}`, { headers });
+        const campaignResponse = await axios.get(`${APIURL}Campaign/${playerCampaign.campaignId}`);
         console.log(`campaignResponse:`, campaignResponse.data);
         
         let players = [];
         let userRole = "";
         if (campaignResponse.data && campaignResponse.data.id) {
-          const campaignPlayersResponse = await axios.get(`${APIURL}/CampaignPlayers/${campaignResponse.data.id}`, { headers });
+          const campaignPlayersResponse = await axios.get(`${APIURL}CampaignPlayers/${campaignResponse.data.id}`);
           const playerIds = campaignPlayersResponse.data.map(cp => cp.userId);
           
           const playerDetailsPromises = playerIds.map(playerId => 
-            axios.get(`${APIURL}/Users/${playerId}`, { headers })
+            axios.get(`${APIURL}Users/${playerId}`)
           );
           const playerDetailsResponses = await Promise.all(playerDetailsPromises);
           
@@ -166,7 +163,7 @@ function ProfilePage() {
       friendId: senderId
     }
 
-    axios.post(`${APIURL}/Friends/addFriends`, data, {headers})
+    axios.post(`${APIURL}Friends/addFriends`, data)
     .then((response) => {
       if(response.data.error){
         alert(response.data.error);
@@ -176,7 +173,7 @@ function ProfilePage() {
             receiverId: userId,
             status: "accepted"
           }
-          axios.post(`${APIURL}/Friends/updateFriendRequest`, friendRequestData, {headers})
+          axios.post(`${APIURL}Friends/updateFriendRequest`, friendRequestData)
           .then(async (response) => {
             if(response.data.error){
               alert(response.data.error);
@@ -201,7 +198,7 @@ function ProfilePage() {
 
     console.log("acceptCampaignInvite data: ", JSON.stringify(data));
 
-    axios.post(`${APIURL}/CampaignPlayers/updateRole`, data, {headers})
+    axios.post(`${APIURL}CampaignPlayers/updateRole`, data)
     .then(async (response) => {
       if(response.data.error){
         alert(response.data.error);
@@ -219,7 +216,7 @@ function ProfilePage() {
       campaignId: campaignId
     }
 
-    axios.post(`${APIURL}/CampaignPlayers/updateRole`, data, {headers})
+    axios.post(`${APIURL}CampaignPlayers/updateRole`, data)
     .then(async (response) => {
       if(response.data.error){
         alert(response.data.error);
@@ -238,7 +235,7 @@ function ProfilePage() {
       status: "rejected"
     }
 
-    axios.post(`${APIURL}/Friends/updateFriendRequest`, data, {headers})
+    axios.post(`${APIURL}Friends/updateFriendRequest`, data)
     .then((response) => {
       if(response.data.error){
         alert(response.data.error);
@@ -265,7 +262,7 @@ function ProfilePage() {
     console.log("inside handleSubmitInvite");
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    axios.post(`${APIURL}/Users/inviteUser/${userInfo}`,{campaignId: campaignId}, {headers})
+    axios.post(`${APIURL}Users/inviteUser/${userInfo}`,{campaignId: campaignId})
     .then((response) =>{
       if (response.data.error){
         if(emailPattern.test(userInfo)){

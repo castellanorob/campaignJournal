@@ -32,8 +32,7 @@ function App() {
   });
 
   useEffect(() => {
-    console.log(`APP.JS\ncalling users/auth headers:`);
-    axios.get("http://localhost:3001/Users/auth").then((response) => {
+    axios.get(`${APIURL}Users/auth`).then((response) => {
       if (response.data.error){
         setAuthState({...authState, status: false});
       }else{
@@ -119,7 +118,7 @@ function App() {
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
-          <Route path = {`${APIURL}/JournalEntries/search`} element = { <JournalEntry/> }/>
+          <Route path = {`${APIURL}JournalEntries/search`} element = { <JournalEntry/> }/>
           <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
         </Routes>
       </Router>

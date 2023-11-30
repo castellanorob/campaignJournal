@@ -9,9 +9,6 @@ import { APIURL } from "../helpers/APIURL";
 function CreateCampaign() {
 
     let navigate = useNavigate();
-    const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -42,7 +39,7 @@ function CreateCampaign() {
         const userId = localStorage.getItem("userId");
         const role = data.selectOption === 'gameMaster' ? 'gameMaster' : 'player';
 
-        axios.post(`${APIURL}/Campaign/${userId}`, data, {headers})
+        axios.post(`${APIURL}Campaign/${userId}`, data)
           .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
@@ -52,7 +49,7 @@ function CreateCampaign() {
                     userId: userId,
                     role: role
                 }
-                axios.post(`${APIURL}/CampaignPlayers`, campaignPlayer);
+                axios.post(`${APIURL}CampaignPlayers`, campaignPlayer);
                 navigate("/");
             }
         });

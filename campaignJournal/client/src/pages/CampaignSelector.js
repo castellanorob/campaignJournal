@@ -11,24 +11,20 @@ function CampaignSelector(){
 
     useEffect(() => {
 
-        const headers = {
-            accessToken: localStorage.getItem("accessToken")
-          }
-
         const accessToken = localStorage.getItem("accessToken");
 
         if(!accessToken) {
             navigate("/Login");
         } else {
             let userId = localStorage.getItem("userId");
-            axios.get(`${APIURL}/CampaignPlayers/${userId}`, {headers})
+            axios.get(`${APIURL}CampaignPlayers/${userId}`)
             .then(async (response) => {
                 if(response.data.error){
                     alert(response.data.error);
                 } else {
                     let playerCampaigns = [];
                     for (const campaign of response.data){
-                        let playerCampaign = await axios.get(`${APIURL}/Campaign/${campaign.campaignId}`)
+                        let playerCampaign = await axios.get(`${APIURL}Campaign/${campaign.campaignId}`)
                         playerCampaigns.push(playerCampaign.data[0]);
                     }
                     setCampaigns(playerCampaigns)

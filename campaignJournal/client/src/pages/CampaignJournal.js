@@ -15,21 +15,18 @@ function CampaignJournal() {
     useEffect(() =>{
       const accessToken = localStorage.getItem("accessToken");
       const campaignId = sessionStorage.getItem("campaignId");
-      const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
 
     if (!accessToken || !campaignId) {
       navigate("/");
     }
 
 
-      axios.get(`${APIURL}/JournalEntries/${campaignId}`, {headers})
+      axios.get(`${APIURL}JournalEntries/${campaignId}`)
       .then((response) =>{
         setJournalEntries(response.data);
 
         const authorPromises = response.data.map(journal => {
-          return axios.get(`${APIURL}/Users/${journal.userId}`, { headers });
+          return axios.get(`${APIURL}Users/${journal.userId}`);
         });
 
         Promise.all(authorPromises).then((authorResponses) => {

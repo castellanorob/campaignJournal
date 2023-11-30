@@ -14,10 +14,10 @@ function JournalEntry() {
 
     useEffect(() => {
         //const accessToken = localStorage.getItem("accessToken");
-        axios.get(`${APIURL}/JournalEntry/byId/${id}`).then((response) => {
+        axios.get(`${APIURL}JournalEntry/byId/${id}`).then((response) => {
             setJournalEntry(response.data);
         })
-        axios.get(`${APIURL}/Users`).then((response) =>{
+        axios.get(`${APIURL}Users`).then((response) =>{
             setJournalAuthor(response.data);
         })
     }, [navigate]);

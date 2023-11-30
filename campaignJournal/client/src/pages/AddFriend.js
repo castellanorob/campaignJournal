@@ -25,13 +25,8 @@ function AddFriend() {
         receiverInfo: Yup.string().max(500).required("Type in your friend's username or email")
     });
 
-    const friendRequest = (data) => {
-
-        const headers = {
-            accessToken: localStorage.getItem("accessToken")
-        }
-        
-        axios.get(`${APIURL}/Users/findUser/${data.receiverInfo}`, {headers})
+    const friendRequest = (data) => {      
+        axios.get(`${APIURL}Users/findUser/${data.receiverInfo}`)
         .then((response) => {
             if(response.data.error){
                 alert(response.data.error)
@@ -48,7 +43,7 @@ function AddFriend() {
                 }
 
                 console.log(`friendRequestData: ${JSON.stringify(friendRequestData)}`);
-                axios.post(`${APIURL}/Friends/friendRequest`, friendRequestData, {headers})
+                axios.post(`${APIURL}Friends/friendRequest`, friendRequestData)
                 .then((response) => {
                     if(response.data.error){
                         alert(response.data.error);

@@ -32,7 +32,7 @@ function ResetPassword(){
                 password: data.password,
             }
 
-            axios.post(`${APIURL}/Users/resetPassword/${token}`, newUserData).then(async (response) =>{
+            axios.post(`${APIURL}Users/resetPassword/${token}`, newUserData).then(async (response) =>{
                 if(response.data.error){
                     alert(response.data.error);
                 }else {

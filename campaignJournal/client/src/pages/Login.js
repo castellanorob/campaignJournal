@@ -17,11 +17,10 @@ function Login() {
 
   const login = () => {
     const data = { userInfo: userInfo, password: password };
-    axios.post(`${APIURL}/Users/login`, data).then((response) => {
+    axios.post(`${APIURL}Users/login`, data).then((response) => {
       if(response.data.error){
         alert(response.data.error);
       }else{
-        localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("userId", response.data.user.id);
         localStorage.setItem("username", response.data.user.username);
         localStorage.setItem("icon", response.data.user.icon);
@@ -49,7 +48,7 @@ function Login() {
     }else{
 
       console.log(`Email submitted: ${email}`);
-      axios.post(`${APIURL}/Users/forgotPassword`, {email: email})
+      axios.post(`${APIURL}Users/forgotPassword`, {email: email})
       .then((response) => {
         if(response.data.error){
           alert(response.data.error);

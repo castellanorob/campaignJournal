@@ -9,9 +9,6 @@ import { APIURL } from "../helpers/APIURL";
 function CreateJournalEntry() {
 
     let navigate = useNavigate();
-    const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -53,8 +50,8 @@ const writeEntry = (data) => {
             selection.privateEntry = false;
         }
 
-        axios.post(`${APIURL}/JournalEntries`,
-        selection, {headers})
+        axios.post(`${APIURL}JournalEntries`,
+        selection)
           .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);

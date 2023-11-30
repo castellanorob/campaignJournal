@@ -8,9 +8,6 @@ import { APIURL } from "../helpers/APIURL";
 function CreateCharacter() {
 
     let navigate = useNavigate();
-    const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -37,7 +34,7 @@ function CreateCharacter() {
     const newCharacter = (data) => {
         console.log("It's being called")
         data.campaignId = sessionStorage.getItem("campaignId");
-        axios.post(`${APIURL}/Characters`, data, {headers})
+        axios.post(`${APIURL}Characters`, data)
         .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);

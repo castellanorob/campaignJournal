@@ -11,10 +11,6 @@ function CampaignJournal() {
 
     useEffect(() =>{
 
-      const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
-
       const accessToken = localStorage.getItem("accessToken");
       const campaignId = sessionStorage.getItem("campaignId");
 
@@ -22,7 +18,7 @@ function CampaignJournal() {
         navigate("/");
       }
 
-      axios.get(`${APIURL}/Characters/${campaignId}`, {headers})
+      axios.get(`${APIURL}Characters/${campaignId}`)
       .then((response) =>{
         setCharacters(response.data);
       })
