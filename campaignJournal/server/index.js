@@ -2,11 +2,8 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-<<<<<<< HEAD
 const cookieParser = require('cookie-parser');
-=======
 const PORT = process.env.PORT || 3001;
->>>>>>> e41becd32ae142919a5894031f0b59c8b9976e9c
 
 app.use(cookieParser());
 app.use(express.json());
