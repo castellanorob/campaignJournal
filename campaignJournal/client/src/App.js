@@ -6,6 +6,7 @@ import ProfilePage from './pages/ProfilePage';
 import AddFriend from './pages/AddFriend';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
+import Help from './pages/Help';
 import Registration from './pages/Registration';
 import CreateJournalEntry from './pages/CreateJournalEntry';
 import CreateCampaign from './pages/CreateCampaign';
@@ -106,6 +107,9 @@ function App() {
               <h1>{authState.username}</h1>
               <button onClick={logout}>Logout</button>
             </div>
+            <Link to="/Help" className='linkContainer'>
+            <span className='linkSpan'>Help</span>
+            </Link>
             </>
           ):(
             <>
@@ -125,6 +129,7 @@ function App() {
           <Route path = "/Characters" element = { <Characters/> }/>
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
+          <Route path = "/Help" element={ <Help/>}/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
           <Route path = "http://localhost:3001/JournalEntries/search" element = { <JournalEntry/> }/>
           <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
