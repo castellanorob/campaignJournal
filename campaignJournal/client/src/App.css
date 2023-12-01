@@ -778,3 +778,6 @@ button {
 }
 
 /*HELP PAGE*/
+.display-linebreak {
+  white-space: pre-line;
+}
