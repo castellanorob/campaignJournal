@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
     console.log(`Request URL: ${req.originalUrl}`);
     console.log(`req.cookies: ${JSON.stringify(req.cookies)}`);
 
-    const token = req.cookies.accesstoken; // Directly use accessToken from headers
+    const token = req.cookies.accessToken; // Directly use accessToken from headers
 
     if (!token) {
         console.log("No token provided\n\n"); // Log if no token is found
