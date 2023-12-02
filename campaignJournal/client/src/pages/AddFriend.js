@@ -1,20 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 
 function AddFriend() {
     let navigate = useNavigate();
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        if(!accessToken) {
+        if(!isAuthCheckComplete){
+            return
+        }
+
+        if(!authState.status) {
             navigate("/");
         }
-    },[navigate])
+    },[navigate, authState, isAuthCheckComplete])
 
     const initialValues  ={
         receiverInfo: "",
@@ -24,13 +30,8 @@ function AddFriend() {
         receiverInfo: Yup.string().max(500).required("Type in your friend's username or email")
     });
 
-    const friendRequest = (data) => {
-
-        const headers = {
-            accessToken: localStorage.getItem("accessToken")
-        }
-        
-        axios.get(`http://localhost:3001/Users/findUser/${data.receiverInfo}`, {headers})
+    const friendRequest = (data) => {      
+        axios.get(`${APIURL}Users/findUser/${data.receiverInfo}`)
         .then((response) => {
             if(response.data.error){
                 alert(response.data.error)
@@ -47,7 +48,7 @@ function AddFriend() {
                 }
 
                 console.log(`friendRequestData: ${JSON.stringify(friendRequestData)}`);
-                axios.post(`http://localhost:3001/Friends/friendRequest`, friendRequestData, {headers})
+                axios.post(`${APIURL}Friends/friendRequest`, friendRequestData)
                 .then((response) => {
                     if(response.data.error){
                         alert(response.data.error);

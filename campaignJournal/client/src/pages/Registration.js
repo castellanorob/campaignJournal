@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios"
 import { useNavigate} from "react-router-dom";
+import { APIURL } from "../helpers/APIURL";
 
 function Registration(){
     const initialValues  ={
@@ -20,7 +21,7 @@ function Registration(){
     });
 
     const onSubmit = (data) =>{
-        axios.post("http://localhost:3001/Users/register", data).then((response) =>{
+        axios.post(`${APIURL}Users/register`, data).then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             }else {

@@ -1,12 +1,20 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const PORT = process.env.PORT || 3001;
 
+const corsOptions = {
+  origin: 'http://localhost:3000', // replace with front-end URL when pushing to prod
+  credentials: true,
+};
+
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 const db = require('./models');
-
 
 //Routers
 const journalRouter = require("./routes/JournalEntries");
@@ -26,8 +34,14 @@ app.use("/Friends", friendsRouter);
 const blockedRouter = require("./routes/Blocked");
 app.use("/Blocked", blockedRouter);
 
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
+
 db.sequelize.sync().then(() => {
-    app.listen(3001, () => {
-        console.log("Server running on port 3001");
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
 });

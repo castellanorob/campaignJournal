@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditableTextField from "../components/EditableTextField";
+import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function JournalEntry() {
     let { id } = useParams();
@@ -10,16 +12,24 @@ function JournalEntry() {
     const[journalAuthor, setJournalAuthor] = useState([]);
 
     let navigate = useNavigate();
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
-        //const accessToken = localStorage.getItem("accessToken");
-        axios.get(`http://localhost:3001/JournalEntry/byId/${id}`).then((response) => {
-            setJournalEntry(response.data);
-        })
-        axios.get("http://localhost:3001/Users").then((response) =>{
-            setJournalAuthor(response.data);
-        })
-    }, [navigate]);
+      if(!isAuthCheckComplete){
+        return
+      }
+
+      if(!authState){
+        navigate("/")
+      }
+
+      axios.get(`${APIURL}JournalEntry/byId/${id}`).then((response) => {
+        setJournalEntry(response.data);
+      })
+      axios.get(`${APIURL}Users`).then((response) =>{
+        setJournalAuthor(response.data);
+      })
+    }, [navigate, isAuthCheckComplete, authState]);
 
       return (
         <div 
