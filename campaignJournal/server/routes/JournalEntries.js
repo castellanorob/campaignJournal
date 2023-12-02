@@ -6,6 +6,8 @@ const { validateToken } = require('../middlewares/AuthMiddleware');
 router.get("/:campaignId", validateToken, async (req, res) => {
     const campaignId = req.params.campaignId;
 
+    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}`)
+
     const journalEntries = await JournalEntries.findAll({
         where: {
             campaignId: campaignId
@@ -18,6 +20,8 @@ router.get("/:campaignId", validateToken, async (req, res) => {
     if(journalEntries.length === 0){
         return res.json([]);
     }
+
+    console.log(`returning journalEntries: ${JSON.stringify(journalEntries)}`)
     res.json(journalEntries);
 });
 
