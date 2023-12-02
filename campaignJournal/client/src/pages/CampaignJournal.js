@@ -184,11 +184,11 @@ function CampaignJournal() {
           <div className="playersContainer">
             {players.map(player => (
               <div className="playersAndCharactersContainer" key={player.id}>
-                <div className="playerIconContainer">
+                <div className="playerContainer">
                   <img className="playerIcon" src={`/userIcons/${player.icon}`} alt={`Icon of ${player.userName}`} />
-                </div>
-                <div className="playerUserName">
+                  <div className="playerUserName">
                   {player.username}
+                </div>
                 </div>
                 <div className="playerCharactersContainer">
                   {characters && characters.length > 0 ? (
@@ -197,10 +197,18 @@ function CampaignJournal() {
                       if (character.playerId === player.id && character.type === 'pc') {
                         console.log(`inside playerCharactersContainer. Character:${JSON.stringify(character)} player: ${JSON.stringify(player)}`);
                         return (
-                          <div>
-                            <img key={character.id} className="characterIcon" src={`/characterIcons/${character.icon}`} alt={`Icon of ${character.name}`} />
-                            <label className="characterName">{character.name}</label>
-                            <label className="characterStatus">{character.status}</label>
+                          <div
+                          key={character.id}
+                          className="character"
+                          >
+                            <div className="characterInfo">
+                              <div className="characterIcon">
+                                <img src={`/characterIcons/${character.icon}`} alt={`Icon of ${character.name}`} />
+                              </div>
+                              Name: {character.name}
+                            </div>
+                            <div className="characterDescription">Description: {character.description}</div>
+                            <div className="characterStatus">Status: {character.status}</div>
                           </div>
                         )
                       }
