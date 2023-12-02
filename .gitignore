@@ -1,5 +1,8 @@
-
+node_modules
 campaignJournal/server/config/config.json
 campaignJournal/server/config/config.json
 *.json
 campaignJournal/server/config/config.json
+campaignJournal/server/node_modules
+
+campaignJournal/server/node_modules

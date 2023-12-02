@@ -248,6 +248,12 @@ router.post('/login', async(req, res) => {
                 {username: user.username, id: user.id}, 
                 "importantsecret"
                 );
+
+                res.cookie('accessToken', accessToken, {
+                    httpOnly: true,
+                    //secure: true, // Only use this in production with HTTPS
+                    sameSite: 'strict'
+                });
     
                 const userResponse = {
                     id: user.id,
@@ -258,7 +264,7 @@ router.post('/login', async(req, res) => {
     
                 console.log("user" + user);
                 console.log("userResponse" + userResponse)
-            res.json({accessToken, user: userResponse});
+            res.json({user: userResponse});
             await Users.update({
                 lastLoginDate: Date.now()
             },{

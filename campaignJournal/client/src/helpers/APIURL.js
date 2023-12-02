@@ -1,0 +1,1 @@
+export const APIURL = process.env.ReactAppURL || 'http://localhost:3001/';
