@@ -1,22 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CreateCharacter() {
 
     let navigate = useNavigate();
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
-        const campaignId = sessionStorage.getItem("campaignId");
 
-        if(!accessToken || !campaignId) {
+        const campaignId = sessionStorage.getItem("campaignId");
+        
+        if(!isAuthCheckComplete){
+            return
+        }
+
+        if(!authState.status || !campaignId) {
             navigate("/");
         }
-    })
+
+    }, [navigate, isAuthCheckComplete, authState])
 
     const initialValues  ={
         characterName: "",

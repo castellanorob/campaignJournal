@@ -1,21 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 
 function AddFriend() {
     let navigate = useNavigate();
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        if(!accessToken) {
+        if(!isAuthCheckComplete){
+            return
+        }
+
+        if(!authState.status) {
             navigate("/");
         }
-    },[navigate])
+    },[navigate, authState, isAuthCheckComplete])
 
     const initialValues  ={
         receiverInfo: "",

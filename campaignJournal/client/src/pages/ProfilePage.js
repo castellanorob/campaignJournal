@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate} from "react-router-dom";
 import InvitePlayerForm from "../Forms/InvitePlayerForm";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function ProfilePage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -14,13 +15,20 @@ function ProfilePage() {
   
 
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
+  const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    
+    console.log(`isAuthCheckComplete ${isAuthCheckComplete}`)
+    console.log(`authState: ${authState.status}`)
 
-    if (!accessToken) {
+    if(!isAuthCheckComplete){
+      return
+    }
+
+    if (!authState.status) {
       navigate("/Login");
       return;
     }
@@ -42,7 +50,7 @@ function ProfilePage() {
 
     // Call the fetchData function
     fetchData();
-  }, [navigate]);
+  }, [navigate, isAuthCheckComplete, authState]);
 
   async function fetchFriends() {
     try {

@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CampaignSelector(){
 
     const[campaigns, setCampaigns] = useState([]);
 
     let navigate = useNavigate();
+      const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
 
-        const accessToken = localStorage.getItem("accessToken");
-
-        if(!accessToken) {
+        if(!authState.status) {
             navigate("/Login");
         } else {
             let userId = localStorage.getItem("userId");
@@ -31,7 +31,7 @@ function CampaignSelector(){
                 }
             });
         }
-    },[navigate])
+    },[navigate, isAuthCheckComplete, authState])
 
     //TODO 
     return(

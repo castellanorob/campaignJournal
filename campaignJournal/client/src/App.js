@@ -31,6 +31,9 @@ function App() {
     status:false
   });
 
+
+  const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+
   useEffect(() => {
     axios.get(`${APIURL}Users/auth`).then((response) => {
       if (response.data.error){
@@ -42,8 +45,10 @@ function App() {
           status: true,
         });
       }
+      setIsAuthCheckComplete(true);
     }).catch((error) => {
       console.error("Error fetching auth data", error);
+      setIsAuthCheckComplete(true);
     });   
   }, [])
 
@@ -52,11 +57,12 @@ function App() {
     localStorage.removeItem("userId");
     localStorage.removeItem("entryId");
     setAuthState({ username: "", id: 0, status: false });
+    setIsAuthCheckComplete(true);
   }
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{authState, setAuthState}}>
+      <AuthContext.Provider value={{authState, setAuthState, isAuthCheckComplete}}>
       <Router>
         <div className='navbar'>
           {authState.status ? (

@@ -1,20 +1,25 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CampaignJournal() {
     const[characters, setCharacters] = useState([]);
 
     let navigate = useNavigate();
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() =>{
 
-      const accessToken = localStorage.getItem("accessToken");
       const campaignId = sessionStorage.getItem("campaignId");
 
-      if(!accessToken || !campaignId){
+      if(!isAuthCheckComplete){
+        return
+      }
+
+      if(!authState.status || !campaignId){
         navigate("/");
       }
 
@@ -22,7 +27,7 @@ function CampaignJournal() {
       .then((response) =>{
         setCharacters(response.data);
       })
-    }, [navigate]);
+    }, [navigate, isAuthCheckComplete, authState]);
 
     return (
       <div className="characterContainer">

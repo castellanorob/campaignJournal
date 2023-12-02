@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CampaignJournal() {
   const [journalEntries, setJournalEntries] = useState([]);
@@ -11,14 +12,19 @@ function CampaignJournal() {
   const [filtered, setFiltered] = useState(false);
 
   let navigate = useNavigate();
+  const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() =>{
-      const accessToken = localStorage.getItem("accessToken");
+
       const campaignId = sessionStorage.getItem("campaignId");
 
-    if (!accessToken || !campaignId) {
-      navigate("/");
-    }
+      if(!isAuthCheckComplete){
+        return
+      }
+
+      if (!authState.status || !campaignId) {
+        navigate("/");
+      }
 
 
       axios.get(`${APIURL}JournalEntries/${campaignId}`)
@@ -36,7 +42,7 @@ function CampaignJournal() {
       }).catch((error) => {
         console.error('Error fetching journal entries or authors:', error);
       });
-    }, [navigate]);
+    }, [navigate, authState, isAuthCheckComplete, authState]);
 
   const initialValues = {
     searchTerms: "",
@@ -53,6 +59,11 @@ function CampaignJournal() {
     }
     setFiltered(!filtered);
     resetForm();
+  };
+
+  const handleEntryClick = (journalEntryId) => {
+    sessionStorage.setItem("entryId", journalEntryId);
+    navigate(`/JournalEntries/byId/${journalEntryId}`);
   };
 
   return (
@@ -117,13 +128,7 @@ function CampaignJournal() {
                     key={journalEntry.id}
                     userId={journalEntry.userId}
                     className="post"
-                    onClick={() => {
-                      sessionStorage.setItem(
-                        "entryId",
-                        journalEntry.id
-                      );
-                      navigate(`/JournalEntries/byId/${journalEntry.id}`);
-                    }}
+                    onClick={() => handleEntryClick}
                   >
                     <div className="body">
                       {journalEntry.journalBody}
