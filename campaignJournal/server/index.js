@@ -4,6 +4,14 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3001;
+const db = require('./models');
+
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 const corsOptions = {
   origin: 'http://localhost:3000', // replace with front-end URL when pushing to prod
@@ -14,7 +22,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 
-const db = require('./models');
 
 //Routers
 const journalRouter = require("./routes/JournalEntries");
