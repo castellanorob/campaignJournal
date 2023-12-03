@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             validate: { len: [0, 75] }
-        }
+        },
+        icon: {
+            type: DataTypes.STRING(45),
+            defaultValue: 'elfIcon.png'
+        },
     });
 
     return Characters;
