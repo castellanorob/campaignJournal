@@ -27,7 +27,7 @@ if(process.env.ReactAppURL){
   }
 }
 
-console.log(`corsOptions: ${corsOptions}`)
+console.log(`corsOptions: ${JSON.stringify(corsOptions)}`)
 
 app.use(cookieParser());
 app.use(express.json());
