@@ -4,8 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 function Help() {
 
-    console.log("Help component rendered.");
-
     const[help, setHelp] = useState([]);
 
     let navigate = useNavigate();
