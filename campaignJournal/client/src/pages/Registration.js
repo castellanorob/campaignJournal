@@ -21,6 +21,7 @@ function Registration(){
     });
 
     const onSubmit = (data) =>{
+        console.log(`before making api call. APIURL: ${APIURL} data: ${data}`)
         axios.post(`${APIURL}Users/register`, data).then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
