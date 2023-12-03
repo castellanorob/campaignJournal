@@ -2,12 +2,26 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3001;
-
-app.use(express.json());
-app.use(cors());
-
 const db = require('./models');
+
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // replace with front-end URL when pushing to prod
+  credentials: true,
+};
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(cors(corsOptions));
+
 
 //Routers
 const journalRouter = require("./routes/JournalEntries");

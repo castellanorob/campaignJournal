@@ -1,8 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const {CampaignPlayers} = require("../models");
+const {CampaignPlayers, Users} = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const { Op } = require('sequelize');
+
+router.get("/players/:campaignId", validateToken, async(req, res) =>{
+
+    console.log("players/:campaignId called")
+    const campaign = req.params.campaignId;
+
+    console.log(`campaign = ${campaign}`)
+    try{
+
+        const campaignPlayers = await CampaignPlayers.findAll({
+            where:{
+                campaignId: campaign
+            }
+        })
+
+        const userIds = campaignPlayers.map(campaignPlayer => campaignPlayer.userId);
+
+        const users = await Users.findAll({
+            where: {id: {[Op.in]: userIds} },
+            attributes: {exclude: ['password']}
+        })
+
+        return res.json(users)
+    }catch(error){
+        console.log(error)
+        res.json({error: error.message})
+    }
+});
 
 router.get("/:userId", validateToken, async (req, res) => {
     const userId = req.params.userId;
@@ -20,13 +48,14 @@ router.get("/:userId", validateToken, async (req, res) => {
     res.json(campaigns);
 });
 
+
 router.get("/campaigners/:campaignId", validateToken, async (req, res) => {
     const campaignId = req.params.campaignId;
     
     try{
         const campaigners = await CampaignPlayers.findAll({
             where: {
-                campaignId: campaignId 
+                campaignId: campaignId
             },
         });
         res.json(campaigners);

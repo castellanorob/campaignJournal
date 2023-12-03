@@ -13,20 +13,12 @@ const EditableTextField = ({initialText, entry}) => {
                 entryBody: text,
                 entryId: entry.id
             }
-            axios.put(
-                `${APIURL}/JournalEntry/byId/${entry.id}`,
-                entryData,
-                {
-                    headers: {
-                        accessToken: localStorage.getItem("accessToken")            
-                    }
-                }
-            ).then((response) =>{
+            axios.put(`${APIURL}JournalEntry/byId/${entry.id}`, entryData,)
+            .then((response) =>{
                 if(response.data.error){
                     alert(response.data.error);
                 }
-            }
-            );
+            });
         }
         setEditable(!editable);
     };

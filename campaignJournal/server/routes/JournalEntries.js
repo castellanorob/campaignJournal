@@ -5,6 +5,23 @@ const { validateToken } = require('../middlewares/AuthMiddleware');
 
 router.get("/:campaignId", validateToken, async (req, res) => {
     const campaignId = req.params.campaignId;
+    const userId = req.params.userId;
+
+    const { private: isPrivate } = req.query;
+
+    let whereClause = {
+        campaignId: campaignId
+    };
+
+    if (isPrivate === 'true') {
+        // Fetch private entries for the current user
+        whereClause.userId = userId;
+    } else {
+        // Fetch public entries
+        whereClause.isPrivate = false;
+    }
+
+    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}`)
 
     const journalEntries = await JournalEntries.findAll({
         where: {
@@ -18,6 +35,8 @@ router.get("/:campaignId", validateToken, async (req, res) => {
     if(journalEntries.length === 0){
         return res.json([]);
     }
+
+    console.log(`returning journalEntries: ${JSON.stringify(journalEntries)}`)
     res.json(journalEntries);
 });
 

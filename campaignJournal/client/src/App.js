@@ -6,6 +6,7 @@ import ProfilePage from './pages/ProfilePage';
 import AddFriend from './pages/AddFriend';
 import CampaignJournal from './pages/CampaignJournal';
 import Login from './pages/Login';
+import Help from './pages/Help';
 import Registration from './pages/Registration';
 import CreateJournalEntry from './pages/CreateJournalEntry';
 import CreateCampaign from './pages/CreateCampaign';
@@ -15,7 +16,13 @@ import JournalEntry from './pages/JournalEntry';
 import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
 import writeEntryIcon from "./resources/writeEntryIcon.png";
+import closedJournalIcon from "./resources/closedJournalIcon.png";
+import elfIcon from "./resources/elfIcon.png";
+import wizardIcon from "./resources/wizardIcon.png";
 import { APIURL } from "./helpers/APIURL";
+
+axios.defaults.withCredentials = true;
+
 
 function App() {
 
@@ -25,64 +32,82 @@ function App() {
     status:false
   });
 
-  useEffect(() => {
 
-    if(!localStorage.getItem("accessToken")){
-      setAuthState({...authState, status: false});
-    } else {
-      let headers = {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+  const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+
+  useEffect(() => {
+    axios.get(`${APIURL}Users/auth`).then((response) => {
+      if (response.data.error){
+        setAuthState({...authState, status: false});
+      }else{
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
       }
-      console.log(`APP.JS\ncalling users/auth headers: ${JSON.stringify(headers)}`);
-      axios.get(`${APIURL}/Users/auth`, {
-        headers
-      }).then((response) => {
-        if (response.data.error){
-          setAuthState({...authState, status: false});
-        }else{
-          setAuthState({
-            username: response.data.username,
-            id: response.data.id,
-            status: true,
-          });
-        }
-      }).catch((error) => {
-        console.error("Error fetching auth data", error);
-      });  
-    }  
+      setIsAuthCheckComplete(true);
+    }).catch((error) => {
+      console.error("Error fetching auth data", error);
+      setIsAuthCheckComplete(true);
+    });   
   }, [])
 
   const logout = () =>{
-    localStorage.removeItem("accessToken");
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
     localStorage.removeItem("entryId");
     setAuthState({ username: "", id: 0, status: false });
+    setIsAuthCheckComplete(true);
   }
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{authState, setAuthState}}>
+      <AuthContext.Provider value={{authState, setAuthState, isAuthCheckComplete}}>
       <Router>
         <div className='navbar'>
           {authState.status ? (
             <>
-            <Link to="/">Profile</Link>
-            <Link to="/CampaignJournal">Journal</Link>
-            <Link to="/CreateJournalEntry" className='newEntryLink'> 
+            <Link to="/" className='linkContainer'>
+            <img src={wizardIcon} 
+              className='linkIcon'
+              alt="wizardIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Profile</span>
+            </Link>
+            <Link to="/CampaignJournal" className='linkContainer'>
+            <img src={closedJournalIcon} 
+              className='linkIcon'
+              alt="closedJournalIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Journal</span>
+            </Link>
+            <Link to="/CreateJournalEntry" className='linkContainer'> 
               <img src={writeEntryIcon} 
-              className='writeEntryIcon'
+              className='linkIcon'
               alt="write entry" 
               style={{ marginRight: '5px' }}
               />
-            <span className='newEntryLinkSpan'>New Journal Entry</span>
+            <span className='linkSpan'>New Journal Entry</span>
             </Link>
-            <Link to="/Characters"> Dramatus Personae </Link>
+            <Link to="/Characters" className='linkContainer'>
+            <img src={elfIcon} 
+              className='linkIcon'
+              alt="elfIcon" 
+              style={{ marginRight: '5px' }}
+              />
+            <span className='linkSpan'>Dramatus Personae</span>
+            </Link>
             <label className="appNameLoggedIn">Campaign Journal</label>
             <div className="loggedInContainer">
               <h1>{authState.username}</h1>
               <button onClick={logout}>Logout</button>
             </div>
+            <Link to="/Help" className='linkContainer'>
+            <span className='linkSpan'>Help</span>
+            </Link>
             </>
           ):(
             <>
@@ -102,8 +127,9 @@ function App() {
           <Route path = "/Characters" element = { <Characters/> }/>
           <Route path = "/CreateCharacter" element = { <CreateCharacter/> }/>
           <Route path = "/AddFriend" element={ <AddFriend/> }/>
+          <Route path = "/Help" element={ <Help/>}/>
           <Route path = "/JournalEntries/byId/:id" element = { <JournalEntry/> }/>
-          <Route path = {`${APIURL}/JournalEntries/search`} element = { <JournalEntry/> }/>
+          <Route path = {`${APIURL}JournalEntries/search`} element = { <JournalEntry/> }/>
           <Route path = "/ResetPassword/:token" element = {<ResetPassword/>}/>
         </Routes>
       </Router>

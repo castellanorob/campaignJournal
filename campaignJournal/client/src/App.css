@@ -144,23 +144,22 @@ span {
   align-items: center;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
-  
 }
 
-.writeEntryIcon {
+.linkIcon {
   height: 30px;
   width: 30px;
 }
 
-.newEntryLink {
+.linkContainer {
   margin-top: -15px;
 }
 
-.newEntryLinkSpan {
+.linkSpan {
   color: white;
 }
 
-.newEntryLinkSpan:hover {
+.linkSpan:hover {
   color: lightblue;
 }
 
@@ -214,10 +213,6 @@ span {
 .navbar h1 {
   padding-top: 0px;
   color: white;
-}
-
-.loggedInContainer {
-  
 }
 
 /* LOGIN */
@@ -780,4 +775,9 @@ button {
 
 .characterStatus {
   border-bottom: 1px solid maroon;
+}
+
+/*HELP PAGE*/
+.display-linebreak {
+  white-space: pre-line;
 }

@@ -1,41 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CampaignSelector(){
 
     const[campaigns, setCampaigns] = useState([]);
 
     let navigate = useNavigate();
+      const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
 
-        const headers = {
-            accessToken: localStorage.getItem("accessToken")
-          }
-
-        const accessToken = localStorage.getItem("accessToken");
-
-        if(!accessToken) {
+        if(!authState.status) {
             navigate("/Login");
         } else {
             let userId = localStorage.getItem("userId");
-            axios.get(`${APIURL}/CampaignPlayers/${userId}`, {headers})
+            axios.get(`${APIURL}CampaignPlayers/${userId}`)
             .then(async (response) => {
                 if(response.data.error){
                     alert(response.data.error);
                 } else {
                     let playerCampaigns = [];
                     for (const campaign of response.data){
-                        let playerCampaign = await axios.get(`${APIURL}/Campaign/${campaign.campaignId}`)
+                        let playerCampaign = await axios.get(`${APIURL}Campaign/${campaign.campaignId}`)
                         playerCampaigns.push(playerCampaign.data[0]);
                     }
                     setCampaigns(playerCampaigns)
                 }
             });
         }
-    },[navigate])
+    },[navigate, isAuthCheckComplete, authState])
 
     //TODO 
     return(

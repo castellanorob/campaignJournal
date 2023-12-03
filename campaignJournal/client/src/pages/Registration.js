@@ -21,7 +21,7 @@ function Registration(){
     });
 
     const onSubmit = (data) =>{
-        axios.post(`${APIURL}/Users/register`, data).then((response) =>{
+        axios.post(`${APIURL}Users/register`, data).then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
             }else {

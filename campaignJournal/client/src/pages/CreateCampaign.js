@@ -1,22 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormikControl from "../components/FormikControl";
 import { APIURL } from "../helpers/APIURL";
+import { AuthContext } from "../helpers/AuthContext";
 
 function CreateCampaign() {
 
     let navigate = useNavigate();
-    const headers = {
-        accessToken: localStorage.getItem("accessToken")
-      }
+    const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        if(!accessToken) {
+        if(!isAuthCheckComplete){
+            return
+        }
+        
+        if(!authState.status) {
             navigate("/");
         }
     }, [])
@@ -42,7 +44,7 @@ function CreateCampaign() {
         const userId = localStorage.getItem("userId");
         const role = data.selectOption === 'gameMaster' ? 'gameMaster' : 'player';
 
-        axios.post(`${APIURL}/Campaign/${userId}`, data, {headers})
+        axios.post(`${APIURL}Campaign/${userId}`, data)
           .then((response) =>{
             if(response.data.error){
                 alert(response.data.error);
@@ -52,7 +54,7 @@ function CreateCampaign() {
                     userId: userId,
                     role: role
                 }
-                axios.post(`${APIURL}/CampaignPlayers`, campaignPlayer);
+                axios.post(`${APIURL}CampaignPlayers`, campaignPlayer);
                 navigate("/");
             }
         });
