@@ -24,8 +24,11 @@ router.get("/:campaignId", validateToken, async (req, res) => {
 
 router.post("/", async (req, res) => {
     const character = req.body;
-    await Characters.create(character);
-    res.json(character);
+    console.log(`character.post called - character: ${JSON.stringify(character)}`)
+    const createdCharacter = await Characters.create(character);
+
+    console.log(`character created, going to return called - character: ${JSON.stringify(createdCharacter)}`)
+    res.json(createdCharacter);
 })
 
 module.exports = router;
