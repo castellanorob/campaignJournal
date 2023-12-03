@@ -3,8 +3,8 @@ const router = express.Router();
 const { Characters } = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
-router.get("/", validateToken, async (req, res) => {
-    const campaignId = req.body;
+router.get("/:campaignId", validateToken, async (req, res) => {
+    const campaignId = req.params.campaignId;
     
 
     const characters = await Characters.findAll({
