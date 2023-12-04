@@ -437,7 +437,7 @@ button {
 }
 
 /*PROFILE PAGE*/
-.profilePage {
+.profilePage, .charactersPage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -736,7 +736,7 @@ button {
   padding-bottom: 10px;
 }
 
-.forgotPasswordPopup, .invitePlayerPopup {
+.forgotPasswordPopup, .invitePlayerPopup, .editProfilePopup {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -749,13 +749,14 @@ button {
 }
 
 /*CHARACTERS*/
-.character {
-  width: 700px;
-  border-radius: 10px;
+.playersAndCharactersContainer {
+  max-width: 100%;
+  max-width: 700px;
   display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  margin-left: 50px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-sizing: border-box;
   border: 2px solid maroon;
   font-family: Arial, Helvetica, sans-serif;
   background-color: white;
@@ -763,7 +764,20 @@ button {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.characterName {
+.character, .playerContainer {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  border: 2px solid maroon;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.characterName, .characterInfo {
   border-bottom: 1px solid maroon;
   padding: 5px;
   font-size: 25px;
@@ -776,6 +790,25 @@ button {
 .characterStatus {
   border-bottom: 1px solid maroon;
 }
+
+
+.playersAndCharactersContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+/* .playerContainer {
+  display: flex;
+  align-items: center;
+  height: 20%;
+  border: 2px solid maroon;
+} */
+
+.playerIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 
 /*HELP PAGE*/
 .display-linebreak {

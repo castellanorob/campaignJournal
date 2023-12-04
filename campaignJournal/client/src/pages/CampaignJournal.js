@@ -184,23 +184,25 @@ function CampaignJournal() {
           <div className="playersContainer">
             {players.map(player => (
               <div className="playersAndCharactersContainer" key={player.id}>
-                <div className="playerIconContainer">
-                  <img className="playerIcon" src={`/userIcons/${player.icon}`} alt={`Icon of ${player.userName}`} />
-                </div>
-                <div className="playerUserName">
-                  {player.username}
-                </div>
-                <div className="playerCharactersContainer">
+                <div className="playerContainer">
+                  <img className="playerIcon" src={`${APIURL}ProfileIcons/${player.icon}`} alt={`Icon of ${player.userName}`} />
+                  <div className="playerUserName">{player.username}</div>
+                  <div className="playerCharactersContainer">
                   {characters && characters.length > 0 ? (
                     characters.map(character => {
                       console.log(`before if character.playerId ==== player.id, player.Id:${player.id} character.playerId ${character.userId}`)
                       if (character.playerId === player.id && character.type === 'pc') {
                         console.log(`inside playerCharactersContainer. Character:${JSON.stringify(character)} player: ${JSON.stringify(player)}`);
                         return (
-                          <div>
-                            <img key={character.id} className="characterIcon" src={`/characterIcons/${character.icon}`} alt={`Icon of ${character.name}`} />
-                            <label className="characterName">{character.name}</label>
-                            <label className="characterStatus">{character.status}</label>
+                          <div
+                          key={character.id}
+                          className="character"
+                          >
+                            <div className="characterInfo">
+                            <div className="characterDescription">Name: {character.name} </div>
+                            </div>
+                            <div className="characterDescription">Description: {character.description}</div>
+                            <div className="characterStatus">Status: {character.status}</div>
                           </div>
                         )
                       }
@@ -209,6 +211,7 @@ function CampaignJournal() {
                   ) : (
                     <div> No Characters Created </div>
                   )}
+                </div>
                 </div>
               </div>
             ))}
