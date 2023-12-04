@@ -13,10 +13,21 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-const corsOptions = {
-  origin: 'http://localhost:3000', // replace with front-end URL when pushing to prod
+let corsOptions;
+
+if(process.env.ReactAppURL){
+  corsOptions = {
+    origin: process.env.ReactAppURL,
+    credentials: true,
+  }
+}else{
+  corsOptions = {
+  origin: 'http://localhost:3000',
   credentials: true,
-};
+  }
+}
+
+console.log(`corsOptions: ${JSON.stringify(corsOptions)}`)
 
 app.use(cookieParser());
 app.use(express.json());

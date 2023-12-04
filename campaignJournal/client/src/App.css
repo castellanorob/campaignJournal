@@ -791,6 +791,7 @@ button {
   border-bottom: 1px solid maroon;
 }
 
+
 .playersAndCharactersContainer {
   display: flex;
   flex-direction: column;
@@ -808,4 +809,8 @@ button {
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+
+/*HELP PAGE*/
+.display-linebreak {
+  white-space: pre-line;
 }
