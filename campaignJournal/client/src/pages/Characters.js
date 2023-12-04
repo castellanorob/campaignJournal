@@ -30,6 +30,7 @@ function CampaignJournal() {
     }, [navigate, isAuthCheckComplete, authState]);
 
     return (
+      <div className="charactersPage">
       <div className="characterContainer">
         <label 
           className="charactersLabel"
@@ -50,10 +51,14 @@ function CampaignJournal() {
             </div>);
               }):(
             <div>
-                <Link to="/createCharacter">Create the first character</Link>
+                No characters to display
             </div>
         )}
-      </div>     
+      </div>
+      <div>
+        <Link to="/createCharacter">Create new chracter</Link>
+      </div>  
+      </div>   
     );
   }
 

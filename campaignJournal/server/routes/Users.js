@@ -7,9 +7,66 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const { Op } = require('sequelize');
 const crypto = require('crypto');
+const multer = require('multer');
+const path = require('path');
 
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        const uploadPath = path.join(__dirname, "../UploadedImages/ProfileIcons")
+        cb(null, uploadPath)
+    },
+
+    filename: function (req, file, cb){
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({ storage: storage });
+
+router.post("/updateUser", validateToken, upload.single('icon'), async (req, res) =>{
+
+    console.log(`inside update user.`)
+    const file = req.file;
+    const {username, email, userId} = req.body;
+
+    console.log(`username: ${username}, email: ${email}, userId: ${userId}`)
+    let updateData = {
+        username: username,
+        email: email
+    }
+
+    if(file){
+        console.log(`New file submitted ${file.filename}`)
+        updateData.icon = file.filename
+    }
+
+    console.log(`before updating user. new user data: ${JSON.stringify(updateData)}`);
+
+    try{
+        await Users.update(updateData,{
+            where: {
+                id: userId
+            }
+        })
+
+        const updatedUser = await Users.findOne({
+            where: {id: userId},
+            attributes: { exclude: ['password']}
+        });
+
+        if(updatedUser){
+            console.log(`after updating user. infomration: ${JSON.stringify(updatedUser)}`);
+            res.json(updatedUser)
+        }else{
+            res.status(404).send("User not found");
+        }
+    }catch(error){
+        res.json(error)
+    }
+})
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -18,6 +75,7 @@ let transporter = nodemailer.createTransport({
         pass: "npxd otou vhww sgeb",
     },
 });
+
 
 
 router.get("/", async (req, res) => {

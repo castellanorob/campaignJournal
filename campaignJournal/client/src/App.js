@@ -53,9 +53,8 @@ function App() {
   }, [])
 
   const logout = () =>{
-    localStorage.removeItem("username");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("entryId");
+    localStorage.clear();
+    sessionStorage.clear();
     setAuthState({ username: "", id: 0, status: false });
     setIsAuthCheckComplete(true);
   }

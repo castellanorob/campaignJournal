@@ -4,6 +4,7 @@ import { useNavigate} from "react-router-dom";
 import InvitePlayerForm from "../Forms/InvitePlayerForm";
 import { APIURL } from "../helpers/APIURL";
 import { AuthContext } from "../helpers/AuthContext";
+import EditProfile from "../Forms/EditProfile";
 
 function ProfilePage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -12,12 +13,19 @@ function ProfilePage() {
   const [isInvitePopupOpen, setInvitePopupOpen] = useState(false);
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
   const [selectedCampaignTitle, setSelectedCampaignTitle] = useState(null);
-  
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [user, setUser] = useState({
+    userId: localStorage.getItem("userId"),
+    username: localStorage.getItem("username"),
+    icon: localStorage.getItem("icon"),
+    email: localStorage.getItem("email")
+  })
+  const [profileIconUrl, setprofileIconUrl] = useState(null)
 
   const navigate = useNavigate();
   const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
-  const userId = localStorage.getItem("userId");
+  const userId = user.userId;
 
   useEffect(() => {
     
@@ -33,7 +41,12 @@ function ProfilePage() {
       return;
     }
 
+    setprofileIconUrl(`${APIURL}ProfileIcons/${user.icon}`)
+    console.log(`inside useState profileIconUrl: ${profileIconUrl}`)
+
     // Fetch friends and campaigns, then update the state
+
+    console.log(`before fetchData - userInformation${JSON.stringify(user)}`)
     async function fetchData() {
       const friendsToAdd = await fetchFriends();
       console.log(`before setFriends\nfriendsToAdd:${JSON.stringify(friendsToAdd)}`);
@@ -50,7 +63,7 @@ function ProfilePage() {
 
     // Call the fetchData function
     fetchData();
-  }, [navigate, isAuthCheckComplete, authState]);
+  }, [navigate, isAuthCheckComplete, authState, user]);
 
   async function fetchFriends() {
     try {
@@ -78,7 +91,7 @@ function ProfilePage() {
   }
 
   async function fetchFriendRquests() {
-    console.log(`getting friend requests for ${localStorage.getItem("username")}, userId: ${userId}`);
+    console.log(`getting friend requests for ${user.username}, userId: ${userId}`);
     try {
       const response = await axios.get(`${APIURL}Friends/friendRequests/${userId}`);
 
@@ -120,9 +133,10 @@ function ProfilePage() {
         let players = [];
         let userRole = "";
         if (campaignResponse.data && campaignResponse.data.id) {
-          const campaignPlayersResponse = await axios.get(`${APIURL}CampaignPlayers/${campaignResponse.data.id}`);
+          const campaignPlayersResponse = await axios.get(`${APIURL}CampaignPlayers/campaigners/${campaignResponse.data.id}`);
           const playerIds = campaignPlayersResponse.data.map(cp => cp.userId);
           
+          console.log(`player ids: ${playerIds}`)
           const playerDetailsPromises = playerIds.map(playerId => 
             axios.get(`${APIURL}Users/${playerId}`)
           );
@@ -285,21 +299,48 @@ function ProfilePage() {
     })
   };
 
+  const handleEditProfile = (event) => {
+    event.stopPropagation();
+    setEditProfilePopupOpen(true);
+  }
+
+  const handleEditProfileRequest = (data) => {
+
+    alert(`Profile updated`);
+    console.log(`Edit profile - data: ${JSON.stringify(data)}\nEdit profile - before setuser. user: ${JSON.stringify(user)}`);
+    setUser(data);
+    console.log(`Edit profile - after set user ${JSON.stringify(user)}`)
+    closeEditProfilePopUp();
+  }
+
+  const closeEditProfilePopUp = () => {
+    setEditProfilePopupOpen(false);
+  }
+
+  console.log(`before html, profileiconurl: ${profileIconUrl}`);
+  console.log(`before html, campaigns: ${JSON.stringify(campaigns)}`);
+
   return (
     <div className="profilePage">
       <div className="topContainer">
         <div className="userInfoContainer">
-          <img src={`/userIcons/${localStorage.getItem("icon")}`} alt="User Icon" className="userIcon" />
+          {console.log(`inside profilepic div ${profileIconUrl}`)}
+          <img src={profileIconUrl} alt="User Icon" className="userIcon" />
           <div className="userInfo">
-            <div className="userName">{localStorage.getItem("username")}</div>
-            <div className="userEmail">{localStorage.getItem("email")}</div>
+            <div className="userName">{user.username}</div>
+            <div className="userEmail">{user.email}</div>
+          </div>
+          <div className="profileEditButtonContainer">
+            <button onClick={(event) => handleEditProfile(event)}>
+              Edit Profile
+            </button>
           </div>
         </div>
         <div className="friendsListContainer">
           {friends && friends.length > 0 ? (
             friends.map((friend) => (
               <div className="friendName" key={friend.id}>
-                <img src={`/userIcons/${friend.icon}`} alt={`${friend.username}`} className="friendImage" />
+                <img src={`${APIURL}ProfileIcons/${friend.icon}`} alt={`${friend.username}`} className="friendImage" />
                 {friend.username}
               </div>
             ))
@@ -343,7 +384,7 @@ function ProfilePage() {
                   {campaign.players.slice(0, 3).map((player) => (
                     <img
                       key={player.id}
-                      src={`/userIcons/${player.icon}`}
+                      src={`${APIURL}ProfileIcons/${player.icon}`}
                       alt={player.username}
                       className="playerIcon"
                       data-username={player.username}
@@ -403,8 +444,12 @@ function ProfilePage() {
             <p>No pending campaign invitation</p>
           )}
       </div>
+        <EditProfile
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeEditProfilePopUp}
+            onSubmit={handleEditProfileRequest}
+          />
       </div>
-
     </div>
   );
 }
