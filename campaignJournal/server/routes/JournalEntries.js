@@ -2,30 +2,26 @@ const express = require('express');
 const router = express.Router();
 const { JournalEntries } = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
+const { Op } = require('sequelize');
 
-router.get("/:campaignId", validateToken, async (req, res) => {
-    const campaignId = req.params.campaignId;
-    const userId = req.params.userId;
+router.get("/:data", validateToken, async (req, res) => {
+    const data = req.params.data;
 
-    const { private: isPrivate } = req.query;
+    console.log(data);
 
-    let whereClause = {
-        campaignId: campaignId
-    };
+    const splitData = data.split(",");
 
-    if (isPrivate === 'true') {
-        // Fetch private entries for the current user
-        whereClause.userId = userId;
-    } else {
-        // Fetch public entries
-        whereClause.isPrivate = false;
-    }
+    console.log(splitData);
 
-    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}`)
+    let IDs = splitData.map(id => parseInt(id, 10));
+    const campaignId = IDs[0];
+    const userId = IDs[1];
+
+    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}, userId: ${userId}`);
 
     const journalEntries = await JournalEntries.findAll({
         where: {
-            campaignId: campaignId
+            campaignId: campaignId,
         },
         order: [
             ['createdAt', 'DESC']
@@ -36,8 +32,12 @@ router.get("/:campaignId", validateToken, async (req, res) => {
         return res.json([]);
     }
 
-    console.log(`returning journalEntries: ${JSON.stringify(journalEntries)}`)
-    res.json(journalEntries);
+    console.log(`\n returning journalEntries: ${JSON.stringify(journalEntries)}`)
+
+    const visibleEntries = journalEntries.filter(entry => entry.privateEntry === false || (entry.privateEntry === true && entry.userId === userId));
+
+    console.log(`returning visibleEntries: ${JSON.stringify(visibleEntries)}`)
+    res.json(visibleEntries);
 });
 
 router.get("/JournalEntries/byId/:id", async (req, res) => {

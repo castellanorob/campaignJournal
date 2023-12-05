@@ -50,6 +50,7 @@ body {
   flex: 60%;
   display: grid;
   place-content: center;
+  padding: 10px;
 }
 
 .post .footer {
@@ -79,9 +80,22 @@ body {
   display: table-row;
 }
 
+.individualEntryText {
+  width: 700px;
+  height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  border: 2px solid maroon;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 .entryText {
   width: 700px;
-
 }
 
 /* CREATE Entry PAGE CSS */
@@ -139,7 +153,7 @@ span {
 .navbar {
   width: 100%;
   height: 70px;
-  background-color: maroon;
+  background-color: black;
   display: flex;
   align-items: center;
   text-align: center;
@@ -149,6 +163,13 @@ span {
 .linkIcon {
   height: 30px;
   width: 30px;
+}
+
+.tomeLogo {
+  height: 40px;
+  width: 30px;
+  margin-left: 15px;
+  padding-right: 5px;
 }
 
 .linkContainer {
@@ -175,15 +196,20 @@ span {
   border-bottom: 1px solid lightblue;
 }
 
+.loggedInContainer {
+  float: right;
+  margin-left: 300px;
+}
+
 .appNameLoggedIn {
-  margin-left: 430px;
+  margin-right: 20px;
   text-decoration: none;
   color: white;
   font-size: 25px;
   }
 
 .appNameLoggedOut{
-  margin-left: 633px;
+  margin-right: 20px;
   text-decoration: none;
   text-align: center;
   color: white;
@@ -194,10 +220,10 @@ span {
   width: 60px;
   height: 30px;
   margin-top: -47px;
-  background-color: maroon;
+  background-color: black;
   display: flex;
   align-items: right;
-  margin-left: 250px;
+  margin-left: 150px;
   font-family: Arial, Helvetica, sans-serif;
   color: white;
   text-decoration: underline;
@@ -205,7 +231,6 @@ span {
 }
   
 .navbar button:hover {
-  background-color: maroon;
   color: lightblue;
   cursor: pointer;
 }
@@ -470,9 +495,19 @@ button {
   margin-bottom: 20px;
 }
 
-.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignListContainer, .invitedCampaignsContainer {
+.userInfoContainer, .friendsListContainer, .campaignListContainer, .invitedCampaignsContainer {
   box-sizing: border-box;
   width: 50%;
+  height: 33vh;
+  border: 1px solid #ccc;
+  padding: 10px;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.friendsRequestContainer {
+  box-sizing: border-box;
+  width: 30%;
   height: 33vh;
   border: 1px solid #ccc;
   padding: 10px;
@@ -484,24 +519,8 @@ button {
   width: 30%;
 }
 
-.userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignListContainer, .invitedCampaignsContainer {
+.userInfoContainer, .friendsListContainer, .campaignListContainer, .invitedCampaignsContainer {
   overflow: hidden; 
-}
-
-.addFriendContainer {
-  width: 100%;
-  background-color: #f8f8f8;
-  text-align: center;
-  padding: 15px 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  border-top: 1px solid #ddd;
-  position: absolute;
-  bottom: 0;
-}
-
-.addFriendContainer:hover {
-  background-color: #e7e7e7;
 }
 
 .userInfoContainer {
@@ -599,23 +618,6 @@ button {
   color: maroon;
 }
 
-
-.createCampaignContainer {
-  margin: 0;
-  width: 100%;
-  background-color: #f8f8f8;
-  text-align: center;
-  padding: 15px 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
-
-.createCampaignContainer:hover {
-  background-color: #e7e7e7;
-}
-
 .campaignTitle {
   width: 70%;
   margin-right: 10px;
@@ -656,7 +658,7 @@ button {
   overflow-y: auto;
 }
 
-.friendRequestsHeader, .invitedCampaignsHeader {
+.friendRequestsHeader, .invitedCampaignsHeader, .campaignsHeader, .friendsHeader {
   background-color: maroon;
   color: white;
   text-align: center;
@@ -723,12 +725,24 @@ button {
 }
 
 .addFriendContainer, .createCampaignContainer {
+  margin: 0;
+  width: 100%;
   background-color: #f8f8f8;
+  text-align: center;
+  padding: 15px 0;
+  box-sizing: border-box;
   cursor: pointer;
+  border: 2px solid #e7e7e7;
 }
 
-.addFriendContainer:hover, .createCampaignContainer:hover {
+.createCampaignContainer:hover {
   background-color: #e7e7e7;
+  border: 2px solid maroon;
+}
+
+.addFriendContainer:hover {
+  background-color: #e7e7e7;
+  border: 2px solid maroon;
 }
 
 .userInfoContainer, .friendsListContainer, .friendRequestsContainer, .campaignsContainer {
@@ -809,6 +823,7 @@ button {
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+}
 
 /*HELP PAGE*/
 .display-linebreak {

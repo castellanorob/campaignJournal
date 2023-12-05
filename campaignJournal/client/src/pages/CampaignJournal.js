@@ -67,7 +67,9 @@ function CampaignJournal() {
 
   async function fetchJournalEntries() {
     try {
-      const journalEntries = await axios.get(`${APIURL}JournalEntries/${campaignId}`);
+      const userId = localStorage.getItem("userId");
+      console.log("Fetch journals user id =", userId);
+      const journalEntries = await axios.get(`${APIURL}JournalEntries/${campaignId},${userId}`);
 
       if (journalEntries.data.error) {
         alert(JSON.stringify(journalEntries.data.error));
@@ -134,7 +136,7 @@ function CampaignJournal() {
   const onSearchSubmit = (data, { resetForm }) => {
     if (!filtered) {
       const results = journalEntries.filter((entry) =>
-        entry.journalBody.includes(data.searchTerms)
+        entry.journalBody.toLowerCase().includes(data.searchTerms.toLowerCase())
       );
       setFilteredEntries(results);
     } else {

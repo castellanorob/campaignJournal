@@ -32,11 +32,11 @@ const EditableTextField = ({initialText, entry}) => {
         <div>
           <br />
           <input
+            className = "individualEntryText"
             type="text"
             value={text}
             onChange={handleTextChange}
             readOnly={!editable}
-            style={{width: "700px", height: "500px", backgroundColor: "beige"}}
           />
           <button 
           onClick={onButtonClick}
