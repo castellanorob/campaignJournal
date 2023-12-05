@@ -296,6 +296,7 @@ function ProfilePage() {
           </div>
         </div>
         <div className="friendsListContainer">
+          <div className="friendsHeader">Your Friends</div>
           {friends && friends.length > 0 ? (
             friends.map((friend) => (
               <div className="friendName" key={friend.id}>
@@ -304,7 +305,7 @@ function ProfilePage() {
               </div>
             ))
           ) : (
-            <p>No friends to display.</p>
+            <p>You don't have any friends, yet...</p>
           )}
           <div className="addFriendContainer" onClick={() => {navigate("/AddFriend")}}>
             + Add Friend
@@ -331,6 +332,7 @@ function ProfilePage() {
 
       <div className="bottomContainer">
       <div className="campaignListContainer">
+        <div className="campaignsHeader">Your Campaigns</div>
           {campaigns && campaigns.length > 0 ? (
             campaigns
             .filter (campaign => campaign.userRole !== "invited" && campaign.userRole !== "rejected")
@@ -369,7 +371,7 @@ function ProfilePage() {
               </div>
             ))
           ) : (
-            <p>No campaigns to display.</p>
+            <p>You're not in any campaigns, yet...</p>
           )}
         <div className="createCampaignContainer" onClick={() => navigate("/createCampaign")}>
           + Create a campaign

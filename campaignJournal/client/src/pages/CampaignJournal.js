@@ -134,7 +134,7 @@ function CampaignJournal() {
   const onSearchSubmit = (data, { resetForm }) => {
     if (!filtered) {
       const results = journalEntries.filter((entry) =>
-        entry.journalBody.includes(data.searchTerms)
+        entry.journalBody.toLowerCase().includes(data.searchTerms.toLowerCase())
       );
       setFilteredEntries(results);
     } else {
