@@ -20,7 +20,7 @@ import journal_white from "./resources/journal_white.png";
 import elf_white from "./resources/elf_white.png";
 import wizard_white from "./resources/wizard_white.png";
 import somatic_white from "./resources/somatic_white.png";
-import tome_img from "./resources/tome_img.png";
+import tome_img_small from "./resources/tome_img_small.png";
 import { APIURL } from "./helpers/APIURL";
 
 axios.defaults.withCredentials = true;
@@ -69,7 +69,7 @@ function App() {
         <div className='navbar'>
           {authState.status ? (
             <>
-              <img src={tome_img} 
+              <img src={tome_img_small} 
               className='tomeLogo'
               alt="tomeLogo" 
               style={{ marginRight: '5px' }}
@@ -122,9 +122,14 @@ function App() {
             </>
           ):(
             <>
+            <img src={tome_img_small} 
+              className='tomeLogo'
+              alt="tomeLogo" 
+              style={{ marginRight: '5px' }}
+            />
+            <label className="appNameLoggedOut">Campaign Journal</label>
             <Link to="/Login">Login</Link>
             <Link to="/Registration">Register</Link>
-            <label className="appNameLoggedOut">Campaign Journal</label>
             </>
           )}
         </div>

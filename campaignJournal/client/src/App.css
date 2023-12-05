@@ -50,6 +50,7 @@ body {
   flex: 60%;
   display: grid;
   place-content: center;
+  padding: 10px;
 }
 
 .post .footer {
@@ -79,9 +80,22 @@ body {
   display: table-row;
 }
 
+.individualEntryText {
+  width: 700px;
+  height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  border: 2px solid maroon;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 .entryText {
   width: 700px;
-
 }
 
 /* CREATE Entry PAGE CSS */
@@ -182,15 +196,20 @@ span {
   border-bottom: 1px solid lightblue;
 }
 
+.loggedInContainer {
+  float: right;
+  margin-left: 300px;
+}
+
 .appNameLoggedIn {
-  margin-left: 0px;
+  margin-right: 20px;
   text-decoration: none;
   color: white;
   font-size: 25px;
   }
 
 .appNameLoggedOut{
-  margin-left: 633px;
+  margin-right: 20px;
   text-decoration: none;
   text-align: center;
   color: white;
@@ -204,7 +223,7 @@ span {
   background-color: black;
   display: flex;
   align-items: right;
-  margin-left: 250px;
+  margin-left: 150px;
   font-family: Arial, Helvetica, sans-serif;
   color: white;
   text-decoration: underline;
@@ -212,7 +231,6 @@ span {
 }
   
 .navbar button:hover {
-  background-color: maroon;
   color: lightblue;
   cursor: pointer;
 }
@@ -805,6 +823,7 @@ button {
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+}
 
 /*HELP PAGE*/
 .display-linebreak {
