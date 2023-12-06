@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FormikControl from "../components/FormikControl";
 import { APIURL } from "../helpers/APIURL";
 import { AuthContext } from "../helpers/AuthContext";
+import quill_white from "../resources/quill_white.png";
 
 function CreateJournalEntry() {
 
@@ -88,7 +89,14 @@ const writeEntry = (data) => {
                         options={dropdownOptions}
                     />
 
-                    <button type="submit">Submit Journal Entry</button>
+                    <button type="submit">
+                        <img src={quill_white}
+                            className='profileButtonIcon'
+                            alt="quill" 
+                            style={{ marginRight: '5px'}}
+                        />
+                        <span style={{ position: 'relative', top: '-7px', color: "white"}}>Write Entry</span>
+                    </button>
                 </Form>
             </Formik>
         </div>
