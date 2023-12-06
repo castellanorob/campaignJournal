@@ -38,24 +38,37 @@ function App() {
   const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
 
   useEffect(() => {
-    axios.get(`${APIURL}Users/auth`).then((response) => {
-      if (response.data.error){
-        setAuthState({...authState, status: false});
-      }else{
-        setAuthState({
-          username: response.data.username,
-          id: response.data.id,
-          status: true,
-        });
-      }
+    if(!localStorage.getItem("userId")){
+      setAuthState({...authState, status: false});
       setIsAuthCheckComplete(true);
-    }).catch((error) => {
-      console.error("Error fetching auth data", error);
-      setIsAuthCheckComplete(true);
-    });   
+    }else{
+      axios.get(`${APIURL}Users/auth`).then((response) => {
+        if (response.data.error){
+          setAuthState({...authState, status: false});
+        }else{
+          setAuthState({
+            username: response.data.username,
+            id: response.data.id,
+            status: true,
+          });
+        }
+        setIsAuthCheckComplete(true);
+      }).catch((error) => {
+        console.error("Error fetching auth data", error);
+        setIsAuthCheckComplete(true);
+      });
+    }   
   }, [])
 
-  const logout = () =>{
+  const logout = async () =>{
+
+    const userId = localStorage.getItem("userId");
+
+    if(userId){
+      await axios.post(`${APIURL}Users/logout/${userId}`);
+    }else{
+      await axios.post(`${APIURL}Users/logout`);
+    }
     localStorage.clear();
     sessionStorage.clear();
     setAuthState({ username: "", id: 0, status: false });

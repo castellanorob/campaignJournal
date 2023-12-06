@@ -20,7 +20,7 @@ function AddFriend() {
         if(!authState.status) {
             navigate("/");
         }
-    },[navigate, authState, isAuthCheckComplete])
+    },[navigate, authState, isAuthCheckComplete, authState])
 
     const initialValues  ={
         receiverInfo: "",
@@ -30,39 +30,14 @@ function AddFriend() {
         receiverInfo: Yup.string().max(500).required("Type in your friend's username or email")
     });
 
-    const friendRequest = (data) => {      
-        axios.get(`${APIURL}Users/findUser/${data.receiverInfo}`)
+    const friendRequest = (data) => {
+        console.log(`inside friend request. Data: ${JSON.stringify(data)}`)
+        data.senderId = localStorage.getItem("userId");
+        data.senderEmail = localStorage.getItem("email")
+        axios.post(`${APIURL}Friends/friendRequest`, data)
         .then((response) => {
-            if(response.data.error){
-                alert(response.data.error)
-            } else {
-                console.log(`response from findUser: ${JSON.stringify(response.data)} `);
-                // data.requesterId = localStorage.getItem("userId");
-                // data.receiverId = response.data.userId;
-
-                const friendRequestData = {
-                    senderId: localStorage.getItem("userId"),
-                    receiverId: response.data.id,
-                    senderUsername: response.data.username,
-                    senderEmail: response.data.email
-                }
-
-                console.log(`friendRequestData: ${JSON.stringify(friendRequestData)}`);
-                axios.post(`${APIURL}Friends/friendRequest`, friendRequestData)
-                .then((response) => {
-                    if(response.data.error){
-                        alert(response.data.error);
-                    }else{
-                        alert("Friend request sent!");
-                        navigate("/");
-                    }
-                })
-            }
-        }).catch(error => {if(error.response.status === 404){
-            alert("User not found");
-        } else{
-            alert(error);
-        }});
+            alert(JSON.stringify(response.data))
+        })
     }
 
     return(

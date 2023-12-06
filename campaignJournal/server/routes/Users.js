@@ -5,13 +5,15 @@ const {CampaignPlayers} = require("../models");
 const { sequelize } = require('../models');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
-const { Op } = require('sequelize');
+const { Op, DATE } = require('sequelize');
 const crypto = require('crypto');
 const multer = require('multer');
 const path = require('path');
 
 const{sign} = require("jsonwebtoken");
 const { validateToken } = require('../middlewares/AuthMiddleware');
+
+const url = process.env.REACT_APP_URL || "http://localhost:3000"
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -151,7 +153,7 @@ router.post("/inviteUser/:userInfo", validateToken, async(req, res) =>{
                     from: "campaignjournaler@gmail.com",
                     to: userInfo,
                     subject: "You have been invited to a campaign",
-                    text: "You have been invited to a Campaign. Use the link below to register\nhttp://localhost:3000/Registration"
+                    text: `You have been invited to a Campaign. Use the link below to register\n${url}/Registration`
                 };
 
                 const info = await transporter.sendMail(mailDetails)
@@ -164,6 +166,12 @@ router.post("/inviteUser/:userInfo", validateToken, async(req, res) =>{
                             email: userInfo,
                             icon: "default.png"
                         }, {transaction: transaction})
+
+                        await CampaignPlayers.create({
+                            userId: invitedUser.id,
+                            campaignId: campaignId,
+                            role: "invited"
+                        }, { transaction: transaction });
         
                         await transaction.commit();
         
@@ -295,7 +303,7 @@ router.post('/login', async(req, res) => {
     }
 
     if(user.password === "notregistered"){
-        return res.json({error: "please register this account"});
+        return res.json({error: "please check your email and this account"});
     }
 
     bcrypt.compare(password, user.password).then(async (match) => {
@@ -306,6 +314,15 @@ router.post('/login', async(req, res) => {
                 {username: user.username, id: user.id}, 
                 "importantsecret"
                 );
+
+                let oneMonthFromNow = new Date();
+                oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+
+                await Users.update(
+                    {accessTokenExpires: oneMonthFromNow},
+                    {where: {
+                        id: user.id
+                    }})
 
                 res.cookie('accessToken', accessToken, {
                     httpOnly: true,
@@ -321,7 +338,7 @@ router.post('/login', async(req, res) => {
                 }
     
                 console.log("user" + user);
-                console.log("userResponse" + userResponse)
+                console.log(`userResponse: ${JSON.stringify(userResponse)}`)
             res.json({user: userResponse});
             await Users.update({
                 lastLoginDate: Date.now()
@@ -365,7 +382,7 @@ router.post('/forgotPassword', async(req, res) =>{
 
             const emailBody = `We received a request to change the password
             Click the link below to reset your password
-            http://localhost:3000/ResetPassword/${token}
+            ${url}/ResetPassword/${token}
             
             You will have 24 hours to reset your password. After that, you'll have to send another request.
             
@@ -444,5 +461,35 @@ router.post("/resetPassword/:token", async (req, res) =>{
         res.status(400).json({error: error});
     }
 });
+
+// router.post("/logout", async (req, res) => {
+//     console.log("\n\n/logout called")
+//     return res.clearCookie('accessToken', {
+//         httpOnly: true,
+//         path: '/',
+//     });
+// });
+
+router.post("/logout/:userId", async (req, res) => {
+    console.log("\n\n/logout/userId called with")
+    try{
+        const userId = req.params.userId
+        console.log(`logout - userId: ${userId}`)
+        await Users.update(
+            {accessTokenExpires: new Date()},
+            {where: {
+                id: userId
+            }}
+        )
+
+        res.json("success")
+        // return res.clearCookie('accessToken', {
+        //     httpOnly: true,
+        //     path: '/',
+        // });
+    }catch(error){
+        console.error("logout error: ", error)
+    }
+})
 
 module.exports = router;
