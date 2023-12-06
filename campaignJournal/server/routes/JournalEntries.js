@@ -2,42 +2,50 @@ const express = require('express');
 const router = express.Router();
 const { JournalEntries } = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
+const { Op } = require('sequelize');
 
-router.get("/:campaignId", validateToken, async (req, res) => {
-    const campaignId = req.params.campaignId;
-    const userId = req.params.userId;
+router.get("/:data", validateToken, async (req, res) => {
+    const data = req.params.data;
 
-    const { private: isPrivate } = req.query;
+    console.log(data);
 
-    let whereClause = {
-        campaignId: campaignId
-    };
+    const splitData = data.split(",");
 
-    if (isPrivate === 'true') {
-        // Fetch private entries for the current user
-        whereClause.userId = userId;
-    } else {
-        // Fetch public entries
-        whereClause.isPrivate = false;
+    console.log(splitData);
+
+    let IDs = splitData.map(id => parseInt(id, 10));
+    const campaignId = IDs[0];
+    const userId = IDs[1];
+
+    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}, userId: ${userId}`);
+
+    if(campaignId == "NaN"){
+        return res.json({error: "You need to select a campaign first"})
     }
 
-    console.log(`get journalEntries by campaign called: campaignId: ${campaignId}`)
-
-    const journalEntries = await JournalEntries.findAll({
-        where: {
-            campaignId: campaignId
-        },
-        order: [
-            ['createdAt', 'DESC']
-        ]
-    });
-
-    if(journalEntries.length === 0){
-        return res.json([]);
+    try{
+        const journalEntries = await JournalEntries.findAll({
+            where: {
+                campaignId: campaignId,
+            },
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
+    
+        if(journalEntries.length === 0){
+            return res.json([]);
+        }
+    
+        console.log(`\n returning journalEntries: ${JSON.stringify(journalEntries)}`)
+    
+        const visibleEntries = journalEntries.filter(entry => entry.privateEntry === false || (entry.privateEntry === true && entry.userId === userId));
+    
+        console.log(`returning visibleEntries: ${JSON.stringify(visibleEntries)}`)
+        return res.json(visibleEntries);
+    }catch(error){
+        return res.json(error)
     }
-
-    console.log(`returning journalEntries: ${JSON.stringify(journalEntries)}`)
-    res.json(journalEntries);
 });
 
 router.get("/JournalEntries/byId/:id", async (req, res) => {

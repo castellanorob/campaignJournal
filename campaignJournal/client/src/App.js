@@ -15,10 +15,12 @@ import Characters from './pages/Characters';
 import JournalEntry from './pages/JournalEntry';
 import ResetPassword from './pages/tokenPages/ResetPassword';
 import { AuthContext } from "./helpers/AuthContext";
-import writeEntryIcon from "./resources/writeEntryIcon.png";
-import closedJournalIcon from "./resources/closedJournalIcon.png";
-import elfIcon from "./resources/elfIcon.png";
-import wizardIcon from "./resources/wizardIcon.png";
+import new_entry_white from "./resources/new_entry_white.png";
+import journal_white from "./resources/journal_white.png";
+import elf_white from "./resources/elf_white.png";
+import wizard_white from "./resources/wizard_white.png";
+import somatic_white from "./resources/potion_white.png";
+import tome_img_small from "./resources/tome_img_small.png";
 import { APIURL } from "./helpers/APIURL";
 
 axios.defaults.withCredentials = true;
@@ -36,27 +38,39 @@ function App() {
   const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
 
   useEffect(() => {
-    axios.get(`${APIURL}Users/auth`).then((response) => {
-      if (response.data.error){
-        setAuthState({...authState, status: false});
-      }else{
-        setAuthState({
-          username: response.data.username,
-          id: response.data.id,
-          status: true,
-        });
-      }
+    if(!localStorage.getItem("userId")){
+      setAuthState({...authState, status: false});
       setIsAuthCheckComplete(true);
-    }).catch((error) => {
-      console.error("Error fetching auth data", error);
-      setIsAuthCheckComplete(true);
-    });   
+    }else{
+      axios.get(`${APIURL}Users/auth`).then((response) => {
+        if (response.data.error){
+          setAuthState({...authState, status: false});
+        }else{
+          setAuthState({
+            username: response.data.username,
+            id: response.data.id,
+            status: true,
+          });
+        }
+        setIsAuthCheckComplete(true);
+      }).catch((error) => {
+        console.error("Error fetching auth data", error);
+        setIsAuthCheckComplete(true);
+      });
+    }   
   }, [])
 
-  const logout = () =>{
-    localStorage.removeItem("username");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("entryId");
+  const logout = async () =>{
+
+    const userId = localStorage.getItem("userId");
+
+    if(userId){
+      await axios.post(`${APIURL}Users/logout/${userId}`);
+    }else{
+      await axios.post(`${APIURL}Users/logout`);
+    }
+    localStorage.clear();
+    sessionStorage.clear();
     setAuthState({ username: "", id: 0, status: false });
     setIsAuthCheckComplete(true);
   }
@@ -68,16 +82,22 @@ function App() {
         <div className='navbar'>
           {authState.status ? (
             <>
+              <img src={tome_img_small} 
+              className='tomeLogo'
+              alt="tomeLogo" 
+              style={{ marginRight: '5px' }}
+              />
+              <label className="appNameLoggedIn">Campaign Journal</label>
             <Link to="/" className='linkContainer'>
-            <img src={wizardIcon} 
+            <img src={wizard_white} 
               className='linkIcon'
-              alt="wizardIcon" 
+              alt="wizard_white" 
               style={{ marginRight: '5px' }}
               />
             <span className='linkSpan'>Profile</span>
             </Link>
             <Link to="/CampaignJournal" className='linkContainer'>
-            <img src={closedJournalIcon} 
+            <img src={journal_white}
               className='linkIcon'
               alt="closedJournalIcon" 
               style={{ marginRight: '5px' }}
@@ -85,7 +105,7 @@ function App() {
             <span className='linkSpan'>Journal</span>
             </Link>
             <Link to="/CreateJournalEntry" className='linkContainer'> 
-              <img src={writeEntryIcon} 
+              <img src={new_entry_white}
               className='linkIcon'
               alt="write entry" 
               style={{ marginRight: '5px' }}
@@ -93,27 +113,36 @@ function App() {
             <span className='linkSpan'>New Journal Entry</span>
             </Link>
             <Link to="/Characters" className='linkContainer'>
-            <img src={elfIcon} 
+            <img src={elf_white} 
               className='linkIcon'
               alt="elfIcon" 
               style={{ marginRight: '5px' }}
               />
             <span className='linkSpan'>Dramatus Personae</span>
             </Link>
-            <label className="appNameLoggedIn">Campaign Journal</label>
+            <Link to="/Help" className='linkContainer'>
+            <img src={somatic_white} 
+              className='linkIcon'
+              alt="somatic" 
+              style={{ marginRight: '5px' }}
+            />
+            <span className='linkSpan'>Help</span>
+            </Link>
             <div className="loggedInContainer">
               <h1>{authState.username}</h1>
               <button onClick={logout}>Logout</button>
             </div>
-            <Link to="/Help" className='linkContainer'>
-            <span className='linkSpan'>Help</span>
-            </Link>
             </>
           ):(
             <>
+            <img src={tome_img_small} 
+              className='tomeLogo'
+              alt="tomeLogo" 
+              style={{ marginRight: '5px' }}
+            />
+            <label className="appNameLoggedOut">Campaign Journal</label>
             <Link to="/Login">Login</Link>
             <Link to="/Registration">Register</Link>
-            <label className="appNameLoggedOut">Campaign Journal</label>
             </>
           )}
         </div>

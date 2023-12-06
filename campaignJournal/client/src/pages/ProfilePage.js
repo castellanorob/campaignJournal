@@ -4,6 +4,11 @@ import { useNavigate} from "react-router-dom";
 import InvitePlayerForm from "../Forms/InvitePlayerForm";
 import { APIURL } from "../helpers/APIURL";
 import { AuthContext } from "../helpers/AuthContext";
+import EditProfile from "../Forms/EditProfile";
+import addFriendsIcon from "../resources/addFriendsIcon.png";
+import spellIcon from "../resources/spellIcon.png";
+import swordIcon from "../resources/swordIcon.png";
+import crystalBallIcon from "../resources/crystalBallIcon.png";
 
 function ProfilePage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -12,12 +17,19 @@ function ProfilePage() {
   const [isInvitePopupOpen, setInvitePopupOpen] = useState(false);
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
   const [selectedCampaignTitle, setSelectedCampaignTitle] = useState(null);
-  
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [user, setUser] = useState({
+    userId: localStorage.getItem("userId"),
+    username: localStorage.getItem("username"),
+    icon: localStorage.getItem("icon"),
+    email: localStorage.getItem("email")
+  })
+  const [profileIconUrl, setprofileIconUrl] = useState(null)
 
   const navigate = useNavigate();
   const { authState, isAuthCheckComplete } = useContext(AuthContext);
 
-  const userId = localStorage.getItem("userId");
+  const userId = user.userId;
 
   useEffect(() => {
     
@@ -33,7 +45,12 @@ function ProfilePage() {
       return;
     }
 
+    setprofileIconUrl(`${APIURL}ProfileIcons/${user.icon}`)
+    console.log(`inside useState profileIconUrl: ${profileIconUrl}`)
+
     // Fetch friends and campaigns, then update the state
+
+    console.log(`before fetchData - userInformation${JSON.stringify(user)}`)
     async function fetchData() {
       const friendsToAdd = await fetchFriends();
       console.log(`before setFriends\nfriendsToAdd:${JSON.stringify(friendsToAdd)}`);
@@ -50,7 +67,7 @@ function ProfilePage() {
 
     // Call the fetchData function
     fetchData();
-  }, [navigate, isAuthCheckComplete, authState]);
+  }, [navigate, isAuthCheckComplete, authState, user]);
 
   async function fetchFriends() {
     try {
@@ -62,7 +79,10 @@ function ProfilePage() {
         return [];
       }
 
-      const relationships = response.data.filter((relationship) => relationship.friendId !== userId);
+      console.log(`fetch friends for ${userId} response before filtering ${JSON.stringify(response.data)}`);
+      const relationships = response.data.filter((relationship) => relationship.userId !== userId);
+
+      console.log(`fetch friends for ${userId} after filtering ${JSON.stringify(relationships)}`);
 
       const friendPromises = relationships.map(async (relationship) => {
         const friendId = relationship.friendId;
@@ -78,7 +98,7 @@ function ProfilePage() {
   }
 
   async function fetchFriendRquests() {
-    console.log(`getting friend requests for ${localStorage.getItem("username")}, userId: ${userId}`);
+    console.log(`getting friend requests for ${user.username}, userId: ${userId}`);
     try {
       const response = await axios.get(`${APIURL}Friends/friendRequests/${userId}`);
 
@@ -120,9 +140,10 @@ function ProfilePage() {
         let players = [];
         let userRole = "";
         if (campaignResponse.data && campaignResponse.data.id) {
-          const campaignPlayersResponse = await axios.get(`${APIURL}CampaignPlayers/${campaignResponse.data.id}`);
+          const campaignPlayersResponse = await axios.get(`${APIURL}CampaignPlayers/campaigners/${campaignResponse.data.id}`);
           const playerIds = campaignPlayersResponse.data.map(cp => cp.userId);
           
+          console.log(`player ids: ${playerIds}`)
           const playerDetailsPromises = playerIds.map(playerId => 
             axios.get(`${APIURL}Users/${playerId}`)
           );
@@ -285,29 +306,68 @@ function ProfilePage() {
     })
   };
 
+  const handleEditProfile = (event) => {
+    event.stopPropagation();
+    setEditProfilePopupOpen(true);
+  }
+
+  const handleEditProfileRequest = (data) => {
+
+    alert(`Profile updated`);
+    console.log(`Edit profile - data: ${JSON.stringify(data)}\nEdit profile - before setuser. user: ${JSON.stringify(user)}`);
+    setUser(data);
+    console.log(`Edit profile - after set user ${JSON.stringify(user)}`)
+    closeEditProfilePopUp();
+  }
+
+  const closeEditProfilePopUp = () => {
+    setEditProfilePopupOpen(false);
+  }
+
+  console.log(`before html, profileiconurl: ${profileIconUrl}`);
+  console.log(`before html, campaigns: ${JSON.stringify(campaigns)}`);
+
   return (
     <div className="profilePage">
       <div className="topContainer">
         <div className="userInfoContainer">
-          <img src={`/userIcons/${localStorage.getItem("icon")}`} alt="User Icon" className="userIcon" />
+          {console.log(`inside profilepic div ${profileIconUrl}`)}
+          <img src={profileIconUrl} alt="User Icon" className="userIcon" />
           <div className="userInfo">
-            <div className="userName">{localStorage.getItem("username")}</div>
-            <div className="userEmail">{localStorage.getItem("email")}</div>
+            <div className="userName">{user.username}</div>
+            <div className="userEmail">{user.email}</div>
+          </div>
+          <div className="profileEditButtonContainer">
+            <button className="profileEditButton" onClick={(event) => handleEditProfile(event)}
+            style={{ position: 'relative', top: '-5px' }}>
+            <img src={spellIcon}
+              className='profileButtonIcon'
+              alt="spellIcon" 
+              style={{ marginRight: '5px'}}
+            />
+              <span style={{ position: 'relative', top: '-7px', color: "black"}}>Edit Profile</span>
+            </button>
           </div>
         </div>
         <div className="friendsListContainer">
+          <div className="friendsHeader">Your Friends</div>
           {friends && friends.length > 0 ? (
             friends.map((friend) => (
               <div className="friendName" key={friend.id}>
-                <img src={`/userIcons/${friend.icon}`} alt={`${friend.username}`} className="friendImage" />
+                <img src={`${APIURL}ProfileIcons/${friend.icon}`} alt={`${friend.username}`} className="friendImage" />
                 {friend.username}
               </div>
             ))
           ) : (
-            <p>No friends to display.</p>
+            <p>You don't have any friends, yet...</p>
           )}
           <div className="addFriendContainer" onClick={() => {navigate("/AddFriend")}}>
-            + Add Friend
+            <img src={addFriendsIcon}
+              className='profileButtonIcon'
+              alt="friendsIcon" 
+              style={{ marginRight: '5px'}}
+            />
+            <span style={{ position: 'relative', top: '-7px', color: "black"}}>Add Friend</span>
           </div>
         </div>
         <div className="friendsRequestContainer">
@@ -331,6 +391,7 @@ function ProfilePage() {
 
       <div className="bottomContainer">
       <div className="campaignListContainer">
+        <div className="campaignsHeader">Your Campaigns</div>
           {campaigns && campaigns.length > 0 ? (
             campaigns
             .filter (campaign => campaign.userRole !== "invited" && campaign.userRole !== "rejected")
@@ -343,7 +404,7 @@ function ProfilePage() {
                   {campaign.players.slice(0, 3).map((player) => (
                     <img
                       key={player.id}
-                      src={`/userIcons/${player.icon}`}
+                      src={`${APIURL}ProfileIcons/${player.icon}`}
                       alt={player.username}
                       className="playerIcon"
                       data-username={player.username}
@@ -357,7 +418,12 @@ function ProfilePage() {
               className="invitePlayerButton"
                 onClick={(event) => handleInvitePlayer(event, campaign.id, campaign.title)}
               > 
-                +invite a player
+                <img src={swordIcon}
+                  className='profileButtonIcon'
+                  alt="swordIcon" 
+                  style={{ marginRight: '5px'}}
+                />
+                <span style={{ position: 'relative', top: '-8px', color: "black"}}>Invite a Player</span>
               </button>
                 <InvitePlayerForm
                   isOpen={isInvitePopupOpen}
@@ -369,10 +435,15 @@ function ProfilePage() {
               </div>
             ))
           ) : (
-            <p>No campaigns to display.</p>
+            <p>You're not in any campaigns, yet...</p>
           )}
         <div className="createCampaignContainer" onClick={() => navigate("/createCampaign")}>
-          + Create a campaign
+          <img src={crystalBallIcon}
+              className='profileButtonIcon'
+              alt="crystalball" 
+              style={{ marginRight: '5px'}}
+          />
+          <span style={{ position: 'relative', top: '-7px', color: "black"}}>Create a Campaign</span>
         </div>
       </div>
 
@@ -389,7 +460,7 @@ function ProfilePage() {
                 <button
                 onClick={() => acceptCampaignInvite(campaign.id)}
                 >
-                  Accpet Invitation
+                  Accept Invitation
                 </button>
 
                 <button
@@ -403,8 +474,12 @@ function ProfilePage() {
             <p>No pending campaign invitation</p>
           )}
       </div>
+        <EditProfile
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeEditProfilePopUp}
+            onSubmit={handleEditProfileRequest}
+          />
       </div>
-
     </div>
   );
 }

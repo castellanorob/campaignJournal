@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import waterColorCastle from "../resources/water_color_castle.png"
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { APIURL } from "../helpers/APIURL";
@@ -67,7 +68,9 @@ function CampaignJournal() {
 
   async function fetchJournalEntries() {
     try {
-      const journalEntries = await axios.get(`${APIURL}JournalEntries/${campaignId}`);
+      const userId = localStorage.getItem("userId");
+      console.log("Fetch journals user id =", userId);
+      const journalEntries = await axios.get(`${APIURL}JournalEntries/${campaignId},${userId}`);
 
       if (journalEntries.data.error) {
         alert(JSON.stringify(journalEntries.data.error));
@@ -134,7 +137,7 @@ function CampaignJournal() {
   const onSearchSubmit = (data, { resetForm }) => {
     if (!filtered) {
       const results = journalEntries.filter((entry) =>
-        entry.journalBody.includes(data.searchTerms)
+        entry.journalBody.toLowerCase().includes(data.searchTerms.toLowerCase())
       );
       setFilteredEntries(results);
     } else {
@@ -156,7 +159,7 @@ function CampaignJournal() {
   return (
     <div className="campaignJournalContainer">
     <div
-      style={{ backgroundImage: `url("https://media.wizards.com/2016/dnd/downloads/SKTPreview_map.jpg")` }}
+      style={{ backgroundImage: `url(${waterColorCastle})`}}
       className="journalContainer"
     >
       <Formik initialValues={initialValues} onSubmit={onSearchSubmit}>
@@ -184,23 +187,25 @@ function CampaignJournal() {
           <div className="playersContainer">
             {players.map(player => (
               <div className="playersAndCharactersContainer" key={player.id}>
-                <div className="playerIconContainer">
-                  <img className="playerIcon" src={`/userIcons/${player.icon}`} alt={`Icon of ${player.userName}`} />
-                </div>
-                <div className="playerUserName">
-                  {player.username}
-                </div>
-                <div className="playerCharactersContainer">
+                <div className="playerContainer">
+                  <img className="playerIcon" src={`${APIURL}ProfileIcons/${player.icon}`} alt={`Icon of ${player.userName}`} />
+                  <div className="playerUserName">{player.username}</div>
+                  <div className="playerCharactersContainer">
                   {characters && characters.length > 0 ? (
                     characters.map(character => {
                       console.log(`before if character.playerId ==== player.id, player.Id:${player.id} character.playerId ${character.userId}`)
                       if (character.playerId === player.id && character.type === 'pc') {
                         console.log(`inside playerCharactersContainer. Character:${JSON.stringify(character)} player: ${JSON.stringify(player)}`);
                         return (
-                          <div>
-                            <img key={character.id} className="characterIcon" src={`/characterIcons/${character.icon}`} alt={`Icon of ${character.name}`} />
-                            <label className="characterName">{character.name}</label>
-                            <label className="characterStatus">{character.status}</label>
+                          <div
+                          key={character.id}
+                          className="character"
+                          >
+                            <div className="characterInfo">
+                            <div className="characterDescription">Name: {character.name} </div>
+                            </div>
+                            <div className="characterDescription">Description: {character.description}</div>
+                            <div className="characterStatus">Status: {character.status}</div>
                           </div>
                         )
                       }
@@ -209,6 +214,7 @@ function CampaignJournal() {
                   ) : (
                     <div> No Characters Created </div>
                   )}
+                </div>
                 </div>
               </div>
             ))}
