@@ -19,25 +19,33 @@ router.get("/:data", validateToken, async (req, res) => {
 
     console.log(`get journalEntries by campaign called: campaignId: ${campaignId}, userId: ${userId}`);
 
-    const journalEntries = await JournalEntries.findAll({
-        where: {
-            campaignId: campaignId,
-        },
-        order: [
-            ['createdAt', 'DESC']
-        ]
-    });
-
-    if(journalEntries.length === 0){
-        return res.json([]);
+    if(campaignId == "NaN"){
+        return res.json({error: "You need to select a campaign first"})
     }
 
-    console.log(`\n returning journalEntries: ${JSON.stringify(journalEntries)}`)
-
-    const visibleEntries = journalEntries.filter(entry => entry.privateEntry === false || (entry.privateEntry === true && entry.userId === userId));
-
-    console.log(`returning visibleEntries: ${JSON.stringify(visibleEntries)}`)
-    res.json(visibleEntries);
+    try{
+        const journalEntries = await JournalEntries.findAll({
+            where: {
+                campaignId: campaignId,
+            },
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
+    
+        if(journalEntries.length === 0){
+            return res.json([]);
+        }
+    
+        console.log(`\n returning journalEntries: ${JSON.stringify(journalEntries)}`)
+    
+        const visibleEntries = journalEntries.filter(entry => entry.privateEntry === false || (entry.privateEntry === true && entry.userId === userId));
+    
+        console.log(`returning visibleEntries: ${JSON.stringify(visibleEntries)}`)
+        return res.json(visibleEntries);
+    }catch(error){
+        return res.json(error)
+    }
 });
 
 router.get("/JournalEntries/byId/:id", async (req, res) => {

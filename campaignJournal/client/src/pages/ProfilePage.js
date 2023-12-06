@@ -79,7 +79,10 @@ function ProfilePage() {
         return [];
       }
 
-      const relationships = response.data.filter((relationship) => relationship.friendId !== userId);
+      console.log(`fetch friends for ${userId} response before filtering ${JSON.stringify(response.data)}`);
+      const relationships = response.data.filter((relationship) => relationship.userId !== userId);
+
+      console.log(`fetch friends for ${userId} after filtering ${JSON.stringify(relationships)}`);
 
       const friendPromises = relationships.map(async (relationship) => {
         const friendId = relationship.friendId;

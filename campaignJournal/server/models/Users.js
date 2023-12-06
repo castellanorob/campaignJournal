@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(45),
             allowNull: true, 
         },
+        accessToken:{
+            type: DataTypes.STRING(45),
+            allowNull: true, 
+        },
+        accessTokenExpires: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
         emailRegistrationToken:{
             type: DataTypes.STRING(45),
             allowNull: true, 

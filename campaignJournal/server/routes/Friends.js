@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {FriendRequests, Friends} = require("../models");
+const {Users, FriendRequests, Friends, Sequelize} = require("../models");
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer');
+
+const url = process.env.REACT_APP_URL || "http://localhost:3000"
 
 router.get("/:userId", validateToken, async (req, res) => {
     try {
@@ -57,12 +59,17 @@ router.post("/addFriends", validateToken, async (req, res) => {
     const{userId, friendId} = req.body;
 
     try {
-        const newFriends = await Friends.create({
+        const userFriend = await Friends.create({
             userId: userId,
             friendId: friendId
         })
 
-        res.json(newFriends)
+        await Friends.create({
+            userId: friendId,
+            friendId: userId
+        })
+
+        res.json(userFriend)
     } catch(error){
         console.log(JSON.stringify(error));
         res.json(error);
@@ -90,45 +97,83 @@ router.post("/updateFriendRequest", validateToken, async(req, res) => {
 })
 
 router.post("/friendRequest", validateToken, async (req, res) => {
-    const {senderId, receiverId, senderUsername, senderEmail} = req.body;
+    const {senderId, senderEmail, receiverInfo} = req.body;
 
     console.log(`friendRequest req.body: ${JSON.stringify(req.body)}`);
     console.log(`senderId: ${JSON.stringify(senderId)}\n
-    receiverId: ${JSON.stringify(receiverId)}`);
+    receiverInfo: ${JSON.stringify(receiverInfo)}/n sender email: ${senderEmail}`);
 
     try {
-        const newFriendRequest = await FriendRequests.create({
-            senderId: senderId,
-            receiverId: receiverId
-        });
-////
-        // let transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user: "campaignjournaler@gmail.com",
-        //         pass: "",
-        //     },
-        // });
 
-        // let mailDetails = {
-        //     from: "campaignjournaler@gmail.com",
-        //     to: email,
-        //     subject: "Campaign Journal Registration",
-        //     text: `You have received a friend request from ${senderEmail}`
-        // };
+            const receiver = await Users.findOne({
+                where:{
+                    [Op.or]:[
+                        {username: receiverInfo},
+                        {email: receiverInfo}
+                    ]
+                }
+            })
 
-        // transporter.sendMail(mailDetails, function(error, info){
-        //     if(error){
-        //         console.log(error);
-        //     } else {
-        //         console.log("Email sent: " + info.response);
-        //     }
-        // });
-///
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if(receiver){
+                await FriendRequests.create({
+                    senderId: senderId,
+                    receiverId: receiver.id,
+                    type: 'pending'
+                });
 
-        res.status(201).json(newFriendRequest);
-    } catch (error) {
-        console.log(`/friendRequest error: ${JSON.stringify(error)}`);
+                return res.json("Friend request sent")
+            }else if (emailPattern.test(receiverInfo)){
+
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: "campaignjournaler@gmail.com",
+                        pass: "npxd otou vhww sgeb",
+                    },
+                });
+        
+                let mailDetails = {
+                    from: "campaignjournaler@gmail.com",
+                    to: receiverInfo,
+                    subject: "Campaign Journal Registration",
+                    text: `You have received a friend request from ${senderEmail}
+                    Click here to create an account and play with your friends!
+                    ${url}/Registration`
+
+                };
+        
+                transporter.sendMail(mailDetails, function(error, info){
+                    if(error){
+                        console.log(error);
+                    } else {
+                        console.log("Email sent: " + info.response);
+                    }
+                });
+
+                const newUser = await Users.create({
+                    username: 'invited',
+                    password: 'notregistered',
+                    email: receiverInfo
+                })
+                
+                const friendRequest = await FriendRequests.create({
+                    senderId: senderId,
+                    receiverId: newUser.id,
+                    type: 'pending'
+                })
+
+                if(!friendRequest || !newUser){
+                    console.error("Error, unable to create temporary user account after sending email")
+                }
+
+                return res.json(`Invitation sent to ${receiverInfo}` )
+            }else{
+                res.status(404).json({error: "unable to find user, double check the spelling or provide an email address"});
+            }
+        }catch (error) {
+        console.error("Error in /friendRequest:", error);
         res.json({ 
             message: "Failed to create friend request",
             error: error });

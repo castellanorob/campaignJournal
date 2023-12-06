@@ -1,6 +1,7 @@
 const { verify } = require("jsonwebtoken");
+const {Users} = require("../models");
 
-const validateToken = (req, res, next) => {
+const validateToken = async (req, res, next) => {
     console.log("\n\n")
     console.log("validateToken called"); // To check if middleware is reached
     console.log(`Request URL: ${req.originalUrl}`);
@@ -14,9 +15,24 @@ const validateToken = (req, res, next) => {
     }
 
     try {
-        const validatedToken = verify(token, "importantsecret");
-        req.user = validatedToken;
+        const decodedToken = verify(token, "importantsecret");
+        req.user = decodedToken;
         console.log(`Token is valid ${JSON.stringify(req.user)}\n\n`); // Log the validated token
+
+        const userId = req.user.id;
+
+        const user = await Users.findOne({
+            where:{
+                id: userId
+            }
+        })
+
+        const currentTime = new Date();
+        
+        if(new Date(user.accessTokenExpires) < currentTime){
+            return res.status(401).json({ error: "Token has expired" })
+        }
+
         next();
     } catch (err) {
         console.error(`Token validation error ${err}\n\n`); // Log any validation error
