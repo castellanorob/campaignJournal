@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditableTextField from "../components/EditableTextField";
+import waterColorCastle from "../resources/water_color_castle.png"
 import { APIURL } from "../helpers/APIURL";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -34,7 +35,7 @@ function JournalEntry() {
       return (
         <div 
           className="entryPage"
-          style={{ backgroundImage: `url("https://media.wizards.com/2016/dnd/downloads/SKTPreview_map.jpg")`}}
+          style={{ backgroundImage: `url(${waterColorCastle})`}}
         >
           <div
             key={journalEntry.id}

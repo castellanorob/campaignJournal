@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import waterColorCastle from "../resources/water_color_castle.png"
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { APIURL } from "../helpers/APIURL";
@@ -156,7 +157,7 @@ function CampaignJournal() {
   return (
     <div className="campaignJournalContainer">
     <div
-      style={{ backgroundImage: `url("https://media.wizards.com/2016/dnd/downloads/SKTPreview_map.jpg")` }}
+      style={{ backgroundImage: `url(${waterColorCastle})`}}
       className="journalContainer"
     >
       <Formik initialValues={initialValues} onSubmit={onSearchSubmit}>

@@ -3,6 +3,8 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  background-color: beige;
 }
 
 body {
@@ -17,6 +19,11 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: center;
+}
+
+.profileButtonIcon {
+  height: 30px;
+  width: 30px;
 }
 
 .post {
@@ -37,6 +44,7 @@ body {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   cursor: pointer;
 }
+
 .post .title {
   flex: 20%;
   border-bottom: 1px solid lightgray;
@@ -51,6 +59,7 @@ body {
   display: grid;
   place-content: center;
   padding: 10px;
+  background-color: beige;
 }
 
 .post .footer {
@@ -478,6 +487,16 @@ button {
   flex-direction: column;
 }
 
+.profileEditButton {
+  background-color: #f8f8f8;
+  border: 2px solid #ccc;
+}
+
+.profileEditButton:hover {
+  background-color: #ccc;
+  border: 2px solid maroon;
+  cursor: pointer;
+}
 
 .topContainer {
   display: flex;
@@ -596,12 +615,23 @@ button {
   background-color: #e0e0e0;
 }
 
-.invitePlayerButton, .updateCampaignRequestButton {
+.updateCampaignRequestButton {
   background-color: maroon;
   color: white;
 }
 
-.updateCampaignRequestButton, .invitePlayerButton:hover{
+.invitePlayerButton {
+  background-color: #f8f8f8;
+  border: 2px solid #ccc;
+}
+
+.invitePlayerButton:hover {
+  background-color: #ccc;
+  border: 2px solid maroon;
+  cursor: pointer;
+}
+
+.updateCampaignRequestButton {
   cursor: pointer;
   background-color: lightblue;
   color: maroon;
