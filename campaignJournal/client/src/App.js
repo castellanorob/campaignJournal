@@ -19,7 +19,7 @@ import new_entry_white from "./resources/new_entry_white.png";
 import journal_white from "./resources/journal_white.png";
 import elf_white from "./resources/elf_white.png";
 import wizard_white from "./resources/wizard_white.png";
-import somatic_white from "./resources/somatic_white.png";
+import somatic_white from "./resources/potion_white.png";
 import tome_img_small from "./resources/tome_img_small.png";
 import { APIURL } from "./helpers/APIURL";
 

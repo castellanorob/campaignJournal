@@ -5,6 +5,10 @@ import InvitePlayerForm from "../Forms/InvitePlayerForm";
 import { APIURL } from "../helpers/APIURL";
 import { AuthContext } from "../helpers/AuthContext";
 import EditProfile from "../Forms/EditProfile";
+import addFriendsIcon from "../resources/addFriendsIcon.png";
+import spellIcon from "../resources/spellIcon.png";
+import swordIcon from "../resources/swordIcon.png";
+import crystalBallIcon from "../resources/crystalBallIcon.png";
 
 function ProfilePage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -331,8 +335,14 @@ function ProfilePage() {
             <div className="userEmail">{user.email}</div>
           </div>
           <div className="profileEditButtonContainer">
-            <button onClick={(event) => handleEditProfile(event)}>
-              Edit Profile
+            <button className="profileEditButton" onClick={(event) => handleEditProfile(event)}
+            style={{ position: 'relative', top: '-5px' }}>
+            <img src={spellIcon}
+              className='profileButtonIcon'
+              alt="spellIcon" 
+              style={{ marginRight: '5px'}}
+            />
+              <span style={{ position: 'relative', top: '-7px', color: "black"}}>Edit Profile</span>
             </button>
           </div>
         </div>
@@ -349,7 +359,12 @@ function ProfilePage() {
             <p>You don't have any friends, yet...</p>
           )}
           <div className="addFriendContainer" onClick={() => {navigate("/AddFriend")}}>
-            + Add Friend
+            <img src={addFriendsIcon}
+              className='profileButtonIcon'
+              alt="friendsIcon" 
+              style={{ marginRight: '5px'}}
+            />
+            <span style={{ position: 'relative', top: '-7px', color: "black"}}>Add Friend</span>
           </div>
         </div>
         <div className="friendsRequestContainer">
@@ -400,7 +415,12 @@ function ProfilePage() {
               className="invitePlayerButton"
                 onClick={(event) => handleInvitePlayer(event, campaign.id, campaign.title)}
               > 
-                +invite a player
+                <img src={swordIcon}
+                  className='profileButtonIcon'
+                  alt="swordIcon" 
+                  style={{ marginRight: '5px'}}
+                />
+                <span style={{ position: 'relative', top: '-8px', color: "black"}}>Invite a Player</span>
               </button>
                 <InvitePlayerForm
                   isOpen={isInvitePopupOpen}
@@ -415,7 +435,12 @@ function ProfilePage() {
             <p>You're not in any campaigns, yet...</p>
           )}
         <div className="createCampaignContainer" onClick={() => navigate("/createCampaign")}>
-          + Create a campaign
+          <img src={crystalBallIcon}
+              className='profileButtonIcon'
+              alt="crystalball" 
+              style={{ marginRight: '5px'}}
+          />
+          <span style={{ position: 'relative', top: '-7px', color: "black"}}>Create a Campaign</span>
         </div>
       </div>
 
@@ -432,7 +457,7 @@ function ProfilePage() {
                 <button
                 onClick={() => acceptCampaignInvite(campaign.id)}
                 >
-                  Accpet Invitation
+                  Accept Invitation
                 </button>
 
                 <button
